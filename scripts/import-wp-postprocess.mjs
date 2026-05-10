@@ -177,6 +177,9 @@ const SKIP_PAGE_SLUGS = new Set([
   // Hand-curated replacement lives at src/content/pages/sv/bli-medlem.md;
   // the WXR version is preserved under _deprecated/ for reference.
   'bli-medlem',
+  // Hand-curated: anchor IDs added by hand for in-page TOC jumps. Original
+  // under _deprecated/.
+  'vanliga-fragor',
   // Replaced by /kalender/ (Google Calendar feed). Original under _deprecated/.
   'aktiviteter',
   // Deprecated; original under _deprecated/.

@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const CALENDAR_ID = 'bt89ob2d1fhelenvd80up783lc@group.calendar.google.com';
+const encodedId = encodeURIComponent(CALENDAR_ID);
+const tz = 'Europe/Stockholm';
+const embedUrl = `https://calendar.google.com/calendar/embed?` +
+  `src=${encodedId}` +
+  `&ctz=${encodeURIComponent(tz)}` +
+  `&mode=AGENDA` +
+  `&showTitle=0&showCalendars=0&showTabs=0&showPrint=0&showTz=0` +
+  `&hl=en`;
+const subscribeUrl = `webcal://calendar.google.com/calendar/ical/${encodedId}/public/basic.ics`;
+const browserUrl = `https://calendar.google.com/calendar/u/0/embed?src=${encodedId}&ctz=${encodeURIComponent(tz)}&hl=en`;
+---
+<BaseLayout
+  title="Calendar — Uppsala Makerspace"
+  description="Upcoming activities, workshops, and open evenings at Uppsala Makerspace."
+  lang="en"
+>
+  <h1>Calendar</h1>
+  <p>
+    Upcoming activities, open evenings, and workshops. The calendar updates
+    automatically — changes appear here immediately.
+  </p>
+
+  <div class="calendar-frame">
+    <iframe
+      src={embedUrl}
+      title="Uppsala Makerspace calendar"
+      loading="lazy"
+      frameborder="0"
+      scrolling="no"
+    ></iframe>
+  </div>
+
+  <p>
+    <a href={subscribeUrl}>Subscribe in your calendar app</a> ·
+    <a href={browserUrl} target="_blank" rel="noopener">Open in Google Calendar</a>
+  </p>
+</BaseLayout>
+
+<style>
+  .calendar-frame {
+    margin: 24px 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #ffffff;
+  }
+  .calendar-frame iframe {
+    display: block;
+    width: 100%;
+    height: 720px;
+    border: 0;
+  }
+</style>

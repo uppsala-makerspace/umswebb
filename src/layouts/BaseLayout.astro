@@ -1,0 +1,203 @@
+---
+import { primaryNav, type Locale } from '../data/nav';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  lang: Locale;
+  prose?: boolean;
+}
+
+const { title, description, lang, prose = false } = Astro.props;
+const otherLang: Locale = lang === 'sv' ? 'en' : 'sv';
+const otherHref = lang === 'sv' ? '/en/' : '/';
+const otherLabel = lang === 'sv' ? 'English' : 'Svenska';
+const homeHref = lang === 'sv' ? '/' : '/en/';
+const themeToggleLabel = lang === 'sv' ? 'Växla tema' : 'Toggle theme';
+const openMenuLabel = lang === 'sv' ? 'Öppna menyn' : 'Open menu';
+const closeMenuLabel = lang === 'sv' ? 'Stäng menyn' : 'Close menu';
+const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+
+function isActive(href: string) {
+  if (href.startsWith('http')) return false;
+  const target = href.replace(/\/+$/, '') || '/';
+  return target === currentPath;
+}
+
+const layoutClass = prose ? 'layout prose' : 'layout';
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="icon" type="image/svg+xml" href="/Stamp/SVG/Makerspace stamp.svg" />
+    <link rel="alternate icon" type="image/png" href="/Stamp/PNG/Makerspace stamp@2x.png" />
+    {/* Theme init: runs before paint to avoid FOUC. */}
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = stored || (prefersDark ? 'dark' : 'light');
+          document.documentElement.dataset.theme = theme;
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <button
+        type="button"
+        class="nav-toggle"
+        data-nav-open
+        aria-controls="primary-nav"
+        aria-expanded="false"
+        aria-label={openMenuLabel}
+      ><span class="icon" aria-hidden="true">☰</span></button>
+      <a href={homeHref} class="brand-wordmark">
+        <img src="/Stamp/SVG/Makerspace stamp.svg" alt="" />
+        <span>Uppsala Makerspace</span>
+      </a>
+      <div class="site-header-controls">
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label={themeToggleLabel}>
+          <span class="icon" aria-hidden="true">🌙</span>
+        </button>
+        <a class="lang-switcher" href={otherHref} hreflang={otherLang}>{otherLabel}</a>
+      </div>
+    </header>
+
+    <div class="app-shell">
+      <aside class="sidebar" id="primary-nav" aria-label={lang === 'sv' ? 'Huvudmeny' : 'Main menu'}>
+        <nav class="primary">
+          <ul>
+            {primaryNav.map((item, i) => {
+              const href = item.href[lang];
+              const active = isActive(href);
+              const startsExternals = item.external && i > 0 && !primaryNav[i - 1].external;
+              return (
+                <>
+                  {startsExternals && <li class="nav-separator" role="presentation"></li>}
+                  <li>
+                    <a
+                      href={href}
+                      aria-current={active ? 'page' : undefined}
+                      {...(item.external ? { rel: 'noopener', target: '_blank' } : {})}
+                    >{item.label[lang]}{item.external && <span class="ext" aria-hidden="true">↗</span>}</a>
+                  </li>
+                </>
+              );
+            })}
+          </ul>
+        </nav>
+
+      </aside>
+
+      <main class={layoutClass}>
+        <slot />
+      </main>
+    </div>
+
+    <button type="button" class="nav-backdrop" data-nav-close tabindex="-1" aria-hidden="true"></button>
+
+    <script is:inline>
+      (function () {
+        var html = document.documentElement;
+        var body = document.body;
+
+        // Theme toggle — works for both header and sidebar instances.
+        function syncThemeIcons() {
+          var t = html.dataset.theme;
+          document.querySelectorAll('[data-theme-toggle] .icon').forEach(function (el) {
+            el.textContent = t === 'dark' ? '☀️' : '🌙';
+          });
+        }
+        syncThemeIcons();
+        document.querySelectorAll('[data-theme-toggle]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var current = html.dataset.theme;
+            var next = current === 'dark' ? 'light' : 'dark';
+            html.dataset.theme = next;
+            try { localStorage.setItem('theme', next); } catch (e) {}
+            syncThemeIcons();
+          });
+        });
+
+        // Mobile nav drawer.
+        var toggleBtn = document.querySelector('[data-nav-open]');
+        var closeEls = document.querySelectorAll('[data-nav-close]');
+        var sidebar = document.getElementById('primary-nav');
+        if (!toggleBtn || !sidebar) return;
+        var toggleIcon = toggleBtn.querySelector('.icon');
+
+        function isOpen() { return body.dataset.navOpen === 'true'; }
+
+        function focusables() {
+          return Array.from(sidebar.querySelectorAll(
+            'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )).filter(function (el) { return el.offsetParent !== null || el === document.activeElement; });
+        }
+
+        function syncToggle() {
+          var open = isOpen();
+          toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          if (toggleIcon) toggleIcon.textContent = open ? '✕' : '☰';
+        }
+
+        function openDrawer() {
+          body.dataset.navOpen = 'true';
+          syncToggle();
+          var f = focusables();
+          if (f.length) f[0].focus();
+        }
+
+        function closeDrawer() {
+          body.dataset.navOpen = 'false';
+          syncToggle();
+          toggleBtn.focus();
+        }
+
+        toggleBtn.addEventListener('click', function () {
+          if (isOpen()) closeDrawer(); else openDrawer();
+        });
+        closeEls.forEach(function (el) { el.addEventListener('click', closeDrawer); });
+
+        // Escape closes; Tab cycles focus inside.
+        document.addEventListener('keydown', function (e) {
+          if (!isOpen()) return;
+          if (e.key === 'Escape') {
+            e.preventDefault();
+            closeDrawer();
+            return;
+          }
+          if (e.key === 'Tab') {
+            var f = focusables();
+            if (!f.length) return;
+            var first = f[0];
+            var last = f[f.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+              e.preventDefault();
+              last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+        });
+
+        // Close drawer when navigating to a same-page link or when viewport
+        // grows past the breakpoint.
+        sidebar.addEventListener('click', function (e) {
+          var a = e.target.closest('a[href]');
+          if (a && isOpen()) closeDrawer();
+        });
+        window.matchMedia('(min-width: 768px)').addEventListener('change', function (e) {
+          if (e.matches && isOpen()) closeDrawer();
+        });
+      })();
+    </script>
+  </body>
+</html>

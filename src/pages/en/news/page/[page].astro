@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import { postSlug } from '../../../../lib/slug';
+
+export async function getStaticPaths() {
+  const PAGE_SIZE = 20;
+  const all = (await getCollection('posts', ({ data }) => data.lang === 'en' && !data.draft))
+    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  const totalPages = Math.ceil(all.length / PAGE_SIZE);
+  const paths = [];
+  for (let p = 2; p <= totalPages; p++) {
+    paths.push({
+      params: { page: String(p) },
+      props: {
+        posts: all.slice((p - 1) * PAGE_SIZE, p * PAGE_SIZE),
+        currentPage: p,
+        totalPages,
+      },
+    });
+  }
+  return paths;
+}
+
+const { posts, currentPage, totalPages } = Astro.props;
+const dtf = new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+const prevHref = currentPage === 2 ? '/en/news/' : `/en/news/page/${currentPage - 1}/`;
+const nextHref = currentPage < totalPages ? `/en/news/page/${currentPage + 1}/` : null;
+---
+<BaseLayout title={`News — page ${currentPage} — Uppsala Makerspace`} description="News from Uppsala Makerspace." lang="en">
+  <h1>News</h1>
+  <p><small>Page {currentPage} of {totalPages}</small></p>
+  <ul>
+    {posts.map(post => (
+      <li>
+        <a href={`/en/news/${postSlug(post)}/`}>{post.data.title}</a>
+        <br />
+        <small><time datetime={post.data.date.toISOString()}>{dtf.format(post.data.date)}</time></small>
+      </li>
+    ))}
+  </ul>
+  <nav>
+    <a href={prevHref}>← Previous</a>
+    {nextHref && <> · <a href={nextHref}>Next →</a></>}
+  </nav>
+</BaseLayout>

@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Public Google Calendar feed for Uppsala Makerspace events. Updates here
+// flow automatically when the calendar is edited; no markdown to maintain.
+const CALENDAR_ID = 'bt89ob2d1fhelenvd80up783lc@group.calendar.google.com';
+const encodedId = encodeURIComponent(CALENDAR_ID);
+const tz = 'Europe/Stockholm';
+const embedUrl = `https://calendar.google.com/calendar/embed?` +
+  `src=${encodedId}` +
+  `&ctz=${encodeURIComponent(tz)}` +
+  `&mode=AGENDA` +
+  `&showTitle=0&showCalendars=0&showTabs=0&showPrint=0&showTz=0`;
+const subscribeUrl = `webcal://calendar.google.com/calendar/ical/${encodedId}/public/basic.ics`;
+const browserUrl = `https://calendar.google.com/calendar/u/0/embed?src=${encodedId}&ctz=${encodeURIComponent(tz)}`;
+---
+<BaseLayout
+  title="Kalendern — Uppsala Makerspace"
+  description="Kommande aktiviteter, workshops och öppna kvällar på Uppsala Makerspace."
+  lang="sv"
+>
+  <h1>Kalendern</h1>
+  <p>
+    Kommande aktiviteter, öppna kvällar och workshops. Kalendernn uppdateras
+    automatiskt — ändringar syns här direkt.
+  </p>
+
+  <div class="calendar-frame">
+    <iframe
+      src={embedUrl}
+      title="Uppsala Makerspace kalender"
+      loading="lazy"
+      frameborder="0"
+      scrolling="no"
+    ></iframe>
+  </div>
+
+  <p>
+    <a href={subscribeUrl}>Prenumerera i din kalenderapp</a> ·
+    <a href={browserUrl} target="_blank" rel="noopener">Öppna i Google Kalendern</a>
+  </p>
+</BaseLayout>
+
+<style>
+  .calendar-frame {
+    margin: 24px 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #ffffff;
+  }
+  .calendar-frame iframe {
+    display: block;
+    width: 100%;
+    height: 720px;
+    border: 0;
+  }
+</style>

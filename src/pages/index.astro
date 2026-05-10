@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { postSlug } from '../lib/slug';
+import { homeCards } from '../data/home-cards';
+
+const posts = (await getCollection('posts', ({ data }) => data.lang === 'sv' && !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 6);
+
+const dtf = new Intl.DateTimeFormat('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<BaseLayout title="Uppsala Makerspace" description="Uppsala Makerspace — skapa, lär, dela." lang="sv">
+  <section class="home-hero">
+    <h1 class="visually-hidden">Uppsala Makerspace</h1>
+    <img class="logo" src="/icons/Logos/SVG/Logo_Complex_Black.svg" alt="Uppsala Makerspace" />
+    <p class="tagline">Skapa, lär, dela.</p>
+  </section>
+
+  <aside class="notice">
+    <strong>Befintlig medlem?</strong> Vi har precis lanserat vår nya app.
+    <a href="/byta-till-appen/">Så här byter du till appen →</a>
+  </aside>
+
+  <section class="card-grid">
+    {homeCards.map(card => (
+      <a class="card" href={card.href.sv}>
+        <span class="icon" aria-hidden="true">{card.icon}</span>
+        <h2>{card.label.sv}</h2>
+        <p>{card.blurb.sv}</p>
+      </a>
+    ))}
+
+    <article class="card card-news">
+      <span class="icon" aria-hidden="true">📰</span>
+      <h2><a href="/nyheter/">Senaste nyheter</a></h2>
+      <ul>
+        {posts.map(post => (
+          <li>
+            <time datetime={post.data.date.toISOString()}>{dtf.format(post.data.date)}</time>
+            <a href={`/nyheter/${postSlug(post)}/`}>{post.data.title}</a>
+          </li>
+        ))}
+      </ul>
+      <a class="see-all" href="/nyheter/">Alla nyheter →</a>
+    </article>
+  </section>
+</BaseLayout>

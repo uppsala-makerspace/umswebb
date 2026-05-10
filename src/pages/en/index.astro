@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { postSlug } from '../../lib/slug';
+import { homeCards } from '../../data/home-cards';
+
+const posts = (await getCollection('posts', ({ data }) => data.lang === 'en' && !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 6);
+
+const dtf = new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<BaseLayout title="Uppsala Makerspace" description="Uppsala Makerspace — make, learn, share." lang="en">
+  <section class="home-hero">
+    <h1 class="visually-hidden">Uppsala Makerspace</h1>
+    <img class="logo" src="/icons/Logos/SVG/Logo_Complex_Black.svg" alt="Uppsala Makerspace" />
+    <p class="tagline">Make, learn, share.</p>
+  </section>
+
+  <section class="card-grid">
+    {homeCards.map(card => (
+      <a class="card" href={card.href.en}>
+        <span class="icon" aria-hidden="true">{card.icon}</span>
+        <h2>{card.label.en}</h2>
+        <p>{card.blurb.en}</p>
+      </a>
+    ))}
+
+    <article class="card card-news">
+      <span class="icon" aria-hidden="true">📰</span>
+      <h2><a href="/en/news/">Latest news</a></h2>
+      {posts.length === 0 ? (
+        <p>No English news yet — see the <a href="/nyheter/">Swedish news</a>.</p>
+      ) : (
+        <>
+          <ul>
+            {posts.map(post => (
+              <li>
+                <time datetime={post.data.date.toISOString()}>{dtf.format(post.data.date)}</time>
+                <a href={`/en/news/${postSlug(post)}/`}>{post.data.title}</a>
+              </li>
+            ))}
+          </ul>
+          <a class="see-all" href="/en/news/">All news →</a>
+        </>
+      )}
+    </article>
+  </section>
+</BaseLayout>

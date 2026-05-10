@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { postSlug } from '../../lib/slug';
+
+const PAGE_SIZE = 20;
+const all = (await getCollection('posts', ({ data }) => data.lang === 'sv' && !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const posts = all.slice(0, PAGE_SIZE);
+const totalPages = Math.max(1, Math.ceil(all.length / PAGE_SIZE));
+const dtf = new Intl.DateTimeFormat('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<BaseLayout title="Nyheter — Uppsala Makerspace" description="Nyheter från Uppsala Makerspace." lang="sv">
+  <h1>Nyheter</h1>
+  <p><small>Sida 1 av {totalPages}</small></p>
+  <ul>
+    {posts.map(post => (
+      <li>
+        <a href={`/nyheter/${postSlug(post)}/`}>{post.data.title}</a>
+        <br />
+        <small><time datetime={post.data.date.toISOString()}>{dtf.format(post.data.date)}</time></small>
+      </li>
+    ))}
+  </ul>
+  {totalPages > 1 && (
+    <nav><a href="/nyheter/sida/2/">Nästa →</a></nav>
+  )}
+</BaseLayout>

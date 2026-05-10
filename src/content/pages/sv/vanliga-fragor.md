@@ -1,0 +1,371 @@
+---
+title: "Vanliga frågor"
+lang: "sv"
+translationKey: "vanliga-fragor"
+---
+
+Om du inte hittar svar på din fråga nedan, kontakta oss på [kansliet@uppsalamakerspace.se](mailto:kansliet@uppsalamakerspace.se) så svarar vi på din fråga, alternativt kan du nå ut till våra medlemmar via vår [Facebook-grupp](https://www.facebook.com/groups/uppsalamakerspace/) eller vår [Slack-chatt](https://join.slack.com/t/uppsalamakerspace/shared_invite/enQtNDQwNDA5NDk3MjAyLTAwNGU4MTBkYTMxYzRkYzUwNDlmNGQ4YTIxYTM5NTRiZTc4YzYxZjUxZTJhODIyNmYzMDM3NTFiZTY0NzZjN2Y).
+
+- [Jag har betalat, när händer något?](#jag_har_betalat)
+- [Jag har inte fått något mail, vad gör jag nu?](#inget_mail)
+- [Vad har lokalen för öppettider?](#oppettider)
+- [Kan jag komma förbi och titta utan att vara medlem?](#komma_forbi)
+- [Kan jag vara i lokalen utan att vara medlem?](#vara_i_lokalen_ej_medlem)
+- [Jag är medlem men inte labbmedlem, när kan jag vara i lokalen?](#vara_i_lokalen_ej_labbmedlem)
+- [Jag är medlem men inte labbmedlem, kan jag använda det material som finns i lokalen?](#anvanda_material_ej_labbmedlem)
+- [Får man parkera utanför lokalen?](#parkera)
+- [Låset in i lokalen fungerar inte / jag kommer inte in. Hur går jag tillväga?](#laset_fungerar_inte)
+- [Hur fungerar det med förvaring av projekt och liknande mellan besöken på spacet?](#forvaring)
+- [Mitt projekt är mycket större än en labblåda, kan jag förvara det på spacet ändå?](#forvaring_skrymmande_projekt)
+- [Jag skulle väldigt gärna vilja använda verktyg X, får jag använda det?](#anvanda_verktyg_X)
+- [Jag vill gärna donera saker till föreningen, hur går jag tillväga?](#hur_donera)
+- [Kan jag ta av det material som finns i lokalen?](#anvanda_material)
+- [Hur mycket material får jag ta?](#hur_mycket_material_far_man_ta)
+- [Hur gör jag om jag förbrukat / kommer förbruka mycket material?](#tagit_for_mycket_material)
+- [Vad gör jag om material tar slut eller saknas?](#material_ar_slut)
+- [Kan jag föreslå material till lokalen?](#foresla_material)
+- [Kan jag som icke-medlem be föreningen skriva ut/svarva/etc åt mig mot betalning?](#skriva_ut)
+- [Får jag tillverka saker i Makerspace med syfte att sälja dem?](#produktion)
+- [Vad gör jag om jag ser någon snatta eller stjäla i lokalen?](#stold)
+- [Hur gör jag för att redovisa ett utlägg jag har gjort för föreningen så att jag får pengar tillbaka?](#redovisa_utlagg)
+
+* * *
+
+#### \- Jag har betalat, när händer något?
+
+Inkomna betalningar hanteras manuellt av frivilliga personer på deras fritid. Därför kan det variera lite hur lång tid det tar att hantera dem. Ofta tittar vi cirka 3 gånger i veckan. Det betyder att i allmänhet bör du få informationsmail till den adress du angivit inom 3 dagar, men det kan också i vissa perioder dröja någon vecka.
+
+#### \- Jag har inte fått något mail, vad gör jag nu?
+
+Om svaret från [kansliet@uppsalamakerspace.se](mailto:kansliet@uppsalamakerspace.se) dröjer mer än en vecka rekommenderar vi att du först kollar i din spamfolder så det inte fastnat där. Om du inte hittar mailet rekommenderar vi att du hör av dig till ovanstående adress och frågar om något gått fel. Ett annat alternativ är att du går in i vår slack-chatt och hör dig för, det finns nästan alltid ansvariga online som kan fånga upp din fråga.
+
+#### \- Vad har lokalen för öppettider?
+
+För labbmedlemmar är lokalen öppen dygnet runt alla dagar i veckan. Våra dörrar får du access till med hjälp av en app (DanaLock) som kräver en smartphone med iOS eller Android som operativsystem.
+
+För vanliga medlemmar är lokalen öppen de öppna kvällar som står i kalendern på hemsidan, den går även att prenumerera på som [Google-kalender](/kalender/) (länk).
+
+#### \- Kan jag komma förbi och titta utan att vara medlem?
+
+Du är välkommen att besöka oss på de öppna kvällarna som är markerade i kalendern. Vi försöker ha en öppen kväll i veckan. På dessa öppna kvällar finns det alltid en lokalvärd på plats som visar lokalen och svarar på frågor. Om man gillar det man ser går det att bli medlem på plats.
+
+#### \- Kan jag vara i lokalen utan att vara medlem?
+
+Det finns tre situationer då du får vara i lokalen utan att vara medlem:
+
+1. Du deltar i en öppen workshop
+2. Du kommer förbi på en öppen kväll när en lokalvärd finns på plats
+3. Du följer med en existerande labbmedlem som tar ansvar för dig
+
+**Observera** att alternativ 2 och 3 syftar båda till att ge dig en möjlighet att se lokalen, ställa frågor och prova på innan du bestämmer dig om du vill bli medlem eller inte. Det får alltså inte ske regelbundet.
+
+#### \- Jag är medlem men inte labbmedlem, när kan jag vara i lokalen?
+
+Som vanlig medlem kan du vara i lokalen då det är annonserat att det är öppet och det finns en lokalvärd på plats. Detta innefattar lite olika tillfällen, de vanligaste är:
+
+1. Öppna kvällar (vi försöker ha dessa en gång i veckan)
+2. Workshops / tematillfällen
+3. Fixa med lokalen dagar
+4. Medlemsmöten
+
+**Observera** att det inte är ok att som vanlig medlem regelbundet förlita sig på att bli insläppt av labbmedlemmar utanför dessa annonserade tillfällen, om man har dessa behov bör man istället bli labbmedlem.
+
+#### \- Jag är medlem men inte labbmedlem, kan jag använda det material som finns i lokalen?
+
+I allmänhet ska man vara labbmedlem för att få ta av material som finns i lokalen. Istället förväntas man ta med sitt eget material. Men det finns några undantag:
+
+1. På workshops får du använda det material som ingår.
+2. På öppna kvällar får du använda material som finns i rummen i anslutning till arbetsplatserna, t.ex. filament till 3D skrivaren, elkomponenter vid lödstationerna, träbitar i verkstaden, tyg vid symaskinerna osv.
+
+**Observera:** du får inte ta material från förrådet.
+
+#### \- Får man parkera utanför lokalen?
+
+Ja, det finns betalparkering intill lokalen. Det finns även flera alternativa parkeringar i närheten. Se följande sida för mer information: [/lokalen/](/lokalen/)
+
+#### \- Låset in i lokalen fungerar inte / jag kommer inte in. Hur går jag tillväga?
+
+För access till våra dörrar med DanaLock måste du efter registrering ha blivit tilldelat behörighet av någon av våra låsansvarige enligt instruktioner i välkomstmailet. Har du fått klartecken att du fått behörighet så behöver sedan appen internetåtkomst och tillgång till GPS för att kunna låsa upp, så slå på det om det inte är påslaget! Prova sedan att starta om/döda appen, sedan starta om telefonen. I DanaLock-appen finns även en funktion "Refresh keys" som löser många problem med inpasseringen. 
+
+#### \- Hur fungerar det med förvaring av projekt och liknande mellan besöken på spacet?
+
+Alla som blir labbmedlemmar kan vara med i en kö för att få en plats för en egen förvaringslåda i hyllorna innanför metallverkstaden. Varje person får en köplats utifrån den sammanlagda medlemstiden. För att få ett erbjudande när det blir en hyllplats ledig måste du aktivera din köplats. Det gör du genom att logga in på [medlemssidan](https://app.uppsalamakerspace.se/) och klicka i "add me to queue" som på bilden:
+
+[![](/uploads/wp/memberpage-150x150.png)](/uploads/wp/memberpage.png)
+
+Det går att tacka nej tillfälligt till ett erbjudande om hyllplats och ändå behålla sin plats i kön.  
+  
+Vi rekommenderar en plastlåda av modell SmartStore Classic 45 (60x40x31cm) som säljs på många ställen, tex på [Clas Ohlson](http://www.clasohlson.com/se/F%C3%B6rvaringsl%C3%A5da-SmartStore-Classic/Pr341552002), [Bauhaus](https://www.bauhaus.se/smartstore-classic-45-transparent.html), [Rusta](https://www.rusta.com/se/forvaringslada-med-lock-smartstore-p956014600301.aspx). Ett antal sådana lådor kan eventuellt finnas i lager för försäljning i lokalen.
+
+Alla lådor och saker som står i hyllan måste märkas upp tydligt med för- och efternamn.  Om du avser att ta en paus och inte vara aktiv labbmedlem under mer än en månads tid ska du plocka hem din labblåda.
+
+#### \- Mitt projekt är mycket större än en labblåda, kan jag förvara det på spacet ändå?
+
+Projekt som inte får plats i labblådan får ställas i vårt förråd tillfälligt. Allt måste märkas tydligt med namn, mobilnummer, datum när det ställs dit och datum när det ska tas bort. Vi rekommenderar att inte förvara stora projekt i förrådet mer än en vecka åt gången. Saker som tar upp mycket plats är i vägen för andra som vill använda utrymmet, och det är därför viktigt att de inte blir stående. Om ett projekt har avstannat ska det tas hem.
+
+Projekt som är ömtåliga eller är svåra att flytta får stå i våra andra rum på ett sätt som gör att dom inte står i vägen, men maximalt några dagar. Eftersom det är stor risk att sådana saker är i vägen för andra medlemmar är det desto viktigare att de är tydligt uppmärkta med namn och mobilnummer.
+
+Projekt som inte är uppmärkta, står i vägen eller står kvar en längre tid kommer att tillfalla föreningen. De kan då bli till material för nya medlemsprojekt, eller kastas.
+
+#### \- Jag skulle väldigt gärna vilja använda verktyg X, får jag använda det?
+
+Alla medlemmar i föreningen får använda samtliga verktyg i våra lokaler, såvida ingen annan information står på det aktuella verktyget. Man ansvarar själv för att de används på ett korrekt och säkert sätt. Det enklaste är att kontakta en annan medlem som är kunnig, och få en liten introduktion.
+
+Vi håller regelbundet (minst en gång per halvår) introduktioner i våra vanligaste verktyg, såsom 3D-skrivaren, lödstationerna och våra stora verktyg i verkstaden, såsom bandsågen. Om du efterfrågar en genomgång av något verktyg, kontakta den aktivitetsansvarige på mailaddressen [christoffer@ramis.se](mailto:christoffer@ramis.se) för att visa ditt intresse, så kanske vi drar ihop en genomgång lite oftare.
+
+#### \- Jag vill gärna donera saker till föreningen, hur går jag tillväga?
+
+Vi tar jättegärna emot verktyg, utrustning, och förbrukningsmaterial till lokalen, men innan ni lämnar saker i lokalen vill vi att ni hör av er till oss på vår mailaddress [kansliet@uppsalamakerspace.se](mailto:kansliet@uppsalamakerspace.se), eller skriver direkt till medlemmarna i en relevant [Slack-kanal](http://uppsalamakerspace.signup.team/), till exempel "#lokalen", och dubbelkollar att vi verkligen är intresserade. Är vi intresserade så får ni gärna komma på en av våra öppna kvällar och besöka oss (schema finns på hemsidan), eller komma överens om en annan tid när ni kan leverera sakerna! Vi uppskattar dock inte när det oannonserat dumpas saker i lokalen som ingen/väldigt få har användning av. Sådant kommer att slängas.
+
+Här följer några exempel på vi gärna tar emot (men kontakta oss helst för säkerhets skull):
+
+- Verktyg och material för textilbearbetning, såsom symaskin, nålar, trådar
+- Verktyg och material för pappersbearbeten, såsom saxar, pennor, målarfärg
+- Arduinos och Raspberry Pi (behöver inte vara värstingmodellerna)
+- USB-minnen
+- SD-kort
+- USB-laddare/sladdar
+- Gamla laptops som är mindre än 10 år gamla
+- Elektronikkomponenter
+- Etikettskrivare
+
+#### \- Kan jag ta av det material som finns i lokalen?
+
+Som labbmedlem får du använda material som finns i lokalen inom rimliga gränser. Praktiskt betyder det att i verkstaden får du använda plankor, plywood, spik, skruv etc. I studion kan du plocka delar ur komponentskåpet som dioder, motstånd och naturligtvis använda lödtenn och skriva ut på 3D-skrivaren. I textilrummet får du ta av det tyg som finns på rullarna och sy på symaskinerna. Observera att detta bara är exempel, det finns många fler sorters material i lokalen.
+
+#### \- Hur mycket material får jag ta?
+
+Vi har idag inga hårda gränser, istället hoppas vi medlemmarna själva kan bedöma vad som är rimlig förbrukning. Men för att ge en fingervisning så kan "mycket" material vara:
+
+- Många plankor av full längd,
+- Utskrifter som motsvarar mer än en halv rulle filament,
+- Mer än 5 meter tyg.
+
+#### \- Hur gör jag om jag förbrukat / kommer förbruka mycket material?
+
+Om du förbrukat mycket material så bör du fylla på motsvarande din ungefärliga förbrukning så snabbt som möjligt. OBS: Gäller det filament till 3D-skrivare vill vi att du kollar med föreningen att det är ok, så att vi har koll på vilken plast vi använder -- detta för att inte få problem med skrivarna.
+
+Om du vet med dig att du kommer förbruka mycket material så är det förstås bäst att köpa in motsvarande redan innan. Om det tar längre tid än en dag eller två, särskilt om du nästan förbrukat allt av en sorts material så bör du säga till i slacken för att förvarna andra och tala om ungefär när du kommer ersätta materialet.
+
+Om du inte har möjlighet att ersätta förbrukat material, t.ex. för att du saknar bil, så bör du säga till i förväg så motsvarande inköp kan planeras av någon annan som du får ersätta.
+
+#### \- Vad gör jag om material tar slut?
+
+Säg till ansvarig för respektive rum, om du inte vet vem det är kan du säga till i slacken så kommer den ansvarige se till att det köps in.
+
+#### \- Kan jag föreslå material till lokalen?
+
+Självklart, och om det är något som efterfrågas av många och inte är för dyrt kommer det säkerligen att köpas in. Notera dock att det kan ta lite tid innan det köps in. Om du är otålig, prata med någon ansvarig och se om du kan hjälpa till genom att köpa in det själv till lokalen utifrån en överenskommen kvantitet och kvalitet. Det går fortare när man hjälps åt.
+
+Om materialet är för dyrt eller inte efterfrågas av tillräckligt många så kan du behöva köpa in det för egna pengar.
+
+#### \- Kan jag som icke-medlem be föreningen skriva ut/svarva/etc åt mig mot betalning?
+
+Nej, det kan du inte, bli medlem istället, det kostar inte så mycket och det är roligt!
+
+#### \- Får jag tillverka saker i Makerspace med syfte att sälja dem?
+
+Nej, det får du inte. Makerspace syfte är att möjliggöra medlemmarnas egna hobbyverksamhet. Medlemmar kan skapa prototyper för olika syften, men inte bedriva renodlad produktion med inriktning mot försäljning.
+
+Anledning till att kommersiell tillverkning inte tillåts är bland annat:
+
+- Att man inte ska utnyttja andras personers ideella engagemang i kommersiella syften.
+- All produktion leder till åtgång av material och slitage på verktyg som därmed konkurrerar med hobbyverksamheten.
+- Makerspace är ingen arbetsplats, det kräver annan försäkring och ställer lagkrav om ansvar.
+
+Ett undantag är om föreningen gemensamt tar ett beslut om att bedriva tillverkning för försäljning, t.ex. med syftet att samla in pengar till föreningen.  
+
+#### \- Vad ska jag göra om jag ser någon snatta eller stjäla i lokalen?
+
+**Minderåriga**  
+Handlar det om en minderårig person? Säg till direkt. Tala vänligt, men gör inga eftergifter. Förklara att:
+
+1. Att ta något i kiosken utan att betala, eller att ta med sig något av våra gemensamma verktyg, är att stjäla.
+2. Stölder gör vårt gemensamma makerspace sämre, eftersom det tar bort resurser som vi vill använda till skapande och att göra platsen bättre för våra medlemmar.
+3. Du kommer att kontakta personens föräldrar.
+
+Kontakta personens föräldrar. Ta hjälp av styrelsen eller någon annan ansvarig om du inte kan göra det själv.  
+  
+**Vuxna  
+**
+
+Säg om möjligt till direkt. Berätta att du tyckte att du såg en oegentlighet, och be personen återbörda stöldgodset eller betala för sig. Om det inte sker, underrätta styrelsen.  
+  
+Om det känns otryggt eller svårt att konfrontera en person direkt, underrätta styrelsen om vad du har observerat. Styrelsen kommer att undersöka saken och göra en polisanmälan om det bedöms att en stöld har skett.
+
+#### \- Hur redovisar jag utlägg så att jag kan få pengar tillbaka?
+
+##### Kort version
+
+- Registrera inköpet i dokumentet _”Gruppkassor”_ under fliken för den aktuella gruppkassan. Om du saknar behörighet till dokumentet, kontakta en verkstadsansvarig.
+- Ta ett tydligt foto av kvittot och mejla det till [kansliet@uppsalamakerspace.se](mailto:kansliet@uppsalamakerspace.se) Inkludera information om vilken gruppkassa inköpet rör samt — om det är första gången du begär ersättning — dina bankuppgifter (kontonr och namn på kontoinnehavare) för utbetalningen.
+
+##### Lång version med detaljerad information
+
+###### 1\. Gör ett inköp
+
+- Se till att inköpet är förankrat i en grupp. Annars får du inte ersättning!
+- Försäkra dig om att du har råd att ligga ute med pengar upp till en månad (om det inte är en butik som kan ta betalt via faktura, vilket måste göras upp i förväg). Om du inte har råd, samarbeta med någon annan i gruppen som kan lägga ut.
+- Ta kvitto. OBS: Ett kvitto per grupp du gör inköp för.
+
+###### 2\. Redovisa ditt inköp
+
+- Utlägget ska bokföras i ett dokument för den grupp inköpet gäller (i skrivande stund heter dokumentet “Gruppkassor” men det kommer att delas upp och bli ett dokument per grupp). Om du inte har tillgång till det dokumentet, kontakta någon i den aktuella ansvarsgruppen och berätta A) vad du har köpt och B) hur stor summan blev. Alternativt be att få tillgång till dokumentet.
+- Har du ett fysiskt kvitto: skriv namn på det och fotografera det. Digitala kvitton behöver inte skrivas ut.
+- Skicka ett mejl till [kansliet@uppsalamakerspace.se](mailto:kansliet@uppsalamakerspace.se) och bifoga digitalt kvitto eller foto av fysiskt kvitto. Ange summa och vilken ansvarsgrupp utlägget hör till. Om det är första gången du gör ett utlägg, skicka även med kontouppgifter. (Ersättning betalas enbart ut med banköverföring.)
+
+###### 3\. Vänta på ersättning
+
+Den betalas ut så snart vår kassör kommer fram till ditt utlägg i sin hantering. Ha tålamod!
+
+
+
+Om du inte hittar svar på din fråga nedan, maila oss på [kansliet@uppsalamakerspace.se](mailto:kansliet@uppsalamakerspace.se) så svarar vi på din fråga, altenativt nå ut till medlemmarna på vår [epost-lista](https://groups.google.com/d/forum/uppsala-makerspace), [Facebook-grupp](https://www.facebook.com/groups/uppsalamakerspace/) eller vår [Slack-chatt](https://join.slack.com/t/uppsalamakerspace/shared_invite/enQtNDQwNDA5NDk3MjAyLTAwNGU4MTBkYTMxYzRkYzUwNDlmNGQ4YTIxYTM5NTRiZTc4YzYxZjUxZTJhODIyNmYzMDM3NTFiZTY0NzZjN2Y). Frågor angående lokal och inpassering kan ni skicka till våra lokalansvariga på mail [umslokalansvariga@googlegroups.com](mailto:umslokalansvariga@googlegroups.com).
+
+- [Jag har betalat, när händer något?](#jag_har_betalat)
+- [Jag har inte fått något mail, vad gör jag nu?](#inget_mail)
+- [Vad har lokalen för öppettider?](#oppettider)
+- [Kan jag komma förbi och titta utan att vara medlem?](#komma_forbi)
+- [Kan jag vara i lokalen utan att vara medlem?](#vara_i_lokalen_ej_medlem)
+- [Jag är medlem men inte labbmedlem, när kan jag vara i lokalen?](#vara_i_lokalen_ej_labbmedlem)
+- [Jag är medlem men inte labbmedlem, kan jag använda det material som finns i lokalen?](#anvanda_material_ej_labbmedlem)
+- [Får man parkera utanför lokalen?](#parkera)
+- [Låset in i lokalen fungerar inte / jag kommer inte in. Hur går jag tillväga?](#laset_fungerar_inte)
+- [Hur fungerar det med förvaring av projekt och liknande mellan besöken på spacet?](#forvaring)
+- [Mitt projekt är mycket större än en labblåda, kan jag förvara det på spacet ändå?](#forvaring_skrymmande_projekt)
+- [Jag skulle väldigt gärna vilja använda verktyg X, får jag använda det?](#anvanda_verktyg_X)
+- [Jag vill gärna donera saker till föreningen, hur går jag tillväga?](#hur_donera)
+- [Kan jag ta av det material som finns i lokalen?](#anvanda_material)
+- [Hur mycket material får jag ta?](#hur_mycket_material_far_man_ta)
+- [Hur gör jag om jag förbrukat / kommer förbruka mycket material?](#tagit_for_mycket_material)
+- [Vad gör jag om material tar slut eller saknas?](#material_ar_slut)
+- [Kan jag föreslå material till lokalen?](#foresla_material)
+- [Kan jag som icke-medlem be föreningen skriva ut/svarva/etc åt mig eller mitt företag mot betalning?](#skriva_ut)
+
+* * *
+
+#### \- Jag har betalat, när händer något?
+
+Vi kollar inkomna betalningar cirka 3 gånger i veckan (kring ledigheter kan det dröja lite längre). Det betyder att i allmänhet bör du få informationsmail till den adress du angivit inom 3 dagar.
+
+#### \- Jag har inte fått något mail, vad gör jag nu?
+
+Om det gått 3 dagar utan att du fått något mail från [kansliet@uppsalamakerspace.se](mailto:kansliet@uppsalamakerspace.se) så rekommenderar vi att du först kollar i din spamfolder så det inte fastnat där. Om du inte hittar mailet rekommenderar vi att du hör av dig till ovanstående adress och frågar om något gått fel. Ett annat alternativ är att du går in i vår slack-chatt och hör dig för, det finns nästan alltid ansvariga online som kan fånga upp din fråga.
+
+#### \- Vad har lokalen för öppettider?
+
+För labbmedlemmar är lokalen öppen dygnet runt alla dagar i veckan. Våra dörrar får du access till med hjälp av en app (DanaLock) som kräver en smartphone med iOS eller Android som operativsystem.
+
+För vanliga medlemmar är lokalen öppen de öppna kvällar som står i kalendern på hemsidan, den går även att prenumerera på som [Google-kalender](/kalender/) (länk).
+
+#### \- Kan jag komma förbi och titta utan att vara medlem?
+
+Du är välkommen att besöka oss på de öppna kvällarna som är markerade i kalendern. Vi försöker ha en öppen kväll i veckan. På dessa öppna kvällar finns det alltid en lokalansvarig på plats som visar lokalen och svarar på frågor. Om man gillar det man ser går det att bli medlem på plats.
+
+#### \- Kan jag vara i lokalen utan att vara medlem?
+
+Det finns tre situationer då du får vara i lokalen utan att vara medlem:
+
+1. Du deltar i en öppen workshop
+2. Du kommer förbi på en öppen kväll när en lokalansvarig finns på plats
+3. Du följer med en existerande labbmedlem som tar ansvar för dig
+
+**Observera** att alternativ 2 och 3 syftar båda till att ge dig en möjlighet att se lokalen, ställa frågor och prova på innan du bestämmer dig om du vill bli medlem eller inte. Det får alltså inte ske regelbundet.
+
+#### \- Jag är medlem men inte labbmedlem, när kan jag vara i lokalen?
+
+Som vanlig medlem kan du vara i lokalen då det är annonserat att det är öppet och det finns en lokalansvarig på plats. Detta innefattar lite olika tillfällen, de vanligaste är:
+
+1. Öppna kvällar (vi försöker ha dessa en gång i veckan)
+2. Workshops / tematillfällen
+3. Fixa med lokalen dagar
+4. Medlemsmöten
+
+**Observera** att det inte är ok att som vanlig medlem regelbundet förlita sig på att bli insläppt av labbmedlemmar utanför dessa annonserade tillfällen, om man har dessa behov bör man istället bli labbmedlem.
+
+#### \- Jag är medlem men inte labbmedlem, kan jag använda det material som finns i lokalen?
+
+I allmänhet ska man vara labbmedlem för att få ta av material som finns i lokalen. Istället förväntas man ta med sitt eget material. Men det finns några undantag:
+
+1. På workshops får du använda det material som ingår.
+2. På öppna kvällar får du använda material som finns i rummen i anslutning till arbetsplatserna, t.ex. filament till 3D skrivaren, elkomponenter vid lödstationerna, träbitar i verkstaden, tyg vid symaskinerna osv.
+
+**Observera:** du får inte ta material från förrådet.
+
+#### \- Får man parkera utanför lokalen?
+
+Ja, det finns betalparkering intill lokalen. Det finns även flera alternativa parkeringar i närheten. Se följande sida för mer information: [/lokalen/](/lokalen/)
+
+#### \- Låset in i lokalen fungerar inte / jag kommer inte in. Hur går jag tillväga?
+
+För access till våra dörrar med DanaLock måste du efter registrering ha blivit tilldelat behörighet av någon av våra låsansvarige enligt instruktioner i välkomstmailet. Har du fått klartecken att du fått behörighet så behöver sedan appen internetåtkomst och tillgång till GPS för att kunna låsa upp, så slå på det om det inte är påslaget! Prova sedan att starta om/döda appen, sedan starta om telefonen. I DanaLock-appen finns även en funktion "Refresh keys" som löser många problem med inpasseringen. Fungerar det inte, kontakta våra lokalansvariga på mail [umslokalansvariga@googlegroups.com](mailto:umslokalansvariga@googlegroups.com), så kan de hjälpa dig.
+
+#### \- Hur fungerar det med förvaring av projekt och liknande mellan besöken på spacet?
+
+Alla medlemmar med aktivt labbmedlemskap får ha en labblåda som di införskaffar själv. Vi rekommenderar en plastlåda av modell SmartStore Classic 45 (60x40x31cm) som säljs på många ställen, tex på [Clas Ohlson](http://www.clasohlson.com/se/F%C3%B6rvaringsl%C3%A5da-SmartStore-Classic/Pr341552002), [Bauhaus](https://www.bauhaus.se/smartstore-classic-45-transparent.html), [Rusta](https://www.rusta.com/se/forvaringslada-med-lock-smartstore-p956014600301.aspx). Ett antal sådana lådor kan eventuellt finnas i lager för försäljning i lokalen.
+
+Alla lådor och saker som står i hyllan måste märkas upp tydligt med för- och efternamn.  Om du avser att ta en paus och inte vara aktiv labbmedlem under mer än en månads tid så skall du plocka hem din labblåda.
+
+#### \- Mitt projekt är mycket större än en labblåda, kan jag förvara det på spacet ändå?
+
+Projekt som inte får plats i labblådan får ställas i vårt förråd tillfälligt. Allt måste märkas tydligt med namn, mobilnummer, datum när det ställs dit och datum när det ska tas bort. Vi rekommenderar att inte förvara stora projekt i förrådet mer än en vecka åt gången. Saker som tar upp mycket plats är i vägen för andra som vill använda utrymmet, och det är därför viktigt att de inte blir stående. Om ett projekt har avstannat ska det tas hem.
+
+Projekt som är ömtåliga eller är svåra att flytta får stå i våra andra rum på ett sätt som gör att dom inte står i vägen, men maximalt några dagar. Eftersom det är stor risk att sådana saker är i vägen för andra medlemmar är det desto viktigare att de är tydligt uppmärkta med namn och mobilnummer.
+
+Projekt som inte är uppmärkta, står i vägen eller står kvar en längre tid kommer att tillfalla föreningen. De kan då bli till material för nya medlemsprojekt, eller kastas.
+
+#### \- Jag skulle väldigt gärna vilja använda verktyg X, får jag använda det?
+
+Alla medlemmar i föreningen får använda samtliga verktyg i våra lokaler, såvida ingen annan information står på det aktuella verktyget. Man ansvarar själv för att de används på ett korrekt och säkert sätt. Det enklaste är att kontakta en annan medlem som är kunnig, och få en liten introduktion.
+
+Vi håller regelbundet (minst en gång per halvår) introduktioner i våra vanligaste verktyg, såsom 3D-skrivaren, lödstationerna och våra stora verktyg i verkstaden, såsom bandsågen. Om du efterfrågar en genomgång av något verktyg, kontakta den aktivitetsansvarige på mailaddressen [christoffer@ramis.se](mailto:christoffer@ramis.se) för att visa ditt intresse, så kanske vi drar ihop en genomgång lite oftare.
+
+#### \- Jag vill gärna donera saker till föreningen, hur går jag tillväga?
+
+Vi tar jättegärna emot verktyg, utrustning, och förbrukningsmaterial till lokalen, men innan ni lämnar saker i lokalen vill vi att ni hör av er till oss på vår mailaddress [kansliet@uppsalamakerspace.se](mailto:kansliet@uppsalamakerspace.se), eller skriver direkt till medlemmarna i en relevant [Slack-kanal](http://uppsalamakerspace.signup.team/), till exempel "#lokalen", och dubbelkollar att vi verkligen är intresserade. Är vi intresserade så får ni gärna komma på en av våra öppna kvällar och besöka oss (schema finns på hemsidan), eller komma överens om en annan tid när ni kan leverera sakerna! Vi uppskattar dock inte när det oannonserat dumpas saker i lokalen som ingen/väldigt få har användning av. Sådant kommer att slängas.
+
+Här följer några exempel på vi gärna tar emot (men kontakta oss helst för säkerhets skull):
+
+- Verktyg och material för textilbearbetning, såsom symaskin, nålar, trådar
+- Verktyg och material för pappersbearbeten, såsom saxar, pennor, målarfärg
+- Arduinos och Raspberry Pi (behöver inte vara värstingmodellerna)
+- USB-minnen
+- SD-kort
+- USB-laddare/sladdar
+- Gamla laptops som är mindre än 10 år gamla
+- Elektronikkomponenter
+- Etikettskrivare
+
+#### \- Kan jag ta av det material som finns i lokalen?
+
+Som labbmedlem får du använda material som finns i lokalen inom rimliga gränser. Praktiskt betyder det att i verkstaden får du använda plankor, plywood, spik, skruv etc. I studion kan du plocka delar ur komponentskåpet som dioder, motstånd och naturligtvis använda lödtenn och skriva ut på 3D-skrivaren. I textilrummet får du ta av det tyg som finns på rullarna och sy på symaskinerna. Observera att detta bara är exempel, det finns många fler sorters material i lokalen.
+
+#### \- Hur mycket material får jag ta?
+
+Vi har idag inga hårda gränser, istället hoppas vi medlemmarna själva kan bedöma vad som är rimlig förbrukning. Men för att ge en fingervisning så kan "mycket" material vara:
+
+- Många plankor av full längd,
+- Utskrifter som motsvarar mer än en halv rulle filament,
+- Mer än 5 meter tyg.
+
+#### \- Hur gör jag om jag förbrukat / kommer förbruka mycket material?
+
+Om du förbrukat mycket material så bör du fylla på motsvarande din ungefärliga förbrukning så snabbt som möjligt. OBS: Gäller det filament till 3D-skrivare vill vi att du kollar med föreningen att det är ok, så att vi har koll på vilken plast vi använder -- detta för att inte få problem med skrivarna.
+
+Om du vet med dig att du kommer förbruka mycket material så är det förstås bäst att köpa in motsvarande redan innan. Om det tar längre tid än en dag eller två, särskilt om du nästan förbrukat allt av en sorts material så bör du säga till i slacken för att förvarna andra och tala om ungefär när du kommer ersätta materialet.
+
+Om du inte har möjlighet att ersätta förbrukat material, t.ex. för att du saknar bil, så bör du säga till i förväg så motsvarande inköp kan planeras av någon annan som du får ersätta.
+
+#### \- Vad gör jag om material tar slut?
+
+Säg till ansvarig för respektive rum, om du inte vet vem det är kan du säga till i slacken så kommer den ansvarige se till att det köps in.
+
+#### \- Kan jag föreslå material till lokalen?
+
+Självklart, och om det är något som efterfrågas av många och inte är för dyrt kommer det säkerligen att köpas in. Notera dock att det kan ta lite tid innan det köps in. Om du är otålig, prata med någon ansvarig och se om du kan hjälpa till genom att köpa in det själv till lokalen utifrån en överenskommen kvantitet och kvalitet. Det går fortare när man hjälps åt.
+
+Om materialet är för dyrt eller inte efterfrågas av tillräckligt många så kan du behöva köpa in det för egna pengar.
+
+#### \-Kan jag som icke-medlem be föreningen skriva ut/svarva/etc åt mig eller mitt företag mot betalning?
+
+Nej, det kan du inte, bli medlem istället, det kostar inte så mycket och det är roligt!

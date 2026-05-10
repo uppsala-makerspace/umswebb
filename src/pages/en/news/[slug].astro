@@ -1,0 +1,27 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { postSlug } from '../../../lib/slug';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => data.lang === 'en' && !data.draft);
+  return posts.map(post => ({
+    params: { slug: postSlug(post) },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const dtf = new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<BaseLayout title={`${post.data.title} — Uppsala Makerspace`} description={post.data.description} lang="en" prose>
+  <article>
+    <header>
+      <p><a href="/en/news/">← News</a></p>
+      <h1>{post.data.title}</h1>
+      <p><small><time datetime={post.data.date.toISOString()}>{dtf.format(post.data.date)}</time></small></p>
+    </header>
+    <Content />
+  </article>
+</BaseLayout>

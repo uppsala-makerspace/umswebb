@@ -1,0 +1,27 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { pageSlug } from '../../lib/slug';
+import { primaryNav } from '../../data/nav';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages', ({ data }) => data.lang === 'en' && !data.draft);
+  return pages.map(page => ({
+    params: { slug: pageSlug(page) },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+
+const pageHref = `/en/${pageSlug(page)}/`;
+const navItem = primaryNav.find(n => !n.external && n.href.en === pageHref);
+const heading = navItem?.label.en ?? page.data.title;
+---
+<BaseLayout title={heading} description={page.data.description} lang="en" prose>
+  <article>
+    <h1>{heading}</h1>
+    <Content />
+  </article>
+</BaseLayout>

@@ -49,8 +49,10 @@ const entrySchema = z.object({
   type: z.string().optional(),
   name: localized,
   tag: localized.optional(),
-  icon: z.string().url().optional(),
-  image: z.string().url().optional(),
+  /* Absolute on a dev instance, relative on the deployed one — see
+   * `assetUrl()`, which resolves both. */
+  icon: z.string().min(1).optional(),
+  image: z.string().min(1).optional(),
   text: localized,
   spaces: z
     .array(
@@ -69,7 +71,7 @@ const spaceSchema = z.object({
   floor: z.string(),
   name: localized,
   text: localized.partial().optional(),
-  icon: z.string().url().optional(),
+  icon: z.string().min(1).optional(),
   // px in SVG user units — the drawings are 1610×3425 and 725×1110, so these
   // are large numbers on floor 1 and small ones on floor 2.
   iconSize: z.number().optional(),
@@ -151,7 +153,23 @@ async function fetchAndCache(): Promise<PublicData> {
   if (!response.ok) {
     throw new Error(`Verkstads-API:t svarade ${response.status} på ${API_URL}`);
   }
-  const { entries, spaces, palette } = responseSchema.parse(await response.json());
+
+  /* A 200 is not enough. An unknown path on the members app answers with the
+   * app shell — 200, and HTML — so a wrong URL, or an umsme that has not been
+   * deployed with this endpoint yet, would otherwise fail deep inside JSON.parse
+   * with nothing pointing at the cause. */
+  const body = await response.text();
+  const type = response.headers.get('content-type') ?? 'okänd';
+  if (!type.includes('json') || body.trimStart().startsWith('<')) {
+    throw new Error(
+      `Verkstads-API:t på ${API_URL} svarade med ${type} i stället för JSON.\n` +
+        `Första tecknen: ${JSON.stringify(body.trimStart().slice(0, 120))}\n` +
+        `Ser det ut som en webbsida är URL:en fel, eller så saknar den umsme-instansen ` +
+        `endpointen /api/public/entries. Kontrollera UMS_API_URL.`
+    );
+  }
+
+  const { entries, spaces, palette } = responseSchema.parse(JSON.parse(body));
 
   const entryIcons = new Map<string, string>();
   const entryImages = new Map<string, string>();
@@ -263,12 +281,19 @@ export async function getFloorMap(): Promise<FloorMap> {
   };
 }
 
-async function cacheAsset(rawUrl: string, kind: 'icon' | 'image'): Promise<string> {
-  const name = cacheFileName(new URL(rawUrl), kind === 'icon' ? '.svg' : '.jpg');
+/* The API hands out asset references relative to itself on a deployed instance
+ * (`/api/spaces/…`) and absolute on a dev one (`http://localhost:3000/api/…`).
+ * Resolving against the endpoint covers both, and keeps the `?v=` stamp that the
+ * cache is keyed on. */
+const assetUrl = (raw: string) => new URL(raw, API_URL);
+
+async function cacheAsset(raw: string, kind: 'icon' | 'image'): Promise<string> {
+  const url = assetUrl(raw);
+  const name = cacheFileName(url, kind === 'icon' ? '.svg' : '.jpg');
   const target = join(CACHE_DIR, name);
   if (await exists(target)) return `${CACHE_URL}/${name}`;
 
-  const bytes = await download(rawUrl, kind);
+  const bytes = await download(url.href, kind);
   await mkdir(CACHE_DIR, { recursive: true });
 
   if (kind === 'image') {

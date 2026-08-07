@@ -6,6 +6,7 @@
   "engines": {
     "node": ">=22.12.0"
   },
+  "packageManager": "pnpm@10.32.1",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -18,5 +19,9 @@
   },
   "devDependencies": {
     "sharp": "^0.35.3"
+  },
+  "pnpm": {
+    "//": "pnpm 10 blocks install scripts by default. These two need theirs to pick the right native binary — without it an install can land on a machine where sharp has none, and astro:assets fails at build time rather than here.",
+    "onlyBuiltDependencies": ["esbuild", "sharp"]
   }
 }

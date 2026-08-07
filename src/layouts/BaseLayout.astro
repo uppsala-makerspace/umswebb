@@ -26,6 +26,13 @@ function isActive(href: string) {
 }
 
 const layoutClass = prose ? 'layout prose' : 'layout';
+
+/* Absolute URL of this page, from `site` in astro.config.mjs — which is what
+ * makes staging (beta) name itself rather than claiming to be production.
+ * Astro builds directory-style URLs, so `pathname` already carries the trailing
+ * slash and canonical matches the address in the browser exactly. */
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogLocale = lang === 'sv' ? 'sv_SE' : 'en_GB';
 ---
 <!doctype html>
 <html lang={lang}>
@@ -34,6 +41,15 @@ const layoutClass = prose ? 'layout prose' : 'layout';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonical.href} />
+    {/* og:url on its own says nothing, so it comes with the few tags that make a
+        shared link render: what it is, what it is called and what it says. */}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:site_name" content="Uppsala Makerspace" />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:locale" content={ogLocale} />
     <link rel="icon" type="image/svg+xml" href="/Stamp/SVG/Makerspace stamp.svg" />
     <link rel="alternate icon" type="image/png" href="/Stamp/PNG/Makerspace stamp@2x.png" />
     {/* Theme init: runs before paint to avoid FOUC. */}

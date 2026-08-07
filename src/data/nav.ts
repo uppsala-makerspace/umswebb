@@ -14,23 +14,24 @@ export type NavItem = {
 
 export const primaryNav: NavItem[] = [
   { href: { sv: '/',                 en: '/en/' },                 label: { sv: 'Start',          en: 'Home' } },
-  { href: { sv: '/lokalen/',         en: '/en/our-space/' },       label: { sv: 'Besök oss',      en: 'Visit us' } },
-  { href: { sv: '/bli-medlem/',      en: '/en/bli-medlem/' },      label: { sv: 'Bli medlem',     en: 'Become a member' } },
+  { href: { sv: '/vad-vi-gor/',      en: '/en/what-we-do/' },      label: { sv: 'Vad vi gör',     en: 'What we do' } },
+  { href: { sv: '/lokalen/',         en: '/en/our-space/' },       label: { sv: 'Vår lokal',      en: 'Our space' } },
+  { href: { sv: '/bli-medlem/',      en: '/en/become-a-member/' }, label: { sv: 'Bli medlem',     en: 'Become a member' } },
   { href: { sv: '/kalender/',        en: '/en/calendar/' },        label: { sv: 'Kalendern',      en: 'Calendar' } },
   { href: { sv: '/nyheter/',         en: '/en/news/' },            label: { sv: 'Nyheter',        en: 'News' } },
-  { href: { sv: '/vanliga-fragor/',  en: '/en/vanliga-fragor/' },  label: { sv: 'Vanliga frågor', en: 'FAQ' } },
-  { href: { sv: '/om/',              en: '/en/om/' },              label: { sv: 'Om oss',         en: 'About' } },
+  { href: { sv: '/vanliga-fragor/',  en: '/en/faq/' },             label: { sv: 'Vanliga frågor', en: 'FAQ' } },
+  { href: { sv: '/om/',              en: '/en/about/' },           label: { sv: 'Om oss',         en: 'About' } },
   {
     href: { sv: 'https://app.uppsalamakerspace.se/', en: 'https://app.uppsalamakerspace.se/' },
     external: true,
     label: { sv: 'App för medlemmar', en: 'Member app' },
   },
   {
-    // Served under the same domain at /tutorial/, but rendered with the
-    // external ↗ glyph + new-tab behaviour since it's a separate sub-site.
+    // A separate site on its own subdomain, hence the external ↗ glyph and
+    // new-tab behaviour. Swedish is the root; English lives under /en/.
     href: {
-      sv: 'https://www.uppsalamakerspace.se/tutorial/sv/index.html',
-      en: 'https://www.uppsalamakerspace.se/tutorial/en/index.html',
+      sv: 'https://tutorial.uppsalamakerspace.se/',
+      en: 'https://tutorial.uppsalamakerspace.se/en/',
     },
     external: true,
     label: { sv: 'Guider', en: 'Guides' },

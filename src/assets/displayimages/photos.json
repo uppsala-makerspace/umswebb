@@ -1,0 +1,38 @@
+[
+  {
+    "file": "sewing.jpg",
+    "alt": {
+      "sv": "En gammal Singer-symaskin med handvev på en arbetsbänk.",
+      "en": "An old hand-cranked Singer sewing machine on a workbench."
+    },
+    "wide":   { "x": 3, "y": 8, "width": 42, "rotate": -5 },
+    "narrow": { "x": 0, "y": 0, "width": 60, "rotate": -4 }
+  },
+  {
+    "file": "ceramics.jpg",
+    "alt": {
+      "sv": "Lerklädda händer formar en skål på en drejskiva.",
+      "en": "Clay-covered hands shaping a bowl on a potter’s wheel."
+    },
+    "wide":   { "x": 57, "y": 16, "width": 40, "rotate": -4 },
+    "narrow": { "x": 8, "y": 34, "width": 58, "rotate": 3 }
+  },
+  {
+    "file": "saw.jpg",
+    "alt": {
+      "sv": "En hand styr en träbit genom en bandsåg.",
+      "en": "A hand guiding a piece of wood through a band saw."
+    },
+    "wide":   { "x": 37, "y": 2, "width": 26, "rotate": 3 },
+    "narrow": { "x": 52, "y": 2, "width": 40, "rotate": 5 }
+  },
+  {
+    "file": "LK.jpg",
+    "alt": {
+      "sv": "Barn programmerar spel på bärbara datorer framför en projicerad kodskärm.",
+      "en": "Children programming games on laptops in front of a projected code screen."
+    },
+    "wide":   { "x": 26, "y": 46, "width": 38, "rotate": 6 },
+    "narrow": { "x": 38, "y": 50, "width": 56, "rotate": -5 }
+  }
+]

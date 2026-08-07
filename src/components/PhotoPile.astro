@@ -1,0 +1,310 @@
+---
+/* A loose pile of photographs, as if a handful of prints had been dropped on a
+ * table: overlapping, each turned a little, none of them lined up.
+ *
+ * Nothing about the pictures lives here. The folder src/assets/displayimages/ is
+ * read at build time and joined with photos.json beside them, which gives each
+ * one its alt text and its place — see the README in that folder. Adding a
+ * picture is dropping a file there and adding an entry; this file stays put.
+ *
+ * The placement is authored rather than random. Astro renders at build time, so
+ * Math.random() would not shuffle per visitor anyway — it would only make the
+ * layout change between builds, which is worse than an arrangement that has been
+ * looked at.
+ *
+ * <Image> resizes and re-encodes at build time (hence sharp as a devDependency —
+ * astro:assets needs it and pnpm will not resolve a transitive one): the
+ * originals run up to 2016 px wide and are never shown above ~380 px.
+ */
+import { Image } from 'astro:assets';
+import config from '../assets/displayimages/photos.json';
+
+interface Placement {
+  x: number;
+  y: number;
+  width: number;
+  rotate: number;
+}
+interface PhotoConfig {
+  file: string;
+  alt: { sv: string; en: string };
+  wide: Placement;
+  narrow: Placement;
+}
+
+/* Every image in the folder, keyed by bare filename. eager: the metadata is
+ * needed while rendering, not behind a promise. */
+const found = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/displayimages/*.{jpg,jpeg,png,webp,avif}',
+  { eager: true }
+);
+const byFilename = new Map<string, ImageMetadata>(
+  Object.entries(found).map(([path, mod]) => [path.split('/').pop()!, mod.default])
+);
+
+/* Join the two. A mismatch either way is a warning, not a broken build: a
+ * picture with no entry has no alt text and nowhere to go, and an entry naming a
+ * file that is not there has nothing to show — but neither is worth failing a
+ * deploy over. */
+const photos = (config as PhotoConfig[])
+  .map(entry => ({ entry, image: byFilename.get(entry.file) }))
+  .filter((pair): pair is { entry: PhotoConfig; image: ImageMetadata } => {
+    if (!pair.image) {
+      console.warn(
+        `[PhotoPile] photos.json names "${pair.entry.file}", which is not in src/assets/displayimages/ — skipped.`
+      );
+      return false;
+    }
+    return true;
+  });
+
+const configured = new Set(photos.map(p => p.entry.file));
+for (const file of byFilename.keys()) {
+  if (!configured.has(file)) {
+    console.warn(
+      `[PhotoPile] src/assets/displayimages/${file} has no entry in photos.json — not shown.`
+    );
+  }
+}
+
+interface Props {
+  lang: 'sv' | 'en';
+  /* How long each print stays on top before the pile is cycled, in ms. Needs to
+   * comfortably exceed the deal animation (see the script). */
+  cycleMs?: number;
+}
+const { lang, cycleMs = 3000 } = Astro.props;
+
+/* A print is dealt downwards — towards the reader, the way a hand takes a card
+ * off a deck — with a small sideways lean away from the middle for character.
+ * Down is also the only direction with room to spare: sideways, a print at the
+ * edge of the column either pushes the page into horizontal scrolling or is cut
+ * off by the viewport. Hence the lean is dropped for any print that would leave
+ * the pile's box, and it is decided per arrangement, since a photo can sit left
+ * of centre on a wide screen and right of it on a narrow one. */
+const LEAN = 6; // per cent of the print's own width
+const dealLean = (p: Placement) => {
+  const direction = p.x + p.width / 2 < 50 ? -1 : 1;
+  const travel = (LEAN / 100) * p.width;
+  if (direction === -1 && p.x - travel < 0) return 0;
+  if (direction === 1 && p.x + p.width + travel > 100) return 0;
+  return direction;
+};
+
+/* The widest a print is ever painted is ~380 CSS px (62 % of a ~600 px column on
+ * a phone), so 760 covers a 2x screen and there is no reason to ship more.
+ * `sizes` mirrors the two arrangements in the stylesheet below. */
+const WIDTHS = [320, 480, 760];
+const SIZES = '(max-width: 640px) 60vw, 350px';
+---
+
+<div class="pile-wrap">
+  <div class="pile" data-cycle-ms={cycleMs}>
+    {photos.map(({ entry, image }, index) => (
+      <Image
+        class="pile-photo"
+        src={image}
+        alt={entry.alt[lang]}
+        widths={WIDTHS}
+        sizes={SIZES}
+        loading="lazy"
+        decoding="async"
+        style={`
+          --x: ${entry.wide.x}%; --y: ${entry.wide.y}%;
+          --w: ${entry.wide.width}%; --r: ${entry.wide.rotate}deg;
+          --out: ${dealLean(entry.wide)};
+          --mx: ${entry.narrow.x}%; --my: ${entry.narrow.y}%;
+          --mw: ${entry.narrow.width}%; --mr: ${entry.narrow.rotate}deg;
+          --mout: ${dealLean(entry.narrow)};
+          z-index: ${index + 1};
+        `}
+      />
+    ))}
+  </div>
+</div>
+
+<script>
+  /* Cycle the pile: the print on top is dealt to the bottom, so the one beneath it
+   * comes out, and so on around the deck.
+   *
+   * Dealt, not merely restacked. `z-index` interpolates discretely — a transition
+   * on it jumps halfway through — so the order can only ever change in one frame.
+   * The move is hidden by taking the print out of the pile first: it slides clear,
+   * the stack is rotated underneath it while nothing overlaps, and it slides back
+   * in at the bottom. Two phases, one class: adding it animates outwards, removing
+   * it animates home, and the two legs get their own durations in the stylesheet.
+   *
+   * Every page bundles this script, so the pile may well be absent; and there can
+   * in principle be more than one on a page, hence the loop.
+   */
+  const DEAL_OUT_MS = 220;
+  const DEAL_BACK_MS = 260;
+
+  for (const pile of document.querySelectorAll<HTMLElement>('.pile')) {
+    const photos = [...pile.querySelectorAll<HTMLElement>('.pile-photo')];
+    if (photos.length < 2) continue;
+
+    const period = Number(pile.dataset.cycleMs) || 3000;
+
+    /* An automatically updating presentation is exactly what this preference is
+     * about, so leave the pile as it was authored. */
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) continue;
+
+    const top = photos.length;
+    const restack = () => {
+      for (const photo of photos) {
+        const z = Number(photo.style.zIndex);
+        photo.style.zIndex = String(z === top ? 1 : z + 1);
+      }
+    };
+
+    /* Guards against a second deal starting mid-flight, which a cycleMs shorter
+     * than the animation would otherwise do. */
+    let dealing = false;
+    const step = () => {
+      if (dealing) return;
+      const outgoing = photos.find(photo => Number(photo.style.zIndex) === top);
+      if (!outgoing) return restack();
+      dealing = true;
+      outgoing.classList.add('is-dealing');
+      window.setTimeout(() => {
+        /* Clear of the pile: rotating the stack here is invisible. */
+        restack();
+        outgoing.classList.remove('is-dealing');
+        window.setTimeout(() => {
+          dealing = false;
+        }, DEAL_BACK_MS);
+      }, DEAL_OUT_MS);
+    };
+
+    let timer: ReturnType<typeof setInterval> | null = null;
+    const start = () => {
+      if (timer === null) timer = setInterval(step, period);
+    };
+    const stop = () => {
+      if (timer !== null) {
+        clearInterval(timer);
+        timer = null;
+      }
+    };
+
+    /* Hovering lifts a print to the front; cycling underneath the pointer would
+     * fight that, and pull the picture someone is looking at out from under them.
+     * Focus counts too, for anyone tabbing through. */
+    pile.addEventListener('pointerenter', stop);
+    pile.addEventListener('pointerleave', start);
+    pile.addEventListener('focusin', stop);
+    pile.addEventListener('focusout', start);
+
+    /* No reason to run a timer for a pile nobody can see. */
+    new IntersectionObserver(
+      entries => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) start();
+          else stop();
+        }
+      },
+      { threshold: 0 }
+    ).observe(pile);
+  }
+</script>
+
+<style>
+  /* Rotated corners reach outside the container, so the pile gets room around
+     it rather than clipping — nothing here is meant to be cut off. */
+  .pile-wrap {
+    margin: 8px 0 40px;
+  }
+
+  .pile {
+    /* Kept in step with DEAL_OUT_MS / DEAL_BACK_MS in the script. */
+    --deal-out: 220ms;
+    --deal-back: 260ms;
+
+    position: relative;
+    /* Height comes from the width, so the percentage offsets stay in proportion
+       at every column width. Tuned so the lowest photo reaches the bottom edge —
+       any taller and the pile trails a band of empty page. */
+    aspect-ratio: 1.9 / 1;
+  }
+
+  .pile-photo {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--w);
+    height: auto;
+    rotate: var(--r);
+    /* The return leg of the deal. `translate` is its own property here, so it
+       animates without touching the authored `rotate`. Spelled out as 0 rather
+       than left at the initial `none`: interpolating to and from `none` is not
+       something every engine animates. */
+    translate: 0 0;
+    transition: translate var(--deal-back) ease-in-out;
+    border-radius: var(--radius);
+    /* A white edge reads as a photographic print and keeps two overlapping
+       pictures from bleeding into each other. */
+    border: 6px solid var(--card);
+    box-shadow: var(--shadow-md);
+    background: var(--card);
+  }
+
+  /* Out of the pile, clear of the others, on the way to the bottom. The distance
+     is a share of the print's own width, so a small photo travels less than a big
+     one and the gesture reads the same at every size. Slightly up as well: a print
+     being picked up leaves the table before it moves. */
+  .pile-photo.is-dealing {
+    translate: calc(var(--out) * 6%) 26%;
+    transition-duration: var(--deal-out);
+    transition-timing-function: ease-out;
+  }
+
+  /* Lift a photo to the top and straighten it a little when pointed at. Only
+     where hovering is a real gesture — on touch it would never be seen. */
+  @media (hover: hover) {
+    .pile-photo {
+      transition:
+        translate var(--deal-back) ease-in-out,
+        rotate 0.25s ease-out,
+        scale 0.25s ease-out;
+    }
+    .pile-photo:hover {
+      rotate: calc(var(--r) / 3);
+      scale: 1.04;
+      z-index: 10 !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pile-photo {
+      transition: none;
+    }
+  }
+
+  /* Narrow screens: the wide arrangement would shrink every print to a stamp,
+     so the pile becomes taller and the photos bigger. */
+  @media (max-width: 640px) {
+    .pile {
+      /* Sized so the cascade in photos.json's `narrow` block ends exactly at the
+         bottom edge — a taller box would leave slack under the last print. The
+         widths are per cent of the *width*, so changing this only compresses the
+         vertical spacing; it does not resize anything. */
+      aspect-ratio: 1.2 / 1;
+    }
+    .pile-photo {
+      left: var(--mx);
+      top: var(--my);
+      width: var(--mw);
+      rotate: var(--mr);
+      border-width: 4px;
+    }
+    .pile-photo.is-dealing {
+      translate: calc(var(--mout) * 6%) 26%;
+    }
+    @media (hover: hover) {
+      .pile-photo:hover {
+        rotate: calc(var(--mr) / 3);
+      }
+    }
+  }
+</style>

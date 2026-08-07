@@ -1,48 +1,28 @@
 ---
-import { getCollection } from 'astro:content';
+/* Home page: logo and a short intro. The workshops and interest groups live on
+ * /vad-vi-gor/. Masthead and intro styles are shared with `/en/` and live in
+ * global.css. */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { postSlug } from '../lib/slug';
-import { homeCards } from '../data/home-cards';
-
-const posts = (await getCollection('posts', ({ data }) => data.lang === 'sv' && !data.draft))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 6);
-
-const dtf = new Intl.DateTimeFormat('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' });
+import PhotoPile from '../components/PhotoPile.astro';
 ---
 <BaseLayout title="Uppsala Makerspace" description="Uppsala Makerspace — skapa, lär, dela." lang="sv">
-  <section class="home-hero">
+  <section class="home-masthead">
     <h1 class="visually-hidden">Uppsala Makerspace</h1>
-    <img class="logo" src="/icons/Logos/SVG/Logo_Complex_Black.svg" alt="Uppsala Makerspace" />
-    <p class="tagline">Skapa, lär, dela.</p>
+    <img class="home-logo" src="/icons/Logos/SVG/Logo_Complex_Black.svg" alt="Uppsala Makerspace" />
   </section>
 
-  <aside class="notice">
-    <strong>Befintlig medlem?</strong> Vi har precis lanserat vår nya app.
-    <a href="/byta-till-appen/">Så här byter du till appen →</a>
-  </aside>
+  <div class="home-intro">
+    <p>
+      Uppsala Makerspace är en ideell förening med en verkstad i Ekebybruk, väster om Uppsala
+      centrum. Här finns maskiner, verktyg och plats att skapa — på egen hand eller tillsammans
+      med andra som gärna delar med sig av vad de kan.
+    </p>
+    <p>
+      Alla är välkomna. Kom och hälsa på en <a href="/kalender/">öppen kväll</a>, läs mer om
+      <a href="/lokalen/">lokalen och hur du hittar hit</a>, eller
+      <a href="/bli-medlem/">bli medlem</a> om du vill kunna komma och gå som du vill.
+    </p>
+  </div>
 
-  <section class="card-grid">
-    {homeCards.map(card => (
-      <a class="card" href={card.href.sv}>
-        <span class="icon" aria-hidden="true">{card.icon}</span>
-        <h2>{card.label.sv}</h2>
-        <p>{card.blurb.sv}</p>
-      </a>
-    ))}
-
-    <article class="card card-news">
-      <span class="icon" aria-hidden="true">📰</span>
-      <h2><a href="/nyheter/">Senaste nyheter</a></h2>
-      <ul>
-        {posts.map(post => (
-          <li>
-            <time datetime={post.data.date.toISOString()}>{dtf.format(post.data.date)}</time>
-            <a href={`/nyheter/${postSlug(post)}/`}>{post.data.title}</a>
-          </li>
-        ))}
-      </ul>
-      <a class="see-all" href="/nyheter/">Alla nyheter →</a>
-    </article>
-  </section>
+  <PhotoPile lang="sv" />
 </BaseLayout>

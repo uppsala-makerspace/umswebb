@@ -1,6 +1,9 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import MarkdownGallery from '../components/MarkdownGallery.astro';
+import FloorMapEmbed from '../components/FloorMapEmbed.astro';
+import BoardList from '../components/BoardList.astro';
 import { pageSlug } from '../lib/slug';
 import { primaryNav } from '../data/nav';
 
@@ -21,10 +24,18 @@ const { Content } = await render(page);
 const pageHref = `/${pageSlug(page)}/`;
 const navItem = primaryNav.find(n => !n.external && n.href.sv === pageHref);
 const heading = navItem?.label.sv ?? page.data.title;
+
+// The map ships a JSON blob of every room plus its script, so only pages that
+// actually embed one pay for it.
+const hasFloorMap = page.body?.includes('data-floor-map') ?? false;
+const hasBoard = page.body?.includes('data-board') ?? false;
 ---
 <BaseLayout title={heading} description={page.data.description} lang="sv" prose>
   <article>
     <h1>{heading}</h1>
     <Content />
   </article>
+  <MarkdownGallery lang="sv" />
+  {hasFloorMap && <FloorMapEmbed lang="sv" />}
+  {hasBoard && <BoardList lang="sv" />}
 </BaseLayout>

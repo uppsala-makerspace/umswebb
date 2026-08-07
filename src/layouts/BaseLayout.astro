@@ -58,10 +58,6 @@ const layoutClass = prose ? 'layout prose' : 'layout';
         aria-expanded="false"
         aria-label={openMenuLabel}
       ><span class="icon" aria-hidden="true">☰</span></button>
-      <a href={homeHref} class="brand-wordmark">
-        <img src="/Stamp/SVG/Makerspace stamp.svg" alt="" />
-        <span>Uppsala Makerspace</span>
-      </a>
       <div class="site-header-controls">
         <button type="button" class="theme-toggle" data-theme-toggle aria-label={themeToggleLabel}>
           <span class="icon" aria-hidden="true">🌙</span>
@@ -72,6 +68,11 @@ const layoutClass = prose ? 'layout prose' : 'layout';
 
     <div class="app-shell">
       <aside class="sidebar" id="primary-nav" aria-label={lang === 'sv' ? 'Huvudmeny' : 'Main menu'}>
+        <a href={homeHref} class="brand-wordmark">
+          <img src="/Stamp/SVG/Makerspace stamp.svg" alt="" />
+          <span>Uppsala Makerspace</span>
+        </a>
+
         <nav class="primary">
           <ul>
             {primaryNav.map((item, i) => {
@@ -94,6 +95,15 @@ const layoutClass = prose ? 'layout prose' : 'layout';
           </ul>
         </nav>
 
+        {/* Desktop home for the theme and language controls — the header is
+            hidden at that breakpoint, and these are hidden on mobile where the
+            header carries them instead. */}
+        <div class="sidebar-footer">
+          <button type="button" class="theme-toggle" data-theme-toggle aria-label={themeToggleLabel}>
+            <span class="icon" aria-hidden="true">🌙</span>
+          </button>
+          <a class="lang-switcher" href={otherHref} hreflang={otherLang}>{otherLabel}</a>
+        </div>
       </aside>
 
       <main class={layoutClass}>

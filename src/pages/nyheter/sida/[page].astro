@@ -30,12 +30,11 @@ const nextHref = currentPage < totalPages ? `/nyheter/sida/${currentPage + 1}/` 
 <BaseLayout title={`Nyheter — sida ${currentPage} — Uppsala Makerspace`} description="Nyheter från Uppsala Makerspace." lang="sv">
   <h1>Nyheter</h1>
   <p><small>Sida {currentPage} av {totalPages}</small></p>
-  <ul>
+  <ul class="news-list">
     {posts.map(post => (
       <li>
+        <time datetime={post.data.date.toISOString()}>{dtf.format(post.data.date)}</time>
         <a href={`/nyheter/${postSlug(post)}/`}>{post.data.title}</a>
-        <br />
-        <small><time datetime={post.data.date.toISOString()}>{dtf.format(post.data.date)}</time></small>
       </li>
     ))}
   </ul>

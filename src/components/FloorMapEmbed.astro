@@ -1,0 +1,344 @@
+---
+/* Floor map of the space, for `<div data-floor-map></div>` in markdown content.
+ * Follows the member app's FloorMap component (umsme/app/imports/components/
+ * FloorMap/): two stacked floor plans, click the one behind to switch, room
+ * icons dropped on the SVG's marker circles, and a pulse on the selected room.
+ *
+ * Renders no visible markup of its own — the skeleton sits in a <template> so it
+ * can be server-rendered and translated here rather than built in JavaScript,
+ * and the script clones it into the placeholder div. */
+import { getFloorMap } from '../lib/entries';
+import type { Locale } from '../lib/entries';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const map = await getFloorMap();
+
+const LABELS = {
+  sv: {
+    region: 'Karta över lokalen',
+    floor: 'Våning',
+    switchTo: (n: number) => `Visa våning ${n}`,
+    hint: 'Välj ett rum i kartan.',
+    keys:
+      'Använd vänster- och högerpil för att stega mellan rummen på våningen, ' +
+      'uppåt- och nedåtpil för att byta våning.',
+    workshop: 'Verkstad',
+    groups: 'Grupper',
+    trial: 'På prov',
+    fallback: 'Planritning över lokalen.',
+  },
+  en: {
+    region: 'Map of our space',
+    floor: 'Floor',
+    switchTo: (n: number) => `Show floor ${n}`,
+    hint: 'Pick a room on the map.',
+    keys:
+      'Use left and right arrow keys to step through the rooms on this floor, ' +
+      'up and down to change floor.',
+    workshop: 'Workshop',
+    groups: 'Groups',
+    trial: 'Trial',
+    fallback: 'Floor plan of our space.',
+  },
+};
+const t = LABELS[lang];
+
+// The client only needs the localised strings, so flatten now rather than
+// shipping both languages.
+const data = {
+  palette: map.palette,
+  labels: { workshop: t.workshop, groups: t.groups, trial: t.trial, hint: t.hint },
+  floors: map.floors.map(floor => ({
+    key: floor.key,
+    rooms: floor.rooms.map(room => ({
+      spaceId: room.spaceId,
+      name: room.name[lang],
+      text: room.text?.[lang] ?? '',
+      icon: room.icon ?? '',
+      iconSize: room.iconSize ?? 120,
+      workshop: room.workshop
+        ? { name: room.workshop.name[lang], status: room.workshop.status ?? '' }
+        : null,
+      groups: room.groups.map(group => group.name[lang]),
+    })),
+  })),
+};
+---
+<script type="application/json" data-floor-map-data set:html={JSON.stringify(data)} />
+
+<template data-floor-map-template>
+  <div class="fm" data-active-floor="2" role="group" aria-label={t.region}>
+    {/* Focusable so the rooms are reachable without a mouse: the drawings live in
+        their own documents via <object>, so nothing inside them can be tabbed
+        to. Arrow keys drive the selection instead — see the script. */}
+    <div class="fm-stage" tabindex="0" aria-describedby="fm-keys">
+      <p class="visually-hidden" id="fm-keys">{t.keys}</p>
+
+      <div class="fm-switch">
+        {[2, 1].map(n => (
+          <button type="button" class="fm-switch-item" data-floor-button={`floor${n}`}>
+            <span class="visually-hidden">{t.switchTo(n)}</span>
+            <span aria-hidden="true">{`${t.floor} ${n}`}</span>
+          </button>
+        ))}
+      </div>
+
+      <div class="fm-floors">
+        {map.floors.map((floor, i) => (
+          <div class="fm-floor" data-floor={floor.key}>
+            <object
+              type="image/svg+xml"
+              data={floor.svg}
+              data-floor-svg={floor.key}
+              tabindex="-1"
+            >
+              {`${t.fallback} ${t.floor} ${i + 1}`}
+            </object>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Live region so arrow-key stepping is announced, not just drawn. */}
+    <p class="fm-panel" data-floor-map-panel aria-live="polite">{t.hint}</p>
+  </div>
+</template>
+
+<script>
+  type Room = {
+    spaceId: string;
+    name: string;
+    text: string;
+    icon: string;
+    iconSize: number;
+    workshop: { name: string; status: string } | null;
+    groups: string[];
+  };
+  type MapData = {
+    palette: Record<string, string>;
+    labels: { workshop: string; groups: string; trial: string; hint: string };
+    floors: { key: string; rooms: Room[] }[];
+  };
+
+  const FLOOR_SUFFIX = '-floor';
+  const PULSE_COLOR = '#5fc86f';
+
+  const dataEl = document.querySelector('[data-floor-map-data]');
+  const template = document.querySelector<HTMLTemplateElement>('[data-floor-map-template]');
+  const mounts = document.querySelectorAll<HTMLElement>('[data-floor-map]');
+  if (dataEl && template && mounts.length) {
+    const data = JSON.parse(dataEl.textContent ?? '{}') as MapData;
+
+    mounts.forEach(mount => {
+      mount.replaceChildren(template.content.cloneNode(true));
+      const root = mount.querySelector<HTMLElement>('.fm');
+      const panel = mount.querySelector<HTMLElement>('[data-floor-map-panel]');
+      if (!root || !panel) return;
+
+      const roomsByFloor = new Map(data.floors.map(floor => [floor.key, floor.rooms]));
+      let activeFloor = root.dataset.activeFloor === '1' ? 'floor1' : 'floor2';
+      let selected: { floor: string; spaceId: string } | null = null;
+
+      const svgDoc = (floor: string) =>
+        mount.querySelector<HTMLObjectElement>(`[data-floor-svg="${floor}"]`)?.contentDocument ??
+        null;
+
+      // Icons go in as <image href> pointing at the icon URL rather than being
+      // inlined: they stay vector but sandboxed, so an icon's own styles can't
+      // bleed into the floor plan. Centre on the marker circle.
+      function placeIcon(doc: Document, room: Room) {
+        const marker = doc.getElementById(`${room.spaceId}-marker`);
+        if (!marker || marker.dataset.iconPlaced) return;
+        const cx = parseFloat(marker.getAttribute('cx') ?? '');
+        const cy = parseFloat(marker.getAttribute('cy') ?? '');
+        marker.dataset.iconPlaced = 'true';
+        (marker as unknown as SVGElement).style.display = 'none';
+        if (!room.icon || Number.isNaN(cx) || Number.isNaN(cy)) return;
+        const size = room.iconSize;
+        const image = doc.createElementNS('http://www.w3.org/2000/svg', 'image');
+        image.setAttribute('href', room.icon);
+        image.setAttribute('x', String(cx - size / 2));
+        image.setAttribute('y', String(cy - size / 2));
+        image.setAttribute('width', String(size));
+        image.setAttribute('height', String(size));
+        image.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        image.style.pointerEvents = 'none';
+        marker.parentNode?.appendChild(image);
+      }
+
+      // The pulse is @keyframes with only a 50% step, injected into the SVG
+      // document: it animates from the room's own fill and back, so we never
+      // need to know the base colour.
+      function pulse(floor: string) {
+        const doc = svgDoc(floor);
+        if (!doc) return;
+        doc.querySelectorAll<SVGElement>('[data-space-pulsing]').forEach(el => {
+          if (selected?.floor !== floor || el.id !== `${selected.spaceId}${FLOOR_SUFFIX}`) {
+            el.style.animation = '';
+            delete el.dataset.spacePulsing;
+          }
+        });
+        if (selected?.floor !== floor) return;
+        const target = doc.getElementById(`${selected.spaceId}${FLOOR_SUFFIX}`) as SVGElement | null;
+        if (!target || target.dataset.spacePulsing) return;
+        let style = doc.getElementById('fm-pulse');
+        if (!style) {
+          style = doc.createElementNS('http://www.w3.org/2000/svg', 'style');
+          style.id = 'fm-pulse';
+          style.textContent = `@keyframes fmPulse { 50% { fill: ${PULSE_COLOR}; } }`;
+          doc.documentElement.appendChild(style);
+        }
+        target.dataset.spacePulsing = 'true';
+        target.style.animation = 'fmPulse 1.6s ease-in-out infinite';
+      }
+
+      function describe(room: Room) {
+        const parts = [`<strong>${room.name}</strong>`];
+        if (room.text) parts.push(room.text);
+        if (room.workshop) {
+          const trial =
+            room.workshop.status === 'trial' ? ` <em>(${data.labels.trial})</em>` : '';
+          parts.push(`${data.labels.workshop}: ${room.workshop.name}${trial}`);
+        }
+        if (room.groups.length) {
+          parts.push(`${data.labels.groups}: ${room.groups.join(', ')}`);
+        }
+        panel!.innerHTML = parts.join('<br />');
+      }
+
+      function select(floor: string, spaceId: string) {
+        const room = roomsByFloor.get(floor)?.find(r => r.spaceId === spaceId);
+        if (!room) return;
+        // spaceId alone is ambiguous — kitchen, entrance and boxstorage exist on
+        // both floors — so selection always travels as (floor, spaceId).
+        selected = { floor, spaceId };
+        if (floor !== activeFloor) setFloor(floor);
+        describe(room);
+        // Both floors: `pulse` clears whatever no longer matches the selection,
+        // so the room picked before switching floors stops pulsing behind.
+        data.floors.forEach(f => pulse(f.key));
+      }
+
+      const otherFloor = (floor: string) =>
+        data.floors.find(f => f.key !== floor)?.key ?? floor;
+
+      function setFloor(floor: string) {
+        activeFloor = floor;
+        root!.dataset.activeFloor = floor === 'floor1' ? '1' : '2';
+        mount.querySelectorAll<HTMLElement>('[data-floor]').forEach(el => {
+          el.classList.toggle('is-active', el.dataset.floor === floor);
+        });
+        mount.querySelectorAll<HTMLElement>('[data-floor-button]').forEach(el => {
+          el.setAttribute('aria-pressed', el.dataset.floorButton === floor ? 'true' : 'false');
+        });
+      }
+
+      function setupFloor(floor: string) {
+        const doc = svgDoc(floor);
+        if (!doc) return;
+        // Hide every marker: rooms we know get an icon in its place, and the
+        // drawings contain a couple of elements with no matching space
+        // (ventilationshaft, ventilation_shaft) that should stay plain.
+        doc.querySelectorAll<SVGElement>('[id$="-marker"]').forEach(marker => {
+          marker.style.display = 'none';
+        });
+        (roomsByFloor.get(floor) ?? []).forEach(room => placeIcon(doc, room));
+
+        doc.querySelectorAll<SVGElement>(`[id$="${FLOOR_SUFFIX}"]`).forEach(el => {
+          const spaceId = el.id.slice(0, -FLOOR_SUFFIX.length);
+          if (!roomsByFloor.get(floor)?.some(room => room.spaceId === spaceId)) return;
+          el.style.cursor = 'pointer';
+          el.addEventListener('click', event => {
+            // On the floor behind, any click just brings that floor forward.
+            if (floor === activeFloor) {
+              event.stopPropagation();
+              select(floor, spaceId);
+            }
+          });
+        });
+
+        // Anywhere that isn't a room switches floors: the drawing behind comes
+        // forward, and the background of the one in front sends it back. Room
+        // clicks stop propagating, so they never reach this.
+        doc.addEventListener('click', () => {
+          setFloor(floor === activeFloor ? otherFloor(floor) : floor);
+        });
+        pulse(floor);
+      }
+
+      mount.querySelectorAll<HTMLObjectElement>('[data-floor-svg]').forEach(object => {
+        const floor = object.dataset.floorSvg!;
+        if (object.contentDocument?.readyState === 'complete') setupFloor(floor);
+        object.addEventListener('load', () => setupFloor(floor));
+      });
+
+      const stage = mount.querySelector<HTMLElement>('.fm-stage');
+
+      // The drawings live in their own documents, so their clicks never reach
+      // this one — the frame needs its own handler for the area beside them.
+      stage?.addEventListener('click', () => {
+        setFloor(otherFloor(activeFloor));
+      });
+
+      // Left/right steps through the rooms on the floor in front, up/down changes
+      // floor — up is the upper floor. Nothing inside the <object>s can hold
+      // focus, so this is the only way to reach a room from the keyboard.
+      function step(delta: number) {
+        const rooms = roomsByFloor.get(activeFloor) ?? [];
+        if (!rooms.length) return;
+        const current =
+          selected?.floor === activeFloor
+            ? rooms.findIndex(room => room.spaceId === selected!.spaceId)
+            : -1;
+        const next =
+          current === -1
+            ? delta > 0
+              ? 0
+              : rooms.length - 1
+            : (current + delta + rooms.length) % rooms.length;
+        select(activeFloor, rooms[next].spaceId);
+      }
+
+      stage?.addEventListener('keydown', event => {
+        const rooms = roomsByFloor.get(activeFloor) ?? [];
+        switch (event.key) {
+          case 'ArrowRight':
+            step(1);
+            break;
+          case 'ArrowLeft':
+            step(-1);
+            break;
+          case 'ArrowUp':
+          case 'ArrowDown':
+            setFloor(event.key === 'ArrowUp' ? 'floor2' : 'floor1');
+            break;
+          case 'Home':
+            if (rooms.length) select(activeFloor, rooms[0].spaceId);
+            break;
+          case 'End':
+            if (rooms.length) select(activeFloor, rooms[rooms.length - 1].spaceId);
+            break;
+          default:
+            return;
+        }
+        // Only once a key was actually handled, so the page still scrolls with
+        // the arrows when the map has nothing to do with it.
+        event.preventDefault();
+      });
+
+      mount.querySelectorAll<HTMLButtonElement>('[data-floor-button]').forEach(button => {
+        button.addEventListener('click', event => {
+          // Otherwise the stage handler above would toggle straight back.
+          event.stopPropagation();
+          setFloor(button.dataset.floorButton!);
+        });
+      });
+
+      setFloor(activeFloor);
+    });
+  }
+</script>

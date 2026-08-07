@@ -1,0 +1,280 @@
+---
+/* The board and the other elected posts, one year at a time, with arrows to step
+ * through the years.
+ *
+ * The data is `src/data/boards.json`: an array of `{ year, members }`, newest or
+ * oldest order does not matter — they are sorted here. Adding a year is adding an
+ * entry; nothing in this file needs touching. Positions are validated against the
+ * list below, so a typo fails the build instead of quietly rendering an
+ * unlabelled row.
+ *
+ * Embedded from markdown as `<div data-board></div>`, the same placeholder pattern
+ * as the floor map: markdown cannot contain components, so the markup is
+ * server-rendered into a <template> and the script clones it into the
+ * placeholder. A <noscript> copy of the newest year keeps the names on the page
+ * for anyone without JavaScript. */
+import { z } from 'astro:content';
+import boards from '../data/boards.json';
+
+interface Props {
+  lang: 'sv' | 'en';
+}
+const { lang } = Astro.props;
+
+/* Rendering order, and the label each position gets. Two forms, because
+ * "Revisorer" reads wrong for a single auditor. `ordinarie` is accepted as an
+ * alias for `ledamot` so either word works in the json. */
+const POSITIONS = {
+  'ordförande': { sv: ['Ordförande', 'Ordförande'], en: ['Chair', 'Chairs'] },
+  'vice-ordförande': { sv: ['Vice ordförande', 'Vice ordförande'], en: ['Vice chair', 'Vice chairs'] },
+  'kassör': { sv: ['Kassör', 'Kassörer'], en: ['Treasurer', 'Treasurers'] },
+  'sekreterare': { sv: ['Sekreterare', 'Sekreterare'], en: ['Secretary', 'Secretaries'] },
+  'ledamot': { sv: ['Ledamot', 'Ledamöter'], en: ['Board member', 'Board members'] },
+  'suppleant': { sv: ['Suppleant', 'Suppleanter'], en: ['Deputy', 'Deputies'] },
+  'revisor': { sv: ['Revisor', 'Revisorer'], en: ['Auditor', 'Auditors'] },
+  'valberedning': { sv: ['Valberedning', 'Valberedning'], en: ['Nominating committee', 'Nominating committee'] },
+} as const;
+
+type Position = keyof typeof POSITIONS;
+const ORDER = Object.keys(POSITIONS) as Position[];
+
+/* The board itself, and then the posts elected by the members but outside it —
+ * a faint rule between them in the rendering. */
+const BOARD: Position[] = ['ordförande', 'vice-ordförande', 'kassör', 'sekreterare', 'ledamot', 'suppleant'];
+const ELECTED: Position[] = ['revisor', 'valberedning'];
+
+const boardSchema = z.array(
+  z.object({
+    year: z.number().int(),
+    members: z.array(
+      z.object({
+        name: z.string(),
+        position: z
+          .enum([...ORDER, 'ordinarie'] as [string, ...string[]])
+          .transform(p => (p === 'ordinarie' ? 'ledamot' : p) as Position),
+        /* For a qualifier that is not a position of its own — a deputy on the
+         * nominating committee, say. Shown in brackets after the name. A bare
+         * string is used as-is in both languages; give it `{ sv, en }` to have
+         * it translated. */
+        note: z.union([z.string(), z.object({ sv: z.string(), en: z.string() })]).optional(),
+      })
+    ),
+  })
+);
+
+/* Newest first: that is the one shown, and stepping left goes back in time. */
+const years = boardSchema.parse(boards).sort((a, b) => b.year - a.year);
+
+type Member = { name: string; position: Position; note?: string | { sv: string; en: string } };
+
+const noteText = (note: Member['note']) =>
+  typeof note === 'string' ? note : note?.[lang];
+
+const rowsFor = (members: Member[], positions: Position[]) =>
+  positions
+    .map(position => ({
+      position,
+      names: members
+        .filter(m => m.position === position)
+        .map(m => (m.note ? `${m.name} (${noteText(m.note)})` : m.name)),
+    }))
+    .filter(row => row.names.length > 0);
+
+const grouped = years.map(board => ({
+  year: board.year,
+  board: rowsFor(board.members, BOARD),
+  elected: rowsFor(board.members, ELECTED),
+}));
+
+const label = (position: Position, count: number) =>
+  POSITIONS[position][lang][count === 1 ? 0 : 1];
+
+const LABELS = {
+  sv: { region: 'Styrelse och förtroendeposter', prev: 'Tidigare år', next: 'Senare år' },
+  en: { region: 'The board and elected posts', prev: 'Earlier year', next: 'Later year' },
+};
+const t = LABELS[lang];
+---
+<template data-board-template>
+  <div class="bl" role="group" aria-label={t.region}>
+    <div class="bl-head">
+      <button type="button" class="bl-arrow" data-board-prev aria-label={t.prev}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 5 8 12 15 19" /></svg>
+      </button>
+      {/* The year is what changes, so it is the live region. */}
+      <p class="bl-year" data-board-year aria-live="polite">{grouped[0]?.year}</p>
+      <button type="button" class="bl-arrow" data-board-next aria-label={t.next}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 5 16 12 9 19" /></svg>
+      </button>
+    </div>
+
+    {grouped.map((board, i) => (
+      <div class="bl-board" data-board-of={board.year} hidden={i > 0}>
+        <dl class="bl-people">
+          {board.board.map(row => (
+            <>
+              <dt>{label(row.position, row.names.length)}</dt>
+              <dd>{row.names.join(', ')}</dd>
+            </>
+          ))}
+        </dl>
+        {/* Separate list rather than a divider row: a bare div inside a <dl> is
+            not valid, and the rule then spans the column gap too. */}
+        {board.elected.length > 0 && (
+          <dl class="bl-people bl-elected">
+            {board.elected.map(row => (
+              <>
+                <dt>{label(row.position, row.names.length)}</dt>
+                <dd>{row.names.join(', ')}</dd>
+              </>
+            ))}
+          </dl>
+        )}
+      </div>
+    ))}
+  </div>
+</template>
+
+<noscript>
+  <dl class="bl-people">
+    {grouped[0]?.board.map(row => (
+      <>
+        <dt>{label(row.position, row.names.length)}</dt>
+        <dd>{row.names.join(', ')}</dd>
+      </>
+    ))}
+  </dl>
+  <dl class="bl-people bl-elected">
+    {grouped[0]?.elected.map(row => (
+      <>
+        <dt>{label(row.position, row.names.length)}</dt>
+        <dd>{row.names.join(', ')}</dd>
+      </>
+    ))}
+  </dl>
+</noscript>
+
+<script>
+  /* Step through the years. Every year is server-rendered and all but the newest
+   * start `hidden`, so this only moves the visibility and the label. */
+  const template = document.querySelector<HTMLTemplateElement>('[data-board-template]');
+  const mounts = document.querySelectorAll<HTMLElement>('[data-board]');
+
+  if (template && mounts.length) {
+    mounts.forEach(mount => {
+      mount.replaceChildren(template.content.cloneNode(true));
+      const years = Array.from(mount.querySelectorAll<HTMLElement>('[data-board-of]'));
+      const yearLabel = mount.querySelector<HTMLElement>('[data-board-year]');
+      const prev = mount.querySelector<HTMLButtonElement>('[data-board-prev]');
+      const next = mount.querySelector<HTMLButtonElement>('[data-board-next]');
+      if (!years.length || !yearLabel || !prev || !next) return;
+
+      // Rendered newest first, so "one step later in time" is one index back.
+      let index = 0;
+
+      function show(i: number) {
+        index = Math.max(0, Math.min(years.length - 1, i));
+        years.forEach((el, y) => {
+          el.hidden = y !== index;
+        });
+        yearLabel!.textContent = years[index].dataset.boardOf ?? '';
+        // Hand focus over before disabling the button it sits on, or it drops to
+        // the body mid-click.
+        if (index === years.length - 1 && document.activeElement === prev) next!.focus();
+        if (index === 0 && document.activeElement === next) prev!.focus();
+        prev!.disabled = index === years.length - 1;
+        next!.disabled = index === 0;
+      }
+
+      prev.addEventListener('click', () => show(index + 1));
+      next.addEventListener('click', () => show(index - 1));
+      show(0);
+    });
+  }
+</script>
+
+<style>
+  .bl {
+    margin: 1.2rem 0 1.6rem;
+  }
+  .bl-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .bl-year {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .bl-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .bl-arrow:hover:not(:disabled) {
+    border-color: var(--brand-amber);
+    background: var(--brand-amber-soft);
+  }
+  .bl-arrow:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+  .bl-arrow svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.25;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Role, then the names holding it. Two columns where there is room, stacked on
+     a narrow screen — a fixed label column would squeeze the names. */
+  .bl-people {
+    display: grid;
+    grid-template-columns: minmax(9em, max-content) 1fr;
+    gap: 6px 18px;
+    margin: 0;
+  }
+  /* Belt and braces: `hidden` is only a user-agent `display: none`, so any author
+     `display` on these would beat it and put every year on the page at once. */
+  .bl-board[hidden],
+  .bl-people[hidden] {
+    display: none;
+  }
+  /* The posts elected outside the board, set off by a faint rule. */
+  .bl-elected {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .bl-people dt {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    padding-top: 0.15em;
+  }
+  .bl-people dd {
+    margin: 0;
+  }
+  @media (max-width: 460px) {
+    .bl-people {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+    .bl-people dd {
+      margin-bottom: 8px;
+    }
+  }
+</style>

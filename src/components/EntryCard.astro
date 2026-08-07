@@ -1,0 +1,162 @@
+---
+/* One card for a workshop or a group: icon + name, photo, description. Icon,
+ * photo and text all come from the members API (cached locally at build time).
+ * Icon and photo are both optional — not every entry has them yet.
+ * Presentational only for now — the `id` on the article doubles as an anchor
+ * and as the hook for giving each entry its own page later. */
+import type { Entry, Locale } from '../lib/entries';
+import { toParagraphs } from '../lib/richtext';
+
+interface Props {
+  entry: Entry;
+  lang: Locale;
+}
+
+const { entry, lang } = Astro.props;
+const paragraphs = toParagraphs(entry.text[lang]);
+
+// What kind of thing this is, shown under the title. Derived from `kind` and,
+// for groups, `type` — so a function group would be labelled correctly even
+// though we only present interest groups today.
+const KIND_LABELS = {
+  workshop: { sv: 'Verkstad', en: 'Workshop' },
+  interest: { sv: 'Intressegrupp', en: 'Interest group' },
+  function: { sv: 'Arbetsgrupp', en: 'Working group' },
+};
+const kindKey =
+  entry.kind === 'workshop' ? 'workshop' : entry.type === 'function' ? 'function' : 'interest';
+const kindLabel = KIND_LABELS[kindKey][lang];
+
+// Workshops on trial get a corner ribbon.
+const trialLabel = entry.status === 'trial' ? { sv: 'På prov', en: 'Trial' }[lang] : null;
+---
+<article class="vk-card" id={entry.id}>
+  {trialLabel && <span class="vk-trial">{trialLabel}</span>}
+  <div class="vk-head">
+    {entry.icon && (
+      <span class="vk-icon" aria-hidden="true">
+        <img src={entry.icon} alt="" />
+      </span>
+    )}
+    <div class="vk-titles">
+      <h3>{entry.name[lang]}</h3>
+      <p class="vk-kind">{kindLabel}</p>
+    </div>
+  </div>
+  {entry.image && (
+    <img
+      class="vk-photo"
+      src={entry.image}
+      alt={entry.imageAlt[lang]}
+      loading="lazy"
+      decoding="async"
+    />
+  )}
+  <div class="vk-text">
+    {paragraphs.map(html => <p set:html={html} />)}
+  </div>
+</article>
+
+<style>
+  .vk-card {
+    /* Icon geometry: the graphic, and the white space around it. The plate is
+     * the sum of the two. */
+    --vk-icon-size: 78px;
+    --vk-icon-inset: 20px;
+    --vk-icon-plate: calc(var(--vk-icon-size) + var(--vk-icon-inset) * 2);
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  /* The plate sits in the flow, so the header is as tall as the plate and
+   * nothing reaches down over the photo. `min-height` keeps headers equal on
+   * entries that have no icon. */
+  .vk-head {
+    display: flex;
+    align-items: center;
+    min-height: var(--vk-icon-plate);
+  }
+  .vk-titles {
+    padding: 14px 20px 14px 12px;
+    min-width: 0;
+  }
+  .vk-titles h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.3;
+  }
+  .vk-kind {
+    margin: 2px 0 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+  /* Corner ribbon: a band wider than the corner, rotated 45°, with the card's
+   * `overflow: hidden` cutting the ends off. */
+  .vk-trial {
+    position: absolute;
+    top: 20px;
+    right: -40px;
+    z-index: 2;
+    width: 150px;
+    padding: 3px 0;
+    transform: rotate(45deg);
+    background: var(--brand-amber);
+    color: #111827;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-align: center;
+  }
+  /* A white plate in the header's top-left corner, rounded only on the inner
+   * corner. White rather than translucent, so the black SVG reads the same in
+   * both themes — hence no dark-mode inversion here. */
+  .vk-icon {
+    display: flex;
+    flex: 0 0 var(--vk-icon-plate);
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    background: #fff;
+    border-radius: 0 0 10px 0;
+  }
+  .vk-icon img {
+    width: var(--vk-icon-size);
+    height: var(--vk-icon-size);
+  }
+  /* Smaller cards, smaller plate — otherwise the title has no room left. */
+  @media (max-width: 767px) {
+    .vk-card {
+      --vk-icon-size: 60px;
+      --vk-icon-inset: 15px;
+    }
+  }
+  /* Fixed ratio + cover keeps portrait photos from stretching the card. */
+  .vk-photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    background: color-mix(in srgb, var(--text) 6%, transparent);
+  }
+  .vk-text {
+    padding: 16px 20px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  .vk-text p {
+    margin: 0 0 0.7rem;
+  }
+  .vk-text p:last-child {
+    margin-bottom: 0;
+  }
+  .vk-text :global(strong) {
+    color: var(--text);
+  }
+</style>

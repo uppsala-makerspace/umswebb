@@ -1,0 +1,44 @@
+[
+  {
+    "year": 2026,
+    "members": [
+      { "name": "Anna Davour", "position": "ordförande" },
+      { "name": "Björn Engström", "position": "vice-ordförande" },
+      { "name": "Manuel Umlauf", "position": "kassör" },
+      { "name": "Agnetha Resin", "position": "sekreterare" },
+      { "name": "Peter Black", "position": "ledamot" },
+      { "name": "Elias Helou", "position": "ledamot" },
+      { "name": "Matthias Palmér", "position": "ledamot" },
+      { "name": "Magnus Blikstad", "position": "ledamot" },
+      { "name": "Lars van der Nat", "position": "suppleant" },
+      { "name": "Anna Svanqvist", "position": "suppleant" },
+      { "name": "Marcus Warme", "position": "suppleant" },
+      { "name": "Eleonor Grenholm", "position": "revisor" },
+      { "name": "Tomas Snäckerström", "position": "revisor" },
+      { "name": "Johan Oelrich", "position": "valberedning" },
+      { "name": "Martin Isaksson", "position": "valberedning" },
+      { "name": "Eva Silver Granhall", "position": "valberedning" },
+      { "name": "Jean Helou", "position": "valberedning", "note": { "sv": "suppleant", "en": "deputy" } }
+    ]
+  },
+  {
+    "year": 2025,
+    "members": [
+      { "name": "Anna Davour", "position": "ordförande" },
+      { "name": "Björn Engström", "position": "vice-ordförande" },
+      { "name": "Manuel Umlauf", "position": "kassör" },
+      { "name": "Hanna Rosenblom", "position": "sekreterare" },
+      { "name": "Linus Shoravi", "position": "ledamot" },
+      { "name": "Matthias Palmér", "position": "ledamot" },
+      { "name": "Magnus Blikstad", "position": "ledamot" },
+      { "name": "Sofia Bryntse", "position": "ledamot" },
+      { "name": "Lars van der Nat", "position": "suppleant" },
+      { "name": "Elias Helou", "position": "suppleant" },
+      { "name": "Thomas Carlsson", "position": "revisor" },
+      { "name": "Eleonor Grenholm", "position": "revisor" },
+      { "name": "Magnus Krantz", "position": "valberedning" },
+      { "name": "Tomas Snäckerström", "position": "valberedning" },
+      { "name": "Johan Oelrich", "position": "valberedning" }
+    ]
+  }
+]

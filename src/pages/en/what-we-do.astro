@@ -1,0 +1,22 @@
+---
+/* English mirror of /vad-vi-gor/, see src/pages/vad-vi-gor.astro. */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EntryCarousel from '../../components/EntryCarousel.astro';
+import { getEntries } from '../../lib/entries';
+
+const entries = await getEntries();
+---
+<BaseLayout
+  title="What we do — Uppsala Makerspace"
+  description="The workshops and interest groups at Uppsala Makerspace."
+  lang="en"
+>
+  <h1>What we do</h1>
+  <p>
+    Our workshops are rooms with machines and tools for different materials and
+    techniques. The interest groups gather around a shared interest and are run by
+    the members themselves.
+  </p>
+
+  <EntryCarousel entries={entries} lang="en" />
+</BaseLayout>

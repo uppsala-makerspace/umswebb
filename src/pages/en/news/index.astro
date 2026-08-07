@@ -17,12 +17,11 @@ const dtf = new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'long', d
   ) : (
     <>
       <p><small>Page 1 of {totalPages}</small></p>
-      <ul>
+      <ul class="news-list">
         {posts.map(post => (
           <li>
+            <time datetime={post.data.date.toISOString()}>{dtf.format(post.data.date)}</time>
             <a href={`/en/news/${postSlug(post)}/`}>{post.data.title}</a>
-            <br />
-            <small><time datetime={post.data.date.toISOString()}>{dtf.format(post.data.date)}</time></small>
           </li>
         ))}
       </ul>

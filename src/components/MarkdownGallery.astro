@@ -1,0 +1,95 @@
+---
+/* Turns `<div class="gallery" data-gallery>` blocks inside markdown content into
+ * one-at-a-time carousels. The scrolling and snapping are pure CSS (see
+ * `.gallery` in global.css); this only adds the chevrons and the counter, so a
+ * gallery without JavaScript is still a swipeable row.
+ *
+ * Renders no markup of its own — include it on routes whose content may contain
+ * galleries. */
+interface Props {
+  lang: 'sv' | 'en';
+}
+
+const { lang } = Astro.props;
+const labels =
+  lang === 'sv'
+    ? { prev: 'Föregående bild', next: 'Nästa bild', of: 'av' }
+    : { prev: 'Previous image', next: 'Next image', of: 'of' };
+---
+<script is:inline define:vars={{ labels }}>
+  document.querySelectorAll('[data-gallery]').forEach(track => {
+    const slides = Array.from(track.children);
+    if (slides.length < 2) return;
+
+    // The arrows can't live inside the scroll container — they'd scroll with the
+    // images — so wrap the track in a positioned viewport.
+    const viewport = document.createElement('div');
+    viewport.className = 'gallery-viewport';
+    track.parentNode.insertBefore(viewport, track);
+    viewport.appendChild(track);
+
+    const arrow = (dir, points, label) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = `gallery-arrow gallery-arrow-${dir}`;
+      button.setAttribute('aria-label', label);
+      button.innerHTML =
+        `<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="${points}"/></svg>`;
+      viewport.appendChild(button);
+      return button;
+    };
+    const prev = arrow('prev', '15 5 8 12 15 19', labels.prev);
+    const next = arrow('next', '9 5 16 12 9 19', labels.next);
+
+    const count = document.createElement('p');
+    count.className = 'gallery-count';
+    count.setAttribute('aria-hidden', 'true');
+    viewport.appendChild(count);
+
+    let index = 0;
+
+    function sync(i) {
+      index = i;
+      count.textContent = `${i + 1} ${labels.of} ${slides.length}`;
+      // Hand focus to the opposite arrow before disabling the focused one,
+      // otherwise focus drops to the body.
+      if (i === 0 && document.activeElement === prev) next.focus();
+      if (i === slides.length - 1 && document.activeElement === next) prev.focus();
+      prev.disabled = i === 0;
+      next.disabled = i === slides.length - 1;
+    }
+
+    function goTo(i) {
+      const target = Math.max(0, Math.min(slides.length - 1, i));
+      track.scrollTo({ left: slides[target].offsetLeft - slides[0].offsetLeft });
+      sync(target);
+    }
+
+    prev.addEventListener('click', () => goTo(index - 1));
+    next.addEventListener('click', () => goTo(index + 1));
+
+    // Reveal the chevron for whichever edge the pointer is nearest.
+    const EDGE = 0.33;
+    viewport.addEventListener('pointermove', event => {
+      const bounds = viewport.getBoundingClientRect();
+      const x = (event.clientX - bounds.left) / bounds.width;
+      viewport.dataset.hover = x < EDGE ? 'left' : x > 1 - EDGE ? 'right' : '';
+    });
+    viewport.addEventListener('pointerleave', () => {
+      viewport.dataset.hover = '';
+    });
+
+    // Keeps the counter and arrows right when swiping or scrolling by hand.
+    const observer = new IntersectionObserver(
+      entries => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) sync(slides.indexOf(entry.target));
+        }
+      },
+      { root: track, threshold: 0.6 }
+    );
+    slides.forEach(slide => observer.observe(slide));
+
+    sync(0);
+  });
+</script>

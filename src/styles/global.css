@@ -17,8 +17,8 @@
   --radius: 8px;
   --radius-lg: 16px;
   --header-h: 64px;
-  /* Outer width for the sidebar + content shell. 1100 - 240 sidebar - 40 gap
-   * - 2×20 padding ≈ 780 px content column (matches the tutorial). */
+  /* Reference width for the sidebar + content shell (the shell itself spans the
+   * viewport; `.layout` caps the content column). */
   --content-width: 1100px;
 
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -78,9 +78,9 @@ h1 {
 
 /* === Chrome: header + sidebar (app-shell) ================================== */
 
-/* Always-visible sticky header. Mobile: hamburger + brand wordmark on the
- * left, theme + lang on the right. Desktop: just the controls on the right
- * (brand lives in the sidebar). */
+/* Always-visible sticky header. Mobile: hamburger on the left, theme + lang on
+ * the right. Desktop: just the controls on the right. The brand lives at the
+ * top of the sidebar in both cases. */
 .site-header {
   position: sticky;
   top: 0;
@@ -92,25 +92,6 @@ h1 {
   height: var(--header-h);
   background: var(--card);
   border-bottom: 1px solid var(--border);
-}
-.site-header .brand-wordmark {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  color: var(--text);
-  font-weight: 700;
-  min-width: 0;
-}
-.site-header .brand-wordmark img { height: 30px; width: auto; flex-shrink: 0; }
-[data-theme="dark"] .site-header .brand-wordmark img { filter: invert(1); }
-.site-header .brand-wordmark span {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-@media (max-width: 360px) {
-  .site-header .brand-wordmark span { display: none; }
 }
 .site-header-controls {
   display: flex;
@@ -140,11 +121,11 @@ h1 {
 }
 .nav-toggle .icon { font-size: 1.25rem; line-height: 1; }
 
-/* App shell = sidebar + main grid. The sidebar is pinned to the viewport's
- * left edge; the main column takes the remaining width and centers its
- * content block (see `.layout` below). */
+/* App shell = sidebar + main grid. On mobile the sidebar is an overlay drawer,
+ * so the shell is just the content; on desktop the two columns are centered
+ * together as one block (see the media query below). */
 .app-shell {
-  /* no max-width: shell spans full viewport */
+  /* no max-width on mobile: the shell spans the full viewport */
 }
 
 /* Sidebar — mobile drawer by default. */
@@ -167,7 +148,30 @@ h1 {
 }
 body[data-nav-open="true"] .sidebar { transform: translateX(0); }
 
+/* Brand at the top of the menu column, on both mobile and desktop. The 16px
+ * left padding lines the stamp up with the nav labels (3px accent border +
+ * 13px padding). */
+.sidebar .brand-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  padding: 0 12px 0 16px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 700;
+  line-height: 1.25;
+}
+.sidebar .brand-wordmark img { height: 30px; width: auto; flex-shrink: 0; }
+.sidebar .brand-wordmark span { white-space: nowrap; }
+[data-theme="dark"] .sidebar .brand-wordmark img { filter: invert(1); }
+.sidebar .brand-wordmark:hover { color: var(--brand-green-dark); }
+
 .sidebar nav.primary { flex: 1; }
+
+/* Theme + language at the very bottom of the menu, desktop only (the mobile
+ * header carries its own copy). `nav.primary { flex: 1 }` pushes it down. */
+.sidebar-footer { display: none; }
 .sidebar nav.primary ul {
   list-style: none;
   margin: 0;
@@ -228,26 +232,47 @@ body[data-nav-open="true"] .nav-backdrop {
 }
 body[data-nav-open="true"] { overflow: hidden; }
 
-/* Desktop layout (>= 768px). */
+/* Desktop layout (>= 768px). No header at all here: the brand sits at the top
+ * of the menu and the theme + language controls at the bottom of it. */
 @media (min-width: 768px) {
-  .site-header .nav-toggle { display: none; }
+  .site-header { display: none; }
   .nav-backdrop { display: none; }
+
+  /* Nothing is pinned above the content, so anchor targets only need a little
+   * breathing room. */
+  html { scroll-padding-top: 16px; }
 
   .app-shell {
     display: grid;
-    grid-template-columns: 240px 1fr;
+    /* Wide enough for the brand wordmark to sit on one line beside the stamp. */
+    grid-template-columns: 280px 1fr;
     gap: 40px;
+    /* Menu and content are centered together as one block: the menu column, the
+     * gap, and `.layout`'s own max-width. */
+    max-width: calc(280px + 40px + 828px);
+    margin: 0 auto;
   }
   .sidebar {
     position: sticky;
-    top: var(--header-h);
+    top: 0;
     left: auto;
     transform: none;
     width: auto;
-    height: calc(100vh - var(--header-h));
+    height: 100vh;
+    /* Sits on the page background rather than as its own panel — it's no longer
+     * a rail against the viewport edge, just a column next to the content. */
+    background: none;
     border-right: 1px solid var(--border);
     box-shadow: none;
-    padding: 24px 16px 24px 0;
+    padding: 32px 16px 24px 0;
+  }
+  .sidebar-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 16px 12px 0 16px;
+    border-top: 1px solid var(--border);
   }
 }
 
@@ -302,8 +327,8 @@ body[data-nav-open="true"] { overflow: hidden; }
 @media (min-width: 768px) {
   /* Desktop: claim the full grid track up to max-width, so short-content
    * pages (like the home) don't shrink to fit and end up narrower than
-   * long-text pages. */
-  .layout { width: 100%; }
+   * long-text pages. A bit more top padding since no header sits above. */
+  .layout { width: 100%; padding-top: 32px; }
 }
 @media (max-width: 767px) {
   .layout { max-width: 100%; padding: 16px 20px 32px; }
@@ -356,6 +381,56 @@ body[data-nav-open="true"] { overflow: hidden; }
 }
 .prose pre code { background: transparent; padding: 0; }
 
+/* Tables in content. Browsers give cells no padding at all, which is what makes
+ * a markdown table look squeezed — hairline row separators and real padding is
+ * most of the fix. */
+.prose table {
+  width: 100%;
+  margin: 1.4rem 0;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+.prose th,
+.prose td {
+  padding: 10px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+.prose thead th {
+  /* Heavier rule under the header so the head reads as a head, not a first row. */
+  border-bottom: 2px solid var(--text-muted);
+  font-weight: 600;
+}
+.prose tbody tr:last-child td { border-bottom: none; }
+/* Banding, so the eye can follow a row across to a column of ticks. */
+.prose tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--text) 3.5%, transparent);
+}
+
+/* Two opt-in wrappers for a markdown table — put the table inside
+ * `<div class="…">` with blank lines around it, so remark still parses it.
+ *
+ * `table-center`: the first column is the label and the rest are values — ticks,
+ * prices — which read better centred under their heading.
+ * `table-scroll`: the table cannot squeeze into a phone (a layout table with
+ * images, say), so it scrolls in its own box rather than pushing the whole page
+ * sideways. */
+.table-center,
+.table-scroll {
+  overflow-x: auto;
+}
+.prose .table-center th:not(:first-child),
+.prose .table-center td:not(:first-child) {
+  text-align: center;
+}
+/* Values, unlike their headings, must not wrap: on a narrow screen the browser
+ * would rather break "1 600 kr" over three lines than let the table scroll. */
+.prose .table-center td:not(:first-child) {
+  white-space: nowrap;
+}
+
 /* Notice / banner */
 .notice {
   background: var(--brand-amber-soft);
@@ -382,99 +457,265 @@ body[data-nav-open="true"] { overflow: hidden; }
   border: 0;
 }
 
-/* Home hero */
-.home-hero {
+/* Home masthead — logo only, on both language versions. */
+.home-masthead {
   text-align: center;
-  padding: 24px 0 32px;
+  padding: 24px 0 8px;
 }
-.home-hero img.logo {
+.home-masthead .home-logo {
   display: inline-block;
   width: 100%;
   max-width: 480px;
   height: auto;
 }
-[data-theme="dark"] .home-hero img.logo {
+[data-theme="dark"] .home-masthead .home-logo {
   filter: invert(1);
 }
-.home-hero h1 {
-  font-size: 2.4rem;
-  margin: 0.5rem 0 0.3rem;
-  letter-spacing: -0.01em;
-}
-.home-hero .tagline {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 1.1rem;
-}
 
-/* Home card grid */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  margin: 32px 0;
+/* Intro paragraphs under the logo. Full column width so they line up with the
+ * cards below. */
+.home-intro {
+  margin: 24px 0 40px;
+  text-align: center;
 }
-.card-grid .card {
-  display: block;
+.home-intro p { margin: 0 0 0.9rem; }
+.home-intro p:last-child { margin-bottom: 0; }
+
+/* Floor map — `<div data-floor-map>` in a content file, filled in by
+ * FloorMapEmbed.astro. The stacked look is adapted from the member app's
+ * floorMapStyle.css; the sizing is not. The app constrains to the viewport, we
+ * constrain to a height: floor 1 is 1610×3425 user units, so a width-driven
+ * drawing in a 780 px column would be ~1660 px tall. */
+.fm {
+  /* How far the two floors are offset from each other. The floors' inset is
+   * derived from it, so changing this one value keeps them inside the frame. */
+  --fm-offset: 16px;
+  margin: 1.5rem 0;
+}
+@media (min-width: 640px) {
+  .fm { --fm-offset: 30px; }
+}
+.fm-stage {
   position: relative;
-  padding: 20px;
+  height: clamp(320px, 60vh, 620px);
+  /* The floor behind is offset outwards; clip it at the frame like the app does,
+   * so the bit peeking out reads as a stack rather than as an overflow. */
+  overflow: hidden;
+  padding: 8px;
+  /* Clicking anywhere here that isn't a room switches floors. */
+  cursor: pointer;
+}
+/* Focusable for arrow-key room selection, so it needs a visible focus ring. */
+.fm-stage:focus-visible {
+  outline: 2px solid var(--brand-green);
+  outline-offset: 2px;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  text-decoration: none;
-  color: inherit;
-  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
 }
-.card-grid a.card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--brand-amber);
-  background: var(--brand-amber-soft);
-}
-.card-grid .card .icon {
+.fm-switch {
   position: absolute;
-  top: 18px;
-  right: 20px;
-  font-size: 2rem;
-  line-height: 1;
+  top: 10px;
+  left: 12px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
-.card-grid .card h2 { margin: 0 0 4px; padding-right: 52px; font-size: 1.15rem; }
-.card-grid .card p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
+.fm-switch-item {
+  padding: 2px 8px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: left;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 300ms ease-out, color 300ms ease-out;
+}
+.fm-switch-item[aria-pressed='true'] {
+  color: var(--text);
+  opacity: 1;
+}
+.fm-switch-item:hover { color: var(--text); }
 
-/* Wide news card spans the full row of the card-grid. */
-.card-grid .card-news {
-  grid-column: 1 / -1;
+.fm-floors {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.card-news h2 { margin: 0 0 12px; font-size: 1.15rem; }
-.card-news h2 a {
-  color: inherit;
-  text-decoration: none;
+/* Explicit insets rather than content-driven size, so the percentage dimensions
+ * on the <object> resolve — a replaced element otherwise falls back to its
+ * intrinsic size and the drawing gets cropped by the frame instead of scaled
+ * down. The SVGs have a viewBox, so they letterbox and centre themselves. */
+.fm-floor {
+  position: absolute;
+  /* Inset by the offset the floors are shifted, so neither the one that moves up
+   * nor the one that moves down runs past the frame that clips them. */
+  inset: calc(var(--fm-offset) + 2px);
+  transition: transform 400ms ease-out, opacity 400ms ease-out;
+  /* Behind and dimmed until activated — clicking it brings it forward. */
+  z-index: 5;
+  transform: translate(calc(-1 * var(--fm-offset)), var(--fm-offset)) scale(0.95);
+  opacity: 0.4;
+  cursor: pointer;
 }
-.card-news h2 a:hover { color: var(--brand-green-dark); }
-.card-news ul {
+.fm-floor.is-active {
+  z-index: 10;
+  transform: translate(var(--fm-offset), calc(-1 * var(--fm-offset))) scale(1);
+  opacity: 1;
+}
+.fm-floor object {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.fm-panel {
+  margin: 14px 0 0;
+  min-height: 3.4em;
+  padding: 12px 16px;
+  background: var(--brand-amber-soft);
+  border: 1px solid var(--brand-amber);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fm-floor,
+  .fm-switch-item { transition: none; }
+}
+
+/* Markdown galleries — wrap a run of images in a content file in
+ * `<div class="gallery" data-gallery>` and it becomes a one-at-a-time carousel.
+ * Pure CSS gets the swipeable scroll-snap row; MarkdownGallery.astro adds the
+ * chevrons and the counter on top. Without JS the row is still swipeable. */
+.gallery {
+  display: flex;
+  gap: 12px;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.gallery::-webkit-scrollbar { display: none; }
+/* Markdown puts each image in its own paragraph — those are the slides. */
+.gallery > * {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  margin: 0;
+}
+.gallery a { display: block; }
+/* `contain` rather than `cover`: these are wayfinding photos, so letterboxing an
+ * odd-sized one beats cropping away the thing it's pointing at. */
+.gallery img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  margin: 0;
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: none;
+}
+
+/* Injected by MarkdownGallery.astro around the track. */
+.gallery-viewport {
+  position: relative;
+  margin: 1.5rem 0;
+}
+.gallery-viewport .gallery { margin: 0; }
+.gallery-count {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 2px 10px;
+  background: rgb(31 41 55 / 0.55);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+.gallery-arrow {
+  display: none;
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  transform: translateY(-50%);
+  color: #fff;
+  background: rgb(31 41 55 / 0.4);
+  backdrop-filter: blur(2px);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 150ms ease, background 120ms ease;
+}
+.gallery-arrow svg {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.4));
+}
+.gallery-arrow-prev { left: 12px; }
+.gallery-arrow-next { right: 12px; }
+/* Same as the home carousel: chevrons only for pointer devices, revealed for the
+ * edge the pointer is nearest. Touch users swipe. */
+@media (min-width: 768px) and (hover: hover) {
+  .gallery-arrow { display: flex; }
+  [data-hover='left'] .gallery-arrow-prev,
+  [data-hover='right'] .gallery-arrow-next,
+  .gallery-arrow:focus-visible { opacity: 1; }
+  .gallery-arrow:hover { background: rgb(17 24 39 / 0.6); }
+  .gallery-arrow:disabled { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gallery { scroll-behavior: auto; }
+}
+
+/* News listing — date column, then title. Shared by the home page's news card
+ * and the /nyheter/ listing so the two read the same. */
+.news-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.card-news li {
+.news-list li {
   display: flex;
   gap: 12px;
   align-items: baseline;
   padding: 8px 0;
   border-bottom: 1px solid var(--border);
 }
-.card-news li:last-child { border-bottom: none; }
-.card-news time {
+.news-list li:last-child { border-bottom: none; }
+.news-list time {
   color: var(--text-muted);
   font-size: 0.85rem;
   font-variant-numeric: tabular-nums;
   flex-shrink: 0;
   min-width: 7em;
 }
-.card-news .see-all {
-  display: inline-block;
-  margin-top: 12px;
-  font-weight: 600;
-  font-size: 0.95rem;
+/* Narrow screens: the fixed date column leaves too little room for the title,
+ * so let the date sit on its own line. */
+@media (max-width: 460px) {
+  .news-list li { display: block; padding: 10px 0; }
+  .news-list time { display: block; }
 }

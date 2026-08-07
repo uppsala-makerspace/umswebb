@@ -13,12 +13,11 @@ const dtf = new Intl.DateTimeFormat('sv-SE', { year: 'numeric', month: 'long', d
 <BaseLayout title="Nyheter — Uppsala Makerspace" description="Nyheter från Uppsala Makerspace." lang="sv">
   <h1>Nyheter</h1>
   <p><small>Sida 1 av {totalPages}</small></p>
-  <ul>
+  <ul class="news-list">
     {posts.map(post => (
       <li>
+        <time datetime={post.data.date.toISOString()}>{dtf.format(post.data.date)}</time>
         <a href={`/nyheter/${postSlug(post)}/`}>{post.data.title}</a>
-        <br />
-        <small><time datetime={post.data.date.toISOString()}>{dtf.format(post.data.date)}</time></small>
       </li>
     ))}
   </ul>

@@ -1,0 +1,376 @@
+---
+/* Carousel of workshops and interest groups — one card at a time, with tags
+ * above and chevrons over the card. Shared by the Swedish and English home
+ * pages; everything language-dependent is in `LABELS`.
+ *
+ * The track is a native scroll-snap container, so swiping and keyboard
+ * scrolling work on their own; the script below adds the arrows and tags, keeps
+ * them in sync, and rotates the cards until the visitor interacts. Without JS
+ * the section degrades to a swipeable/scrollable row. */
+import EntryCard from './EntryCard.astro';
+import type { Entry, Locale } from '../lib/entries';
+
+interface Props {
+  entries: Entry[];
+  lang: Locale;
+}
+
+const { entries, lang } = Astro.props;
+
+const LABELS = {
+  sv: {
+    carousel: 'karusell',
+    card: 'kort',
+    headingLong: 'Våra verkstäder och intressegrupper',
+    headingShort: 'Verkstäder och grupper',
+    choose: 'Välj verkstad eller grupp',
+    show: 'Visa',
+    of: 'av',
+    prev: 'Föregående kort',
+    next: 'Nästa kort',
+  },
+  en: {
+    carousel: 'carousel',
+    card: 'card',
+    headingLong: 'Our workshops and interest groups',
+    headingShort: 'Workshops and groups',
+    choose: 'Choose a workshop or group',
+    show: 'Show',
+    of: 'of',
+    prev: 'Previous card',
+    next: 'Next card',
+  },
+};
+const t = LABELS[lang];
+---
+<section
+  class="ec"
+  data-layout="carousel"
+  data-carousel
+  aria-roledescription={t.carousel}
+  aria-label={t.headingLong}
+>
+  {/* Short heading on narrow screens so it stays on one line. */}
+  <h2>
+    <span class="ec-heading-long">{t.headingLong}</span>
+    <span class="ec-heading-short">{t.headingShort}</span>
+  </h2>
+
+  {/* Tags do double duty: they show at a glance what exists, and they're the
+      shortcut to each card. */}
+  <ol class="ec-tags" aria-label={t.choose}>
+    {entries.map((entry, i) => (
+      <li>
+        <button type="button" data-carousel-tag={i} aria-label={`${t.show} ${entry.name[lang]}`}>
+          {entry.tag?.[lang] ?? entry.name[lang]}
+        </button>
+      </li>
+    ))}
+  </ol>
+
+  {/* The arrows sit on top of the card and fade in when the pointer is near
+      that edge — hence the positioned viewport around the track. Pointer
+      devices only; on touch you swipe instead. */}
+  <div class="ec-viewport">
+    <ol class="ec-track" tabindex="0">
+      {entries.map((entry, i) => (
+        <li
+          class="ec-slide"
+          role="group"
+          aria-roledescription={t.card}
+          aria-label={`${i + 1} ${t.of} ${entries.length}: ${entry.name[lang]}`}
+        >
+          <EntryCard entry={entry} lang={lang} />
+        </li>
+      ))}
+    </ol>
+
+    <button type="button" class="ec-arrow ec-arrow-prev" data-carousel-prev aria-label={t.prev}>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 5 8 12 15 19" /></svg>
+    </button>
+    <button type="button" class="ec-arrow ec-arrow-next" data-carousel-next aria-label={t.next}>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 5 16 12 9 19" /></svg>
+    </button>
+  </div>
+</section>
+
+<style>
+  .ec h2 {
+    margin: 0 0 16px;
+    font-size: 1.5rem;
+  }
+  /* Long heading on desktop, short one on mobile so it stays on a single line. */
+  .ec-heading-short {
+    display: none;
+  }
+  @media (max-width: 767px) {
+    .ec-heading-long {
+      display: none;
+    }
+    .ec-heading-short {
+      display: inline;
+    }
+  }
+
+  .ec-track {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 20px;
+  }
+
+  /* Arrows and tags are only useful once the script runs; the plain scroll
+   * container is the no-JS fallback. */
+  .ec-arrow,
+  .ec-tags {
+    display: none;
+  }
+
+  .ec-viewport {
+    position: relative;
+    /* Lets the arrows be placed relative to the card's width — see below. */
+    container-type: inline-size;
+    /* The card header's height, which the icon plate sets (see EntryCard). */
+    --ec-card-head: 118px;
+  }
+
+  [data-layout='carousel'] .ec-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    /* Room for the cards' focus ring and shadow. */
+    padding: 4px;
+    margin: -4px;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  [data-layout='carousel'] .ec-track::-webkit-scrollbar {
+    display: none;
+  }
+  [data-layout='carousel'] .ec-track:focus-visible {
+    outline: 2px solid var(--brand-green);
+    outline-offset: 2px;
+  }
+  [data-layout='carousel'] .ec-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+  }
+
+  /* Arrows overlay the card, one at each edge, and only on pointer devices —
+   * touch users swipe, so nothing is drawn on top of the card there. */
+  @media (min-width: 768px) and (hover: hover) {
+    /* Just the chevron, on a small translucent grey disc so it stays legible
+     * over whatever part of the photo is behind it.
+     * Centred on the photo, not on the card: the cards are much taller than the
+     * photo, so 50% put the chevron down in the body text. The photo is
+     * `aspect-ratio: 16 / 10` of the card width, hence 62.5cqw tall — half of
+     * that below the header is its middle. */
+    [data-carousel-ready] .ec-arrow {
+      position: absolute;
+      top: calc(var(--ec-card-head) + 31.25cqw);
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      transform: translateY(-50%);
+      color: #fff;
+      background: rgb(31 41 55 / 0.4);
+      backdrop-filter: blur(2px);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 150ms ease, background 120ms ease;
+    }
+    .ec-arrow svg {
+      width: 30px;
+      height: 30px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.25;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      /* Keeps the chevron readable against a light photo behind it. */
+      filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.4));
+    }
+    .ec-arrow-prev { left: 12px; }
+    .ec-arrow-next { right: 12px; }
+
+    /* `data-hover` is set by the script to whichever half the pointer is in. */
+    [data-hover='left'] .ec-arrow-prev,
+    [data-hover='right'] .ec-arrow-next,
+    .ec-arrow:focus-visible {
+      opacity: 1;
+    }
+    .ec-arrow:hover {
+      background: rgb(17 24 39 / 0.6);
+    }
+    .ec-arrow:focus-visible {
+      outline: 2px solid var(--brand-green);
+      outline-offset: 2px;
+    }
+    /* At the first and last card there's nothing to go to — leave the card clear
+     * instead of showing a dimmed button. */
+    [data-carousel-ready] .ec-arrow:disabled {
+      display: none;
+    }
+  }
+
+  /* Minimal tags: plain text, no chrome. The selected one steps up from muted
+   * to full-strength text and gains a green underline. Deliberately no weight
+   * change — bold text is wider, and the row would jitter every time autoplay
+   * moved the selection. */
+  [data-carousel-ready] .ec-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 20px;
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+  }
+  .ec-tags button {
+    display: block;
+    padding: 4px 0;
+    font: inherit;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    /* Reserve the underline's space up front so the row doesn't shift when the
+     * selection moves. */
+    text-decoration: underline 2px transparent;
+    text-underline-offset: 5px;
+    transition: color 120ms ease, text-decoration-color 120ms ease;
+  }
+  .ec-tags button:hover {
+    color: var(--text);
+    text-decoration-color: var(--border);
+  }
+  .ec-tags button[aria-current='true'] {
+    color: var(--text);
+    text-decoration-color: var(--brand-green-dark);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-layout='carousel'] .ec-track {
+      scroll-behavior: auto;
+    }
+    .ec-tags button {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Carousel controls. The scrolling itself is native (scroll-snap), so this
+  // only moves the scroll position and mirrors it in the arrows and tags —
+  // swipe, trackpad and arrow keys stay in sync for free.
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(root => {
+    const track = root.querySelector<HTMLElement>('.ec-track');
+    const tags = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-carousel-tag]'));
+    const prev = root.querySelector<HTMLButtonElement>('[data-carousel-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-carousel-next]');
+    if (!track) return;
+
+    const slides = Array.from(track.children) as HTMLElement[];
+    if (slides.length < 2) return;
+
+    let index = 0;
+
+    function sync(i: number) {
+      index = i;
+      tags.forEach((tag, t) => tag.setAttribute('aria-current', t === i ? 'true' : 'false'));
+      setDisabled(prev, i === 0, next);
+      setDisabled(next, i === slides.length - 1, prev);
+    }
+
+    // Disabling the button you just clicked would drop focus to the body, so
+    // hand it over to the opposite arrow instead.
+    function setDisabled(
+      button: HTMLButtonElement | null,
+      disabled: boolean,
+      sibling: HTMLButtonElement | null
+    ) {
+      if (!button) return;
+      if (disabled && !button.disabled && document.activeElement === button) sibling?.focus();
+      button.disabled = disabled;
+    }
+
+    function goTo(i: number, behavior?: ScrollBehavior) {
+      const target = Math.max(0, Math.min(slides.length - 1, i));
+      track!.scrollTo({ left: slides[target].offsetLeft - slides[0].offsetLeft, behavior });
+      sync(target);
+    }
+
+    prev?.addEventListener('click', () => goTo(index - 1));
+    next?.addEventListener('click', () => goTo(index + 1));
+    tags.forEach((tag, i) => tag.addEventListener('click', () => goTo(i)));
+
+    // Reveal the arrow for whichever edge the pointer is closest to. CSS keeps
+    // the buttons hidden on touch and narrow viewports, so this is harmless
+    // there. The zone is generous — a third of the card from each edge.
+    const viewport = root.querySelector<HTMLElement>('.ec-viewport');
+    if (viewport) {
+      const EDGE = 0.33;
+      viewport.addEventListener('pointermove', event => {
+        const bounds = viewport.getBoundingClientRect();
+        const x = (event.clientX - bounds.left) / bounds.width;
+        viewport.dataset.hover = x < EDGE ? 'left' : x > 1 - EDGE ? 'right' : '';
+      });
+      viewport.addEventListener('pointerleave', () => {
+        viewport.dataset.hover = '';
+      });
+    }
+
+    // Whichever slide covers most of the viewport is the current one — covers
+    // swiping and keyboard scrolling as well as our own button clicks.
+    const observer = new IntersectionObserver(
+      entries => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) sync(slides.indexOf(entry.target as HTMLElement));
+        }
+      },
+      { root: track, threshold: 0.6 }
+    );
+    slides.forEach(slide => observer.observe(slide));
+
+    // Rotate on its own until the visitor takes over. The very first
+    // interaction stops it for good — nothing restarts it, so we never fight
+    // the person using the page.
+    const AUTOPLAY_MS = 2000;
+    let timer: number | undefined;
+
+    function advance() {
+      // Wrapping back to the first card jumps instead of scrolling smoothly
+      // past every card in between.
+      if (index === slides.length - 1) goTo(0, 'instant');
+      else goTo(index + 1);
+    }
+
+    function stopAutoplay() {
+      if (timer === undefined) return;
+      clearInterval(timer);
+      timer = undefined;
+    }
+
+    // Covers clicks and taps on cards, tags and arrows, swiping, trackpad and
+    // wheel scrolling, keyboard use, and tabbing into the carousel.
+    for (const event of ['pointerdown', 'wheel', 'touchstart', 'keydown', 'focusin']) {
+      root.addEventListener(event, stopAutoplay, { once: true, passive: true });
+    }
+
+    // Honour the reduced-motion setting: no unattended movement at all.
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      timer = window.setInterval(advance, AUTOPLAY_MS);
+    }
+
+    sync(0);
+    root.dataset.carouselReady = 'true';
+  });
+</script>

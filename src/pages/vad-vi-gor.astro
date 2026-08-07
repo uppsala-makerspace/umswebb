@@ -1,0 +1,22 @@
+---
+/* Workshops and interest groups, from the members API. An .astro page rather
+ * than a content file so the carousel component can be used directly. */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EntryCarousel from '../components/EntryCarousel.astro';
+import { getEntries } from '../lib/entries';
+
+const entries = await getEntries();
+---
+<BaseLayout
+  title="Vad vi gör — Uppsala Makerspace"
+  description="Verkstäderna och intressegrupperna på Uppsala Makerspace."
+  lang="sv"
+>
+  <h1>Vad vi gör</h1>
+  <p>
+    Våra verkstäder är rum med maskiner och verktyg för olika material och tekniker.
+    Intressegrupperna samlas kring ett gemensamt intresse och drivs av medlemmarna själva.
+  </p>
+
+  <EntryCarousel entries={entries} lang="sv" />
+</BaseLayout>

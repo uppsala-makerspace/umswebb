@@ -9,17 +9,18 @@ Tackle one plan at a time. When picking up a plan, run
 ### ONGOING: Visual design and styling
 - **Tags:** frontend, design
 - **Depends on:** —
-- **Last updated:** 2026-05-10
-- **Done:** Direction captured in `visual-design.md`. **Phase 1 (foundation)**: `src/styles/global.css` with light + dark tokens (extends tutorial palette with warm amber accent), reset, base type, prose container. `BaseLayout.astro` rewritten with sticky header (logo + primary nav + dark-mode toggle + lang-switcher pill), prose-vs-wide layout switch via a `prose` prop, footer with secondary nav. Inline pre-paint theme-init script + post-load toggle handler (no FOUC). **Phase 2 (home)**: `src/data/home-cards.ts` defines the four destinations (Visit / Join / Activities / News). Home pages (`/` and `/en/`) replaced with stamp logo + tagline hero, four-card grid, then a compact news list. start.md still in the collection (used for `<meta description>`); body no longer rendered on home.
-- **Next step:** **Phase 3 (content polish)** — review imported pages and posts in the new prose container; tune headings, lists, image sizing, code blocks, table styles. **Phase 4 (typography iteration)** — experiment with Inter / Atkinson Hyperlegible / a humanist sans against the system stack now that content is visible.
+- **Last updated:** 2026-08-06
+- **Done:** Direction captured in `visual-design.md`. **Phase 1 (foundation)**: `src/styles/global.css` with light + dark tokens (extends tutorial palette with warm amber accent), reset, base type, prose container. `BaseLayout.astro` rewritten as an app shell, prose-vs-wide layout switch via a `prose` prop. Inline pre-paint theme-init script + post-load toggle handler (no FOUC). **Phase 2 (home)**: superseded — the four-card grid was replaced by the API-driven carousel, see *Workshops and groups from the members API*. Both home pages are now logo + two intro paragraphs + carousel; `.home-masthead` / `.home-intro` are the only home-specific rules left in `global.css`, and `home-cards.ts` plus the `.home-hero` / `.card-grid` / `.card-news` rules are deleted. **News listing**: the date-column-then-title row layout was extracted from the old home card into a shared `.news-list` class and applied to all four listings (`/nyheter/`, `/nyheter/sida/<n>/`, `/en/news/`, `/en/news/page/<n>/`); below 460 px the date moves to its own line.
+- **Next step:** **Phase 3 (content polish)** — review imported pages and posts in the new prose container; tune headings, lists, image sizing, code blocks, table styles. **Phase 4 (typography iteration)** — experiment with Inter / Atkinson Hyperlegible / a humanist sans against the system stack. Also unresolved: there is no site footer at all (`BaseLayout` renders none) and `nav.ts` has no `secondaryNav`, so the Kontakt link from the old WP menu is currently unrendered — decide whether to add a footer or drop it.
 - **Details:** `visual-design.md`
 
-### ONGOING: Sidebar navigation
-- **Tags:** frontend, accessibility, mobile
+### ONGOING: Workshops, groups and the floor map from the members API
+- **Tags:** frontend, integration, content
 - **Depends on:** —
-- **Last updated:** 2026-05-10
-- **Next step:** Phase 1 — restructure `BaseLayout.astro` into an app-shell (sidebar + main grid at ≥ 768 px, stacked below) and rewrite the chrome CSS in `global.css`. Open questions resolved: stamp+wordmark on mobile down to ~360 px, ↗ for Wiki link, Kontakt stays in footer.
-- **Details:** `sidebar-nav.md`
+- **Last updated:** 2026-08-06
+- **Done:** `src/lib/entries.ts` fetches `/api/public/entries` at build time (`UMS_API_URL`, default `http://localhost:3000/...`) and validates `{ entries, spaces, palette }` with Zod. The load is **memoised on module scope** so fetching, asset caching and pruning happen once per build — the prune deletes everything in the cache directory the response doesn't reference, so two independent loads would delete each other's files. `getEntries()` returns the carousel's subset (`kind: "workshop"` plus `kind: "group"` with `type: "interest"`, workshops first); `getFloorMap()` returns both floors with every room, resolving each room's workshop and groups against *all* entries. Assets land in `public/ums-data/`, named from the `v=` version stamp so an unchanged asset is a cache hit; photos are downscaled to 1200 px via ImageMagick (original kept if `magick` is missing). The two floor plans come from the member app (`UMS_APP_URL`, default `http://localhost:3001`), have no version stamp so they're re-fetched each build, and must be same-origin for `<object>` to expose `contentDocument`. Alt text is generated since the API carries none, and Markdown in `text` is rendered via `src/lib/richtext.ts`. Components: `EntryCard.astro` (icon plate, photo, kind label, "På prov" ribbon), `EntryCarousel.astro` (shared by `/` and `/en/`), and `FloorMapEmbed.astro` — the map on `/lokalen/` and `/en/our-space/`, embedded from markdown as `<div data-floor-map>` and rendered only on pages whose body contains it.
+- **Next step:** Point `UMS_API_URL` and `UMS_APP_URL` at the real hosts and decide how CI builds reach them — the build needs both, and no API means no build. Then: proofread the English copy on `/en/` and `/en/our-space/`, get "Ceramics woorkshop" fixed in the API, and decide what to do about wildly uneven `text` lengths (Träverkstaden has five paragraphs of workshop rules, Keramikverkstaden has one word) — probably a short summary field. Also decide whether `public/ums-data/` is committed or gitignored.
+- **Details:** `entries-api.md`
 
 ### NOT STARTED: English translations
 - **Tags:** content, i18n
@@ -34,6 +35,12 @@ Tackle one plan at a time. When picking up a plan, run
 ---
 
 ## Completed
+
+### DONE: Sidebar navigation
+- **Tags:** frontend, accessibility, mobile
+- **Last updated:** 2026-08-06
+- **Done:** `BaseLayout.astro` is an app shell: `.app-shell` is a CSS grid at ≥ 768 px, an off-canvas drawer below. **Desktop has no header at all** — `.site-header` is `display: none` there, the brand wordmark sits at the top of the sidebar and the theme + language controls at the bottom of it above a rule (`.sidebar-footer`, a second copy of the controls; the mobile header keeps its own). Sidebar is 280 px (not the planned 240) so "Uppsala Makerspace" fits on one line beside the stamp, and it's `position: sticky; top: 0; height: 100vh` with a transparent background so it reads as a column rather than a panel. Menu and content are centred together: `.app-shell` has `max-width: calc(280px + 40px + 828px)` and `margin: 0 auto`. Mobile: slim sticky header (hamburger + theme + lang), left-sliding drawer with backdrop, body scroll lock, focus trap, Escape to close, `prefers-reduced-motion` respected, chrome hidden in print. Open questions resolved: the wordmark is only in the sidebar now so the mobile-width truncation rules were dropped; the Wiki link keeps its ↗ glyph; Kontakt has no home yet since there is no footer (tracked under *Visual design and styling*).
+- **Details:** `sidebar-nav.md`
 
 ### DONE: Astro scaffold and content schema
 - **Tags:** scaffolding
@@ -59,6 +66,7 @@ Tackle one plan at a time. When picking up a plan, run
 - **Tags:** content, routing
 - **Last updated:** 2026-05-10
 - **Done:** `start.md` stays in the content collection so editors can update it; `src/pages/index.astro` now loads it via `getEntry('pages', 'sv/start')` and renders `<Content />` above the news listing. `start` added to a `RESERVED_SLUGS` set inside `getStaticPaths` of `[...slug].astro` (had to be inline because Astro hoists `getStaticPaths` past module scope) so `/start/` no longer duplicates `/`. EN home (`/en/index.astro`) follows the same pattern with a Swedish fallback when no English start page exists, displaying a small "not yet translated" notice. 258 → 257 pages.
+- **Superseded (2026-08-06):** both home pages are now hand-built (logo + intro + API carousel). `start.md` moved to `_deprecated/` and is no longer part of the collection, `RESERVED_SLUGS` is gone from `[...slug].astro`, and neither home page reads the content collection.
 
 ### DONE: Imported content cleanup
 - **Tags:** content, manual
@@ -87,5 +95,5 @@ Tackle one plan at a time. When picking up a plan, run
 
 ---
 
-*Updated: 2026-05-10*
+*Updated: 2026-08-06*
 

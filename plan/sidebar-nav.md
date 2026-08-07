@@ -1,142 +1,110 @@
 # Sidebar navigation
 
+**Status: done.** This file records what was built, and where it departs from the
+original plan.
+
 ## Goal
 
-Replace the current header-row primary nav with a left-rail sidebar at
-desktop widths that collapses to a hamburger-triggered off-canvas panel
-on mobile. Mirrors the umstutorial pattern, which fits the UMS web
-family visually.
+Replace the header-row primary nav with a left-rail sidebar at desktop widths
+that collapses to a hamburger-triggered off-canvas panel on mobile. Mirrors the
+umstutorial pattern, which fits the UMS web family visually.
 
-## Scope
+## What shipped
 
-- Persistent left sidebar at ≥ breakpoint, off-canvas drawer below it.
-- Single content width already unified at `--content-width: 960px`; the
-  sidebar takes ~240 px from that, leaving ~680 px for content
-  (≈65 ch at 17 px font — comfortable for reading).
-- Both Swedish and English navs (data already in `src/data/nav.ts`).
-- Active page highlighting via `aria-current="page"` (already present).
-- Theme toggle + language switcher move out of the header into the
-  sidebar (or sit in a slim mobile header that the hamburger is also in).
+| Decision                        | Planned                          | Built                                                                                 |
+| ------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------- |
+| Breakpoint                      | 768 px                           | 768 px — unchanged.                                                                    |
+| Sidebar width                   | 240 px                           | **280 px**, so "Uppsala Makerspace" fits on one line beside the stamp (`white-space: nowrap`). |
+| Desktop header                  | none                             | none — `.site-header { display: none }` at ≥ 768 px.                                    |
+| Sidebar contents (top → bottom) | brand · nav · theme · lang       | as planned: brand wordmark, primary nav, then `.sidebar-footer` with theme + language above a `border-top`. `nav.primary { flex: 1 }` pushes the footer down. |
+| Mobile header                   | hamburger · brand · theme · lang | **hamburger · theme · lang** — the brand moved into the sidebar for both breakpoints, so the association name is only visible on mobile once the drawer is open. |
+| Shell placement                 | sidebar at the viewport edge     | **menu + content centred together**: `.app-shell` has `max-width: calc(280px + 40px + 828px)` and `margin: 0 auto`. |
+| Sidebar background              | card surface                     | **transparent** on desktop (`background: none`), so it reads as a column next to the content rather than a panel starting mid-page. The card surface stays for the mobile drawer. |
+| Sidebar position                | `sticky; top: 0`                 | `sticky; top: 0; height: 100vh` — nothing is pinned above it any more. |
+| Off-canvas direction            | from the left                    | as planned.                                                                            |
+| Backdrop / scroll lock / focus trap / Escape | yes               | all as planned, `prefers-reduced-motion` disables the slide, print hides the chrome.    |
+| Footer                          | below content, holds Kontakt     | **not built** — there is no `<footer>` and no `secondaryNav` in `nav.ts`. Kontakt is unrendered. |
 
-## Decisions (push back if any of these are wrong)
+Two knock-on changes from removing the desktop header: `scroll-padding-top` drops
+from `--header-h + 16px` to `16px` at that breakpoint (anchor links were
+overshooting), and `.layout` gets 32 px of top padding instead of 24 so content
+doesn't touch the viewport edge.
 
-| Decision                           | Choice                                  | Why                                                                                              |
-| ---------------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| Breakpoint                         | **768 px**                              | Industry standard tablet boundary; matches umstutorial.                                          |
-| Sidebar width                      | **240 px**                              | Same as tutorial. With `--content-width: 960` and 40 px gap, content lands at ~680 px.           |
-| Sidebar contents (top → bottom)    | brand · primary nav · theme toggle · lang switcher | Keeps everything in one column on desktop. Mobile header becomes very slim.                    |
-| Mobile header                      | hamburger (left) · brand wordmark · theme toggle · lang switcher | Recognisable. Theme + lang stay reachable without opening the drawer.                            |
-| Sidebar position                   | `position: sticky; top: 0`              | Stays visible while content scrolls; longer pages don't strand the user without nav.            |
-| Off-canvas direction               | slides in from the **left**             | Matches sidebar position — no jarring direction flip when crossing the breakpoint.               |
-| Backdrop                           | semi-transparent dim, click to close   | Standard mobile-drawer pattern.                                                                 |
-| Body scroll lock                   | yes, while drawer open                 | Prevents background scroll bleed-through.                                                        |
-| Focus trap                         | yes, inside drawer                     | Keyboard accessibility; on close, return focus to hamburger.                                     |
-| Escape key                         | closes the drawer                      | Standard.                                                                                        |
-| Footer                             | stays below content                    | Print-friendly; hidden via `@media print` along with sidebar.                                    |
+The theme and language controls exist twice in the DOM, once per breakpoint, with
+CSS hiding the copy that doesn't apply. No script changes were needed: the theme
+toggle already bound every `[data-theme-toggle]` and synced every icon. The
+drawer's focus trap filters on `offsetParent !== null`, so the hidden desktop
+copy stays out of the mobile tab order.
 
-## Layout sketch
+## Layout
 
-Desktop (≥ 768 px):
+Desktop (≥ 768 px) — the whole block is centred, with equal margins either side:
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                          (no top header)                         │
-├──────────┬──────────────────────────────────────────────────────┤
-│ STAMP    │                                                      │
-│ Uppsala  │                                                      │
-│ Maker…   │                                                      │
-│          │                                                      │
-│ Start    │                                                      │
-│ Nyheter  │              CONTENT (max ~680 px wide)              │
-│ Lokalen  │                                                      │
-│ Bli mdlm │                                                      │
-│ Vanliga  │                                                      │
-│ Kalender │                                                      │
-│ Om oss   │                                                      │
-│ Wiki ↗   │                                                      │
-│          │                                                      │
-│ ☀ / 🌙   │                                                      │
-│ EN       │                                                      │
-└──────────┴──────────────────────────────────────────────────────┘
-                          (footer)
+        ┌──────────┬──────────────────────────────────────┐
+        │ STAMP    │                                      │
+        │ Uppsala  │                                      │
+        │ Maker…   │                                      │
+        │          │                                      │
+        │ Start    │                                      │
+        │ Vår lokal│      CONTENT (max 780 px visible)    │
+        │ Bli mdlm │                                      │
+        │ Kalender │                                      │
+        │ Nyheter  │                                      │
+        │ Vanliga  │                                      │
+        │ Om oss   │                                      │
+        │ ── ext ──│                                      │
+        │ App ↗    │                                      │
+        │ Wiki ↗   │                                      │
+        │ ─────────│                                      │
+        │ 🌙  EN   │                                      │
+        └──────────┴──────────────────────────────────────┘
+             280 px            40 px gap
 ```
 
 Mobile (< 768 px):
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│ ☰   Uppsala Makerspace                       🌙   EN   │   ← slim header (sticky)
+│ ☰                                            🌙   EN   │   ← slim header (sticky)
 ├─────────────────────────────────────────────────────────┤
-│                                                         │
 │              CONTENT (full width minus padding)         │
-│                                                         │
 └─────────────────────────────────────────────────────────┘
 ```
 
-Drawer open:
+Drawer open — the brand is the first thing in it:
 
 ```
 ┌─────────────┬──────────────── (dimmed) ─────────────────┐
-│ STAMP    ✕  │                                            │
+│ STAMP       │                                            │
 │ Uppsala…    │                                            │
-│             │                                            │
 │ Start       │           backdrop, click to close         │
-│ Nyheter     │                                            │
+│ Vår lokal   │                                            │
 │ ...         │                                            │
 └─────────────┴────────────────────────────────────────────┘
 ```
 
-## Phased implementation
+## Resolved open questions
 
-**Phase 1 — markup + CSS grid**
-- Restructure `BaseLayout.astro`: a `.app-shell` wrapper that's a CSS
-  grid with `grid-template-columns: 240px 1fr` at ≥ 768 px, single
-  column below. Sidebar `<aside>`, content `<main>`, footer below.
-- The mobile header (hamburger + brand + dark/lang) only renders below
-  the breakpoint via CSS.
+- **Brand placement on mobile** — moot: the wordmark lives in the sidebar only,
+  so the truncation and 360 px-and-below rules were deleted.
+- **Wiki external link** — keeps the small ↗ glyph, plus `target="_blank"` and
+  `rel="noopener"`. External items are separated from internal ones by a hairline
+  `.nav-separator` that `BaseLayout` inserts at the first external entry.
+- **Secondary nav (Kontakt)** — unresolved, because no footer was built. Tracked
+  under *Visual design and styling* in `README.md`.
 
-**Phase 2 — drawer behaviour**
-- Hamburger button toggles `data-nav-open` on `<html>` (or on the
-  shell). CSS uses that attribute to translate the sidebar in/out.
-- Backdrop element. Click to close.
-- Inline JS in `BaseLayout.astro`:
-  - Open/close the drawer.
-  - Body scroll lock by toggling `overflow: hidden` on `<body>` when
-    open.
-  - Escape key closes.
-  - Focus trap: when opening, focus first link; on Tab/Shift+Tab cycle
-    inside drawer; on close, return focus to hamburger.
+## Left to decide
 
-**Phase 3 — polish**
-- Active link emphasis stronger (left-edge accent stripe in brand
-  green).
-- Hover/focus styling for keyboard users.
-- `prefers-reduced-motion` disables the slide animation.
-- Print: hide sidebar + drawer chrome.
-
-## Open questions
-
-- **Brand placement on mobile**: full wordmark "Uppsala Makerspace" or
-  just the stamp icon? Wordmark feels cramped at tiny widths. Stamp
-  alone risks being unrecognisable. Probably stamp + wordmark down to
-  ~360 px, stamp only below.
-- **Wiki external link**: the only nav item that's external. Keep the
-  small ↗ glyph or just rely on the new-tab behaviour?
-- **Secondary nav (Kontakt)**: stay in the footer, or move into the
-  sidebar near the bottom? Currently in footer.
+- The sidebar's `border-right` now runs the full viewport height in the middle of
+  a centred layout. A shorter rule, or none, may sit better.
+- With `height: 100vh` and eleven nav items plus brand and footer, a short window
+  scrolls the menu internally and the theme/language row scrolls out of view
+  rather than staying pinned at the bottom.
 
 ## References
 
-- `umstutorial/site.css` — sidebar pattern, mobile drawer behaviour
-- `src/layouts/BaseLayout.astro` — current implementation to replace
-- `src/data/nav.ts` — nav data is already locale-aware, no schema
-  changes needed
-- `src/styles/global.css` — `--content-width: 960px` already targets
-  this layout
-
-## First step
-
-Skim `umstutorial/site.css` for the exact drawer markup/CSS the
-tutorial uses, then sketch the new `BaseLayout.astro` markup before
-writing any code. Keep markup changes minimal — most of the work
-happens in `global.css`.
+- `src/layouts/BaseLayout.astro` — the app shell, drawer script, theme script
+- `src/styles/global.css` — chrome CSS; desktop rules are in the
+  `@media (min-width: 768px)` block
+- `src/data/nav.ts` — locale-aware nav data, `primaryNav` only

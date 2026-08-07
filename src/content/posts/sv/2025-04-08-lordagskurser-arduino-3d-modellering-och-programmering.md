@@ -15,11 +15,15 @@ Vi erbjuder kreativa kurser varje lördag för alla åldrar (8-88 år) där du k
 
  
 
+<div class="table-scroll">
+
 | [![](/uploads/wp/Matlagningskurs-tecknad-bild-150x150.jpg)](/uploads/wp/Matlagningskurs-tecknad-bild.jpg)   **Matlagning**   |          **ARDUINO (ELEKTRONIK)**   | **[![](/uploads/wp/Blender-monkey-1-150x150.png)](/uploads/wp/Blender-monkey-1.png)3D-MODELLERING (BLENDER)** |       **PROGRAMMERING (PROCESSING)**   |
 | --- | --- | --- | --- |
 | _Lärare: Björn Engström, Johanna Söderström_ | _Lärare: Björn Engström, Richel Bilderbeek_ | _Lärare: Björn Engström, Leslie Solorzano_ | _Lärare: Richel Bilderbeek_ |
 | _Kl. 09:00-10:00_ | _Kl. 10:00-12:00_ | _Kl. 10:00-12:00_ | _Kl. 12:00-14:00_ |
 | Lär dig laga mat och grundläggande färdigheter i köket. | Lär dig bygga egna elektroniska uppfinningar och maskiner med programmerbart kretskort | Skapa fantastiska 3D-modeller som kan användas för 3D-utskrift och mycket mer | Utveckla dina egna datorspel med programmeringsspråket Processing |
+
+</div>
 
 ## FÖRDELAR MED KURSERNA
 

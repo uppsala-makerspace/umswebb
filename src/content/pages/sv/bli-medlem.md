@@ -19,18 +19,9 @@ förbrukningsmaterial och vår verktygspool.
 Hela registreringen — konto, betalning och ansvarsförbindelse — sker
 numera i vår app.
 
-## Kom igång i appen
+## Våra medlemskap
 
-Öppna **[app.uppsalamakerspace.se](https://app.uppsalamakerspace.se/)**
-på din telefon. Appen är en webbapp som du installerar direkt från sidan
-(ingen App Store eller Google Play behövs). Så fort du är inne ber appen
-dig välja medlemskap, betala och godkänna ansvarsförbindelsen.
-
-Detaljerad genomgång med skärmbilder finns i guiden
-[**Nya medlemmar — kom igång**](/tutorial/sv/newMembers.html). Behöver
-du installationshjälp? Se [**Installera appen**](/tutorial/sv/installApp.html).
-
-## Vad du väljer i appen
+<div class="table-center">
 
 | Medlemskap                 | Pris        | Egen tillgång till lokalen |
 | -------------------------- | ----------- | -------------------------- |
@@ -40,6 +31,8 @@ du installationshjälp? Se [**Installera appen**](/tutorial/sv/installApp.html).
 | Familj Bas, år²            | 300 kr      |                            |
 | Familj Labb, år²           | 2 000 kr    | ✓                          |
 
+</div>
+
 ¹ Kräver ett aktivt basmedlemskap.
 ² Upp till 5 personer på samma adress.
 
@@ -48,6 +41,36 @@ kryssa i rutan högst upp på medlemskapssidan i appen innan du väljer.
 Bas blir då 100 kr/år och Labb 1 200 kr/år.
 
 I årligt labbmedlemskap ingår basmedlemskapet.
+
+<div class="table-center">
+
+| Vad ingår                                                       | Bas | Labb |
+| --------------------------------------------------------------- | --- | ---- |
+| Öppna kvällar                                                   | ✓   | ✓    |
+| Påverka på medlemsmöten                                         | ✓   | ✓    |
+| Självkostnadspris på kurser och workshops                       | ✓   | ✓    |
+| Egen tillgång till lokalen när du vill                          |     | ✓    |
+| Förvaring av egna projekt                                       |     | ✓    |
+| Förbrukningsmaterial                                            |     | ✓    |
+| [Verktygspoolen](https://wiki.uppsalamakerspace.se/Verktygspool) |     | ✓    |
+
+</div>
+
+## Kom igång i appen
+
+Öppna **[app.uppsalamakerspace.se](https://app.uppsalamakerspace.se/)**
+på din telefon. Appen är en webbapp som du installerar direkt från sidan
+(ingen App Store eller Google Play behövs). Så fort du är inne ber appen
+dig välja medlemskap, betala och godkänna ansvarsförbindelsen.
+
+Detaljerad genomgång med skärmbilder finns i guiden
+[**Nya medlemmar — kom igång**](https://tutorial.uppsalamakerspace.se/app/newMembers/).
+Behöver du installationshjälp? Se
+[**Installera appen**](https://tutorial.uppsalamakerspace.se/app/installApp/).
+
+Kommer du inte vidare? Fråga i kanalen **`#app`** i
+[vår Slack](https://uppsalamakerspace.slack.com/). Där hänger både styrelsen
+och andra medlemmar som har gått igenom samma flöde.
 
 ## Så här går det till
 
@@ -66,13 +89,6 @@ Från det att du öppnar appen tills du kan låsa upp dörren själv:
    oftast inom några dagar.
 8. **Klart!** Du kan nu låsa upp dörrarna med appen.
 
-## Hjälp med appen
-
-Behöver du hjälp att installera eller förstå appen? Fråga i kanalen
-**`#app`** i [vår Slack](https://uppsalamakerspace.slack.com/). Där
-hänger både styrelsen och andra medlemmar som har gått igenom samma
-flöde.
-
 ## Om du inte kan använda Swish
 
 Saknar du Swish, eller behöver du betala på något annat sätt? Hör av
@@ -89,26 +105,13 @@ vi flyttar utanför appen i det här fallet.
 
 ## För dig under 18
 
-- **Under 15** behöver du vuxens sällskap i lokalen, och målsmans
-  underskrift på ansvarsförbindelsen plus en särskild introduktion där
-  målsman närvarar.
+- **Under 15** behöver du vuxens sällskap i lokalen (*).
 - **Under 18** får du inte använda roterande verktyg utan vuxen, och du
   kan inte släppa in andra som inte själva är labbmedlemmar.
 
-Ansvarsfulla ungdomar från ca 12 år kan få labbmedlemskap efter samråd
-med målsman.
-
-## Vad ingår
-
-|                                                                 | Bas | Labb |
-| --------------------------------------------------------------- | --- | ---- |
-| Öppna kvällar                                                   | ✓   | ✓    |
-| Påverka på medlemsmöten                                         | ✓   | ✓    |
-| Självkostnadspris på kurser och workshops                       | ✓   | ✓    |
-| Egen tillgång till lokalen när du vill                          |     | ✓    |
-| Förvaring av egna projekt                                       |     | ✓    |
-| Förbrukningsmaterial                                            |     | ✓    |
-| [Verktygspoolen](https://wiki.uppsalamakerspace.se/Verktygspool) |     | ✓    |
+\* Ansvarsfulla ungdomar från ca 12 år kan få labbmedlemskap efter samråd
+med målsman, målsmans underskrift på ansvarsförbindelsen och en särskild
+introduktion där målsman närvarar.
 
 ## Stödmedlemskap
 

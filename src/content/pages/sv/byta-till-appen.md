@@ -20,12 +20,12 @@ styrelsen direkt i appen istället för via mejl.
 ## Så här gör du
 
 Hela flödet finns med skärmbilder i guiden
-[**Befintliga medlemmar — kom igång**](/tutorial/sv/existingMembers.html).
+[**Befintliga medlemmar — kom igång**](https://tutorial.uppsalamakerspace.se/app/existingMembers/).
 I korthet:
 
 1. **Installera appen** från
    [app.uppsalamakerspace.se](https://app.uppsalamakerspace.se/) —
-   se [installationsguiden](/tutorial/sv/installApp.html) om du
+   se [installationsguiden](https://tutorial.uppsalamakerspace.se/app/installApp/) om du
    behöver hjälp.
 2. **Kontrollera din medlems-e-post** via knappen i den gula rutan på
    inloggningssidan. Använd den e-post du angav när du blev medlem.
@@ -42,7 +42,7 @@ I korthet:
 
 Förnyelsen sker numera inne i appen — Swish, samma flöde som vid
 nyteckning. Steg-för-steg-guide finns i
-[**Förnya ditt medlemskap**](/tutorial/sv/renewMembership.html).
+[**Förnya ditt medlemskap**](https://tutorial.uppsalamakerspace.se/app/renewMembership/).
 
 Saknar du Swish? Hör av dig till
 [kansliet@uppsalamakerspace.se](mailto:kansliet@uppsalamakerspace.se)

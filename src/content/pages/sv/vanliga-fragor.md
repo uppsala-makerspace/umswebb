@@ -205,13 +205,11 @@ Handlar det om en minderårig person? Säg till direkt. Tala vänligt, men gör 
 2. Stölder gör vårt gemensamma makerspace sämre, eftersom det tar bort resurser som vi vill använda till skapande och att göra platsen bättre för våra medlemmar.
 3. Du kommer att kontakta personens föräldrar.
 
-Kontakta personens föräldrar. Ta hjälp av styrelsen eller någon annan ansvarig om du inte kan göra det själv.  
-  
-**Vuxna  
-**
+Kontakta personens föräldrar. Ta hjälp av styrelsen eller någon annan ansvarig om du inte kan göra det själv.
 
-Säg om möjligt till direkt. Berätta att du tyckte att du såg en oegentlighet, och be personen återbörda stöldgodset eller betala för sig. Om det inte sker, underrätta styrelsen.  
-  
+**Vuxna**  
+Säg om möjligt till direkt. Berätta att du tyckte att du såg en oegentlighet, och be personen återbörda stöldgodset eller betala för sig. Om det inte sker, underrätta styrelsen.
+
 Om det känns otryggt eller svårt att konfrontera en person direkt, underrätta styrelsen om vad du har observerat. Styrelsen kommer att undersöka saken och göra en polisanmälan om det bedöms att en stöld har skett.
 
 <a id="redovisa_utlagg"></a>

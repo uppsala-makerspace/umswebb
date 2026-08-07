@@ -2,6 +2,10 @@
 dist/
 .astro/
 
+# Icons, photos and floor plans fetched from the members API at build time.
+# Owned by src/lib/entries.ts, which also prunes it — regenerated on every build.
+public/ums-data/
+
 # dependencies
 node_modules/
 

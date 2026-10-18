@@ -27,6 +27,7 @@ const LABELS = {
       'Använd vänster- och högerpil för att stega mellan rummen på våningen, ' +
       'uppåt- och nedåtpil för att byta våning.',
     workshop: 'Verkstad',
+    areasOfInterest: 'Intresseområden',
     groups: 'Grupper',
     trial: 'På prov',
     fallback: 'Planritning över lokalen.',
@@ -40,6 +41,7 @@ const LABELS = {
       'Use left and right arrow keys to step through the rooms on this floor, ' +
       'up and down to change floor.',
     workshop: 'Workshop',
+    areasOfInterest: 'Areas of interest',
     groups: 'Groups',
     trial: 'Trial',
     fallback: 'Floor plan of our space.',
@@ -51,7 +53,13 @@ const t = LABELS[lang];
 // shipping both languages.
 const data = {
   palette: map.palette,
-  labels: { workshop: t.workshop, groups: t.groups, trial: t.trial, hint: t.hint },
+  labels: {
+    workshop: t.workshop,
+    areasOfInterest: t.areasOfInterest,
+    groups: t.groups,
+    trial: t.trial,
+    hint: t.hint,
+  },
   floors: map.floors.map(floor => ({
     key: floor.key,
     rooms: floor.rooms.map(room => ({
@@ -63,6 +71,10 @@ const data = {
       workshop: room.workshop
         ? { name: room.workshop.name[lang], status: room.workshop.status ?? '' }
         : null,
+      areasOfInterest: room.areasOfInterest.map(area => ({
+        name: area.name[lang],
+        status: area.status ?? '',
+      })),
       groups: room.groups.map(group => group.name[lang]),
     })),
   })),
@@ -116,11 +128,18 @@ const data = {
     icon: string;
     iconSize: number;
     workshop: { name: string; status: string } | null;
+    areasOfInterest: { name: string; status: string }[];
     groups: string[];
   };
   type MapData = {
     palette: Record<string, string>;
-    labels: { workshop: string; groups: string; trial: string; hint: string };
+    labels: {
+      workshop: string;
+      areasOfInterest: string;
+      groups: string;
+      trial: string;
+      hint: string;
+    };
     floors: { key: string; rooms: Room[] }[];
   };
 
@@ -199,10 +218,15 @@ const data = {
       function describe(room: Room) {
         const parts = [`<strong>${room.name}</strong>`];
         if (room.text) parts.push(room.text);
+        const withTrial = (entry: { name: string; status: string }) =>
+          entry.status === 'trial' ? `${entry.name} <em>(${data.labels.trial})</em>` : entry.name;
         if (room.workshop) {
-          const trial =
-            room.workshop.status === 'trial' ? ` <em>(${data.labels.trial})</em>` : '';
-          parts.push(`${data.labels.workshop}: ${room.workshop.name}${trial}`);
+          parts.push(`${data.labels.workshop}: ${withTrial(room.workshop)}`);
+        }
+        if (room.areasOfInterest.length) {
+          parts.push(
+            `${data.labels.areasOfInterest}: ${room.areasOfInterest.map(withTrial).join(', ')}`
+          );
         }
         if (room.groups.length) {
           parts.push(`${data.labels.groups}: ${room.groups.join(', ')}`);

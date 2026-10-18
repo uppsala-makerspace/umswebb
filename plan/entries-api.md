@@ -1,14 +1,14 @@
-# Workshops, groups and the floor map from the members API
+# Workshops, areas of interest and the floor map from the members API
 
 ## Goal
 
-Show the association's workshops ("verkstäder") and interest groups on the home
-page, and a map of the space on `/lokalen/`, sourced from the members service
+Show the association's workshops ("verkstäder") and areas of interest
+("intresseområden") on `/vad-vi-gor/`, and a map of the space on `/lokalen/`, sourced from the members service
 rather than maintained as content files. The site is static, so everything
 happens at build time — including copying the API's images and the member app's
 floor plans into the build so the published site never points at another host.
 
-`umsme/PUBLIC_API_FOR_WEBSITE.md` is the contract. Read it before changing
+`umsme/docs/public-api.md` is the contract. Read it before changing
 anything here.
 
 ## The API
@@ -22,9 +22,9 @@ and `palette`.
   "entries": [
     {
       "id": "traverkstaden",
-      "kind": "workshop",              // or "group"
-      "status": "established",         // workshops: "established" | "trial"
-      "type": "interest",              // groups: "interest" | "function"
+      "kind": "workshop",              // or "areaOfInterest" | "group"
+      "status": "established",         // workshops, areas: "established" | "trial"
+      "type": "function",              // groups only, always "function"
       "name": { "sv": "Träverkstaden", "en": "Wood workshop" },
       "tag":  { "sv": "Trä", "en": "Wood" },
       "icon": "http://…/icon?v=2026%2Fspace-<id>-<ms>.svg",
@@ -44,6 +44,7 @@ and `palette`.
       "icon": "http://…/icon?v=…svg",
       "iconSize": 450,                 // SVG user units, not px
       "workshop": "traverkstaden",     // an entry id, at most one
+      "areasOfInterest": ["lordagskurser"],
       "groups": ["trivselgruppen"]
     }
   ],
@@ -84,11 +85,14 @@ Field notes worth remembering:
   each other's files.
 - Validates with Zod — a bad payload fails the build with a field-level error
   instead of rendering empty cards.
+- Bilingual fields may lack `sv` or `en`; the schema fills a missing language
+  from the other, so components can always index by locale.
 - `getEntries()` returns what the carousel shows: `kind: "workshop"` and
-  `kind: "group" && type: "interest"`, workshops first. Function groups (IT,
-  Trivsel) are internal working groups and stay out. `getFloorMap()` returns the
-  two floors with every room, and resolves each room's workshop and groups against
-  **all** entries — a room can name Trivselgruppen even though the carousel doesn't.
+  `kind: "areaOfInterest"`, workshops first. Groups are all function groups (IT,
+  Kiosk) — internal working groups — and stay out. `getFloorMap()` returns the
+  two floors with every room, and resolves each room's workshop, areas of interest
+  and groups against **all** entries — a room can name IT-gruppen even though the
+  carousel doesn't.
 - Caches assets into `public/ums-data/`, named from the `v=` stamp: the file
   existing *is* the cache hit, and a new version arrives under a new name. The
   name is validated against `^[\w.-]+$` so remote data can't write outside the
@@ -111,8 +115,7 @@ rather than being silently dropped.
 **`src/components/EntryCard.astro`** — white icon plate flush with the card's
 top-left corner (rounded 10 px only on the inner corner, sized from
 `--vk-icon-size` + `--vk-icon-inset`, in flow so the header is as tall as the
-plate), title, kind label ("Verkstad" / "Intressegrupp" / "Arbetsgrupp", derived
-from `kind` and `type`), 16:10 photo, then the text. `status: "trial"` adds an
+plate), title, kind label ("Verkstad" / "Intresseområde", from `kind`), 16:10 photo, then the text. `status: "trial"` adds an
 amber corner ribbon reading "På prov" / "Trial".
 
 **`src/components/EntryCarousel.astro`** — the whole carousel, shared by `/` and

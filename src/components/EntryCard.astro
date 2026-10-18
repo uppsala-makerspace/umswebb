@@ -1,5 +1,5 @@
 ---
-/* One card for a workshop or a group: icon + name, photo, description. Icon,
+/* One card for a workshop or an area of interest: icon + name, photo, description. Icon,
  * photo and text all come from the members API (cached locally at build time).
  * Icon and photo are both optional — not every entry has them yet.
  * Presentational only for now — the `id` on the article doubles as an anchor
@@ -15,19 +15,14 @@ interface Props {
 const { entry, lang } = Astro.props;
 const paragraphs = toParagraphs(entry.text[lang]);
 
-// What kind of thing this is, shown under the title. Derived from `kind` and,
-// for groups, `type` — so a function group would be labelled correctly even
-// though we only present interest groups today.
+// What kind of thing this is, shown under the title.
 const KIND_LABELS = {
   workshop: { sv: 'Verkstad', en: 'Workshop' },
-  interest: { sv: 'Intressegrupp', en: 'Interest group' },
-  function: { sv: 'Arbetsgrupp', en: 'Working group' },
+  areaOfInterest: { sv: 'Intresseområde', en: 'Area of interest' },
 };
-const kindKey =
-  entry.kind === 'workshop' ? 'workshop' : entry.type === 'function' ? 'function' : 'interest';
-const kindLabel = KIND_LABELS[kindKey][lang];
+const kindLabel = KIND_LABELS[entry.kind][lang];
 
-// Workshops on trial get a corner ribbon.
+// Workshops and areas of interest on trial get a corner ribbon.
 const trialLabel = entry.status === 'trial' ? { sv: 'På prov', en: 'Trial' }[lang] : null;
 ---
 <article class="vk-card" id={entry.id}>

@@ -6,13 +6,14 @@ import { z } from 'astro:content';
 import type { Locale } from '../data/nav';
 
 // Everything the site needs from the members service comes from one call, at
-// build time: the workshops and groups we present, plus every room on the two
+// build time: the workshops and areas of interest we present, plus every room on the two
 // floor plans. Their icons, photos and the floor plans themselves are copied
 // into `public/ums-data/` so the built site serves its own assets and never
 // points at the API host.
 //
-// See `umsme/PUBLIC_API_FOR_WEBSITE.md` for the contract. Two things from it
-// that shape the code below: keys are absent rather than null, and `spaceId` is
+// See `umsme/docs/public-api.md` for the contract. Three things from it that
+// shape the code below: keys are absent rather than null, either language of a
+// bilingual field may be missing, and `spaceId` is
 // only unique per floor — `kitchen`, `entrance` and `boxstorage` exist on both,
 // so the key is always the pair (spaceId, floor).
 const API_URL = process.env.UMS_API_URL ?? 'http://localhost:3000/api/public/entries';
@@ -22,12 +23,11 @@ const API_URL = process.env.UMS_API_URL ?? 'http://localhost:3000/api/public/ent
 const APP_URL = process.env.UMS_APP_URL ?? 'http://localhost:3001';
 const FLOORS = ['floor1', 'floor2'] as const;
 
-// Which entries the carousel shows, in the order they should appear. Of the
-// groups only the interest ones belong there — `type: "function"` groups (IT,
-// Trivsel) are internal working groups, not something to join for the activity.
-// The floor map still names them, since they occupy rooms.
-const KINDS = ['workshop', 'group'] as const;
-const GROUP_TYPE = 'interest';
+// Which entries the carousel shows, in the order they should appear. Groups
+// stay out: they are all function groups (IT, Kiosk) — internal working groups,
+// not something to join for the activity. The floor map still names them, since
+// they occupy rooms.
+const KINDS = ['workshop', 'areaOfInterest'] as const;
 
 // Asset cache. Filenames come from the `v` query parameter the API stamps onto
 // every asset URL, so a new version lands under a new name and an unchanged one
@@ -38,13 +38,18 @@ const MAX_IMAGE_WIDTH = 1200;
 
 const execFileAsync = promisify(execFile);
 
-const localized = z.object({ sv: z.string(), en: z.string() });
+// The API may leave out either language; the site always shows something, so a
+// missing one falls back to the other.
+const localized = z
+  .object({ sv: z.string().optional(), en: z.string().optional() })
+  .refine(value => value.sv !== undefined || value.en !== undefined, 'no language')
+  .transform(value => ({ sv: (value.sv ?? value.en)!, en: (value.en ?? value.sv)! }));
 
 const entrySchema = z.object({
   id: z.string(),
   kind: z.string(),
-  // Workshops carry "established" or "trial" in `status`; groups carry
-  // "interest" or "function" in `type`.
+  // Workshops and areas of interest carry "established" or "trial" in
+  // `status`; groups carry "function" in `type`.
   status: z.string().optional(),
   type: z.string().optional(),
   name: localized,
@@ -53,7 +58,7 @@ const entrySchema = z.object({
    * `assetUrl()`, which resolves both. */
   icon: z.string().min(1).optional(),
   image: z.string().min(1).optional(),
-  text: localized,
+  text: localized.optional(),
   spaces: z
     .array(
       z.object({
@@ -70,12 +75,13 @@ const spaceSchema = z.object({
   spaceId: z.string(),
   floor: z.string(),
   name: localized,
-  text: localized.partial().optional(),
+  text: localized.optional(),
   icon: z.string().min(1).optional(),
   // px in SVG user units — the drawings are 1610×3425 and 725×1110, so these
   // are large numbers on floor 1 and small ones on floor 2.
   iconSize: z.number().optional(),
   workshop: z.string().optional(),
+  areasOfInterest: z.array(z.string()).optional(),
   groups: z.array(z.string()).optional(),
 });
 
@@ -91,7 +97,6 @@ export type Entry = {
   id: string;
   kind: EntryKind;
   status?: string;
-  type?: string;
   name: Record<Locale, string>;
   tag?: Record<Locale, string>;
   /** Local path to the cached icon (an SVG, drawn in black). Not always present. */
@@ -107,11 +112,12 @@ export type Entry = {
 export type Room = {
   spaceId: string;
   name: Record<Locale, string>;
-  text?: Partial<Record<Locale, string>>;
+  text?: Record<Locale, string>;
   /** Local path to the cached icon, placed on the room's marker. */
   icon?: string;
   iconSize?: number;
   workshop?: { id: string; name: Record<Locale, string>; status?: string };
+  areasOfInterest: { id: string; name: Record<Locale, string>; status?: string }[];
   groups: { id: string; name: Record<Locale, string> }[];
 };
 
@@ -216,6 +222,9 @@ async function fetchAndCache(): Promise<PublicData> {
           icon: spaceIcons.get(spaceKey(space.spaceId, space.floor)),
           iconSize: space.iconSize,
           workshop: space.workshop ? named(space.workshop) : undefined,
+          areasOfInterest: (space.areasOfInterest ?? [])
+            .map(named)
+            .filter(Boolean) as Room['areasOfInterest'],
           groups: (space.groups ?? []).map(named).filter(Boolean) as Room['groups'],
         }))
     );
@@ -242,9 +251,9 @@ const spaceKey = (spaceId: string, floor: string) => `${floor}/${spaceId}`;
 
 // What the carousel shows.
 const isPresented = (entry: z.infer<typeof entrySchema>): entry is typeof entry & { kind: EntryKind } =>
-  entry.kind === 'workshop' || (entry.kind === 'group' && entry.type === GROUP_TYPE);
+  (KINDS as readonly string[]).includes(entry.kind);
 
-/** Workshops first, then interest groups, each in the order the API returned them. */
+/** Workshops first, then areas of interest, each in the order the API returned them. */
 export async function getEntries(): Promise<Entry[]> {
   const data = await loadPublicData();
 
@@ -255,7 +264,6 @@ export async function getEntries(): Promise<Entry[]> {
       id: entry.id,
       kind: entry.kind,
       status: entry.status,
-      type: entry.type,
       name: entry.name,
       tag: entry.tag,
       icon: data.assets.entryIcons.get(entry.id),
@@ -264,7 +272,7 @@ export async function getEntries(): Promise<Entry[]> {
         sv: `Illustrativ bild för ${entry.name.sv}`,
         en: `Illustrative image for ${entry.name.en}`,
       },
-      text: entry.text,
+      text: entry.text ?? { sv: '', en: '' },
     }));
 }
 

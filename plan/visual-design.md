@@ -4,7 +4,7 @@
 
 - **Personality**: playful and approachable.
 - **Baseline**: extend the `umstutorial` design system rather than diverge — keeps the UMS web family visually coherent (public site + tutorial + app screens).
-- **Home page**: logo, two short intro paragraphs, then a carousel of workshops and interest groups pulled from the members API. The four-card destination grid this plan originally called for was built and then replaced; see `entries-api.md`.
+- **Home page**: logo, two short intro paragraphs, then a carousel of workshops and areas of interest pulled from the members API. The four-card destination grid this plan originally called for was built and then replaced; see `entries-api.md`.
 - **Typography**: still the tutorial's system sans-serif stack. Revisit later — Inter / Atkinson Hyperlegible / a humanist sans are candidates once content has settled.
 - **Dark mode**: user toggle, persisted in `localStorage`. System preference is the initial default. Theme decision must happen before paint to avoid FOUC, so an inline blocking script in `<head>` sets `data-theme` on `<html>` synchronously.
 - **CSS approach**: vanilla CSS with custom properties. One global stylesheet for tokens + base + chrome, scoped `<style>` blocks per Astro component. No Tailwind, no Open Props — small site, low-fuss.
@@ -57,7 +57,7 @@ Both `/` and `/en/` are hand-built and identical in structure:
 
 1. `.home-masthead` — the complex logo, centred, max 480 px, `invert(1)` in dark mode. An `h1` is present but visually hidden (the logo is the visible title).
 2. `.home-intro` — two centred paragraphs at full column width so they line up with the cards. Copy names the association and the space, then links to the calendar, the space and membership.
-3. `<EntryCarousel>` — workshops and interest groups, one card at a time. Details in `entries-api.md`.
+3. `<EntryCarousel>` — workshops and areas of interest, one card at a time. Details in `entries-api.md`.
 
 No news on the home page any more; the listing is reachable from the menu.
 

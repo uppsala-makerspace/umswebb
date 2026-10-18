@@ -1,0 +1,28 @@
+[Unit]
+Description=Build umswebb (%i) in a container and publish it to the webroot
+After=network-online.target docker.service
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=oneshot
+# Root is needed for the docker socket and to write the webroot. Nothing from
+# the repository runs in this unit's context — it all runs in the container
+# started by the script below (see deploy/README.md).
+User=root
+# Creates and owns /var/lib/umswebb/<instance> (staging dirs, last-deployed-sha).
+StateDirectory=umswebb/%i
+WorkingDirectory=/var/lib/umswebb/%i
+Environment=INSTANCE=%i
+Environment=STATE_DIR=/var/lib/umswebb/%i
+# REPO_URL, BRANCH, WEBROOT and the UMS_* variables for this instance.
+EnvironmentFile=/etc/umswebb/%i.env
+ExecStart=/usr/local/sbin/umswebb-deploy.sh
+Nice=10
+TimeoutStartSec=20min
+# Hardening that still lets the docker CLI work.
+ProtectHome=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes

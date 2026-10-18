@@ -1,0 +1,37 @@
+# Check that the site builds, so a pull request surfaces breakage before it
+# reaches main — where the hourly deploy would otherwise be the first to find
+# out (it then keeps the previous site up, but stops updating it).
+name: Check build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # pnpm in the version pinned by `packageManager` in package.json.
+      - run: corepack enable pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Against the production members API, as the deploy does.
+      - run: pnpm build
+        env:
+          UMS_API_URL: https://umsme.uppsalamakerspace.se/api/public/entries
+          UMS_APP_URL: https://app.uppsalamakerspace.se
+
+  # The deploy runner cannot be exercised here (it needs docker + a webroot),
+  # but shellcheck catches quoting and logic slips before they reach a server.
+  deploy_scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: shellcheck deploy/*.sh

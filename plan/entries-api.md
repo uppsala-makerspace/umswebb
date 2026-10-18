@@ -102,11 +102,16 @@ Field notes worth remembering:
   every build (9.6 kB + 8.3 kB). They **must** be served from our own origin:
   `<object>` only exposes `contentDocument` — which is how rooms get coloured and
   clicked — when it is same-origin.
-- Photos are downscaled to 1200 px / quality 82 with ImageMagick; if `magick`
-  isn't on the machine the original is kept rather than failing the build.
+- Photos are downscaled to 1200 px / quality 82 with sharp — the same library
+  Astro's own image pipeline uses, so the build needs nothing installed on the
+  machine beyond `pnpm install`.
 - Prunes anything in the cache directory the current response doesn't reference —
   stale versions and dropped entries. **The directory is owned by the loader; do
   not put anything else there by hand.**
+- Astro copies `public/` into `dist/` *before* pages render, so the files the
+  loader writes during the build would miss it. A small integration in
+  `astro.config.mjs` copies `public/ums-data/` into the output on
+  `astro:build:done`.
 
 **`src/lib/richtext.ts`** — `toParagraphs()` splits on blank lines and converts
 `**bold**` after HTML-escaping. Anything else in the Markdown shows literally
@@ -179,21 +184,19 @@ their own documents via `<object>`, so rooms are unreachable by keyboard otherwi
 
 ## Left to do
 
-1. **Point `UMS_API_URL` and `UMS_APP_URL` at the real hosts** and decide how CI
-   reaches them. The build needs both: the API on `:3000` for the data, the member
-   app on `:3001` for the two floor plans. The entry list is fetched every build —
-   no API, no build. A cached copy of the JSON response as a fallback is one option.
-2. Decide whether `public/ums-data/` is committed or gitignored.
-3. Proofread the English intro copy on `/en/` (written here, not translated by a
+1. ~~Point the build at the real hosts~~ — done: `deploy/` rebuilds hourly against
+   the production API in a container, and a failed build leaves the previous
+   site up (see `deploy/README.md`). `public/ums-data/` is gitignored.
+2. Proofread the English intro copy on `/en/` (written here, not translated by a
    human), and the English body of `/en/our-space/`, which is still a placeholder
    with the map bolted on.
-4. Get "Ceramics woorkshop" fixed in the API.
-5. Uneven `text` lengths: Träverkstaden has five paragraphs of workshop rules,
+3. Get "Ceramics woorkshop" fixed in the API.
+4. Uneven `text` lengths: Träverkstaden has five paragraphs of workshop rules,
    Keramikverkstaden has one word. Cards in a row are as tall as the tallest, so
    the carousel is dominated by the longest text — probably wants a short summary
    field in the API, with the full text on a per-entry page.
-6. Each entry already has a stable `id` used as the card's DOM id, and the map's
+5. Each entry already has a stable `id` used as the card's DOM id, and the map's
    panel already has the workshop and group names — the hook for linking rooms to
    per-entry pages once those exist.
-7. The 29 space icons are ~360 kB and load as ~15 separate requests per floor.
+6. The 29 space icons are ~360 kB and load as ~15 separate requests per floor.
    Worth measuring before optimising (svgo, or a sprite).

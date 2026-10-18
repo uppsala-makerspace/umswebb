@@ -1,0 +1,13 @@
+[Unit]
+Description=Hourly umswebb deploy (%i)
+
+[Timer]
+# Hourly even when main has not changed: the workshops and areas of interest
+# come from the members API, which is only read at build time.
+OnCalendar=hourly
+Persistent=true
+# Spreads the instances apart so www and beta don't build at the same moment.
+RandomizedDelaySec=5min
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,43 @@
+# Example vhost for the production site. For beta, copy it, change
+# server_name and root, and uncomment the X-Robots-Tag line so the staging copy
+# stays out of search engines. TLS (listen 443, certificates) is left to
+# whatever the server already uses, e.g. certbot.
+
+server {
+    listen 80;
+    server_name www.uppsalamakerspace.se;
+
+    root /var/www/www.uppsalamakerspace.se;
+    index index.html;
+    charset utf-8;
+
+    # Beta only:
+    # add_header X-Robots-Tag "noindex, nofollow" always;
+
+    # Astro writes every page as <path>/index.html.
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # Scripts and styles from the build, named by content hash: a change is a
+    # new file name, so they can be cached for good.
+    location /_astro/ {
+        add_header Cache-Control "public, max-age=31536000, immutable";
+        try_files $uri =404;
+    }
+
+    # Icons and photos from the members API, named by the API's version stamp —
+    # same rule. The two floor plans are the exception: they have no version,
+    # so they are fetched anew on every build under the same name.
+    location /ums-data/ {
+        add_header Cache-Control "public, max-age=31536000, immutable";
+        try_files $uri =404;
+    }
+    location ~ ^/ums-data/floor[0-9]+\.svg$ {
+        add_header Cache-Control "public, max-age=3600";
+        try_files $uri =404;
+    }
+
+    gzip on;
+    gzip_types text/css application/javascript application/json image/svg+xml;
+}

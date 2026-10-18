@@ -15,13 +15,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.1.7"
-  },
-  "devDependencies": {
+    "astro": "^6.1.7",
     "sharp": "^0.35.3"
   },
   "pnpm": {
-    "//": "pnpm 10 blocks install scripts by default. These two need theirs to pick the right native binary — without it an install can land on a machine where sharp has none, and astro:assets fails at build time rather than here.",
+    "//": "pnpm 10 blocks install scripts by default. These two need theirs to pick the right native binary — without it an install can land on a machine where sharp has none, and astro:assets and the photo downscaling in src/lib/entries.ts fail at build time rather than here.",
     "onlyBuiltDependencies": ["esbuild", "sharp"]
   }
 }

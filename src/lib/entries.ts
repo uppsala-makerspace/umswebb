@@ -1,7 +1,6 @@
-import { access, mkdir, readdir, rename, rm, writeFile } from 'node:fs/promises';
-import { execFile } from 'node:child_process';
+import { access, mkdir, readdir, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { promisify } from 'node:util';
+import sharp from 'sharp';
 import { z } from 'astro:content';
 import type { Locale } from '../data/nav';
 
@@ -35,8 +34,6 @@ const KINDS = ['workshop', 'areaOfInterest'] as const;
 const CACHE_DIR = join(process.cwd(), 'public/ums-data');
 const CACHE_URL = '/ums-data';
 const MAX_IMAGE_WIDTH = 1200;
-
-const execFileAsync = promisify(execFile);
 
 // The API may leave out either language; the site always shows something, so a
 // missing one falls back to the other.
@@ -304,27 +301,19 @@ async function cacheAsset(raw: string, kind: 'icon' | 'image'): Promise<string> 
   const bytes = await download(url.href, kind);
   await mkdir(CACHE_DIR, { recursive: true });
 
-  if (kind === 'image') {
-    // The API serves full-resolution photos (~2 MB); downscale for the web.
-    // Without ImageMagick on the machine we keep the original rather than fail.
-    const original = `${target}.original`;
-    await writeFile(original, bytes);
-    try {
-      await execFileAsync('magick', [
-        original,
-        '-resize',
-        `${MAX_IMAGE_WIDTH}x>`,
-        '-quality',
-        '82',
-        target,
-      ]);
-      await rm(original);
-    } catch {
-      await rename(original, target);
-    }
-  } else {
-    await writeFile(target, bytes);
-  }
+  // The API serves full-resolution photos (~2 MB); downscale for the web.
+  // Encoded in memory and written in one go, so a failed encode can't leave a
+  // half-written file behind that the next build would take for a cache hit.
+  await writeFile(
+    target,
+    kind === 'image'
+      ? await sharp(bytes)
+          .rotate()
+          .resize({ width: MAX_IMAGE_WIDTH, withoutEnlargement: true })
+          .jpeg({ quality: 82 })
+          .toBuffer()
+      : bytes
+  );
 
   return `${CACHE_URL}/${name}`;
 }

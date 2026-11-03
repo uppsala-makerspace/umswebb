@@ -10,6 +10,12 @@ backend:
   name: github
   repo: uppsala-makerspace/umswebb
   branch: main
+  # Sveltia CMS Authenticator, a Cloudflare Worker that does the GitHub OAuth
+  # exchange so the app's client secret never reaches the browser. Deployed
+  # from a plain clone of github.com/sveltia/sveltia-cms-auth with
+  # `wrangler deploy --var "ALLOWED_DOMAINS:…"`; its GitHub OAuth app belongs
+  # to the uppsala-makerspace organisation.
+  base_url: https://sveltia-cms-auth.bold-flower-fd75.workers.dev
 
 media_folder: public/uploads
 public_folder: /uploads

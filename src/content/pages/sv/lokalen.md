@@ -7,7 +7,7 @@ draft: false
 
 I vår lokal finns verktyg och utrymme för att bygga, konstruera och skapa både smått och stort. Här kan du ofta träffa andra kreativa och kunniga människor.
 
-## Karta över vår lokal
+## Karta över lokalen
 
 Lokalen har två våningar. Klicka på våningen som ligger bakom för att växla, och på ett rum för att se vad som finns där.
 

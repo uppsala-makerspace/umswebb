@@ -27,10 +27,11 @@ Tackle one plan at a time. When picking up a plan, run
 - **Depends on:** Translated page URLs
 - **Next step:** Translate the highest-priority pages first (start, lokalen, bli-medlem, om, vanliga-fragor). Each EN file mirrors its SV counterpart's `translationKey`. Decide whether to translate news posts or only the static pages; news fallback to SV is already wired via `astro.config.mjs`.
 
-### NOT STARTED: Sveltia CMS integration
+### IN PROGRESS: Sveltia CMS integration
 - **Tags:** tooling, editorial
-- **Depends on:** Visual design and styling, Translated page URLs
-- **Next step:** Add `public/admin/index.html` loading Sveltia from CDN, plus `public/admin/config.yml` mirroring the content collections (pages + posts, both locales, media folder `public/uploads/`). Register an OAuth app on the Git host (GitHub or GitLab once the repo is hosted). Smoke-test as an editor.
+- **Decided:** editors have GitHub accounts and save straight to `main`; no staging.
+- **Done:** `public/admin/` — Sveltia 0.257.0 from unpkg, `config.yml` mirroring `src/content.config.ts` (pages + posts, `multiple_folders` sv/en, media in `public/uploads/`), and `editor-components.js` for the four embeds (floor map, board, gallery, Google map), each writing back exactly the markup the content already has. `lang` is filled from the folder (`{{locale}}`); `translationKey` is optional, and `postSlug()` falls back to the filename without its date prefix.
+- **Next step:** Test locally with Sveltia's local workflow (`pnpm dev`, `/admin/index.html` in Chrome, "Work with Local Repository"): open and save existing pages without changes and check `git diff`, create a post with an image, add an English version. Then production sign-in — token, or Sveltia CMS Authenticator + a GitHub OAuth app — and a 5-minute deploy check.
 
 ---
 

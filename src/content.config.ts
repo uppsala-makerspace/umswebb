@@ -7,7 +7,11 @@ const pageSchema = z.object({
   title: z.string(),
   description: z.string().optional(),
   lang: localeEnum,
-  translationKey: z.string(),
+  // Links the sv and en versions of an entry, and is a post's URL (see
+  // `postSlug()`). The CMS writes it first in the front matter as its
+  // "canonical slug", so the existing files keep it there too. Optional only so
+  // a hand-written file can leave it out.
+  translationKey: z.string().optional(),
   // Optional URL slug override. When set, this becomes the URL segment for the
   // page (e.g. `slug: our-space` → `/en/our-space/`). When unset, the filename
   // stem is used. Lets us keep stable filenames in git while translating URLs.

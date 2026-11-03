@@ -1,0 +1,140 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms@0.257.0/schema/sveltia-cms.json
+#
+# Sveltia CMS for the content collections in src/content.config.ts. The fields
+# here mirror that schema; change both together.
+#
+# Locally: `pnpm dev`, open http://localhost:4321/admin/index.html in Chrome
+# and pick "Work with Local Repository". Saves are written to the working tree.
+
+backend:
+  name: github
+  repo: uppsala-makerspace/umswebb
+  branch: main
+
+media_folder: public/uploads
+public_folder: /uploads
+
+output:
+  # Leave out empty optional fields rather than writing `slug: ""`: the
+  # content schema treats a present field as set, and an empty slug or date
+  # breaks the build.
+  omit_empty_optional_fields: true
+  # Matches how the existing content is written, so saving an untouched entry
+  # doesn't requote every value.
+  yaml:
+    quote: double
+
+i18n:
+  structure: multiple_folders
+  locales: [sv, en]
+  default_locale: sv
+  # `translationKey` is not a field: it is Sveltia's canonical slug, which
+  # links the language versions of an entry. Sveltia writes it first in the
+  # front matter, set to the entry's slug, and the site uses it for post URLs
+  # (postSlug() in src/lib/slug.ts).
+  canonical_slug:
+    key: translationKey
+    value: "{{slug}}"
+  # Both languages are on for a new entry. An entry with no English version
+  # gets it switched off in the editor's menu (⋮).
+  initial_locales: all
+
+collections:
+  - name: pages
+    label: Sidor
+    label_singular: Sida
+    folder: src/content/pages
+    extension: md
+    format: frontmatter
+    create: true
+    slug: "{{slug}}"
+    i18n: true
+    summary: "{{title}}"
+    # In the order they appear in the front matter. Anchored so posts can reuse
+    # them.
+    fields:
+      - &title
+        name: title
+        label: Titel
+        widget: string
+        i18n: true
+      - &description
+        name: description
+        label: Beskrivning
+        hint: Kort sammanfattning för sökmotorer och delningar.
+        widget: text
+        i18n: true
+        required: false
+      # Not edited: the locale is the folder the file is in, and the site
+      # filters on it.
+      - &lang
+        name: lang
+        widget: hidden
+        i18n: true
+        default: "{{locale}}"
+      - &slug
+        name: slug
+        label: URL-segment
+        hint: Lämna tomt för att använda filnamnet.
+        widget: string
+        i18n: true
+        required: false
+      - name: updatedDate
+        label: Senast uppdaterad
+        widget: datetime
+        time_format: false
+        format: YYYY-MM-DD
+        i18n: duplicate
+        required: false
+      - &draft
+        name: draft
+        label: Utkast
+        hint: Utkast publiceras inte.
+        widget: boolean
+        i18n: duplicate
+        required: false
+      - &body
+        name: body
+        label: Innehåll
+        widget: richtext
+        i18n: true
+
+  - name: posts
+    label: Nyheter
+    label_singular: Nyhet
+    folder: src/content/posts
+    extension: md
+    format: frontmatter
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    i18n: true
+    summary: "{{date}} – {{title}}"
+    sortable_fields: [date, title]
+    fields:
+      - *title
+      - *description
+      - *lang
+      - *slug
+      - name: date
+        label: Datum
+        widget: datetime
+        time_format: false
+        format: YYYY-MM-DD
+        default: "{{now}}"
+        i18n: duplicate
+      - *draft
+      # A bare file name from the WordPress import; the site doesn't use it.
+      # Read-only rather than hidden: a hidden field without a default is
+      # written first in the front matter instead of in this order.
+      - name: cover
+        label: Omslagsbild (från WordPress)
+        widget: string
+        readonly: true
+        required: false
+        i18n: duplicate
+      - name: tags
+        label: Taggar
+        widget: list
+        i18n: duplicate
+        required: false
+      - *body

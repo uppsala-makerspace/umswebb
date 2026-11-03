@@ -1,8 +1,9 @@
 ---
+translationKey: "byggardag-7-augusti"
 title: "Byggardag 7 augusti"
 lang: "sv"
-translationKey: "byggardag-7-augusti"
 date: "2021-08-06"
+draft: false
 ---
 
 På lördag den 7 augusti klockan 13-17 har vi en byggardag i vår lokal. Vi samlas för att förbättra vår lokal. För de som är kvar till slutet bjuds det på Pizza!

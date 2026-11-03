@@ -1,8 +1,9 @@
 ---
+translationKey: "kurs-i-lodning-av-ytmonterade-komponenter-den-12-februari-kl-18"
 title: "Kurs i lödning av ytmonterade komponenter den 12 februari kl. 18"
 lang: "sv"
-translationKey: "kurs-i-lodning-av-ytmonterade-komponenter-den-12-februari-kl-18"
 date: "2018-01-26"
+draft: false
 ---
 
 [![](/uploads/wp/20180125_122921-300x186.jpg)](/uploads/wp/20180125_122921.jpg)Ytmontering inom elektronikproduktion innebär att komponenter placeras på mönsterkortets yta istället för att fästas i genomborrade hål. Detta kräver andra sorters komponenter, men framför allt en annan teknik för att montera. Det rekommenderas att alla deltagare sedan tidigare har grundläggande kunskap inom lödning, eller har gått en av våra tidigare lödkurser.

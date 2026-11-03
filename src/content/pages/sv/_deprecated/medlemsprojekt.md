@@ -1,7 +1,8 @@
 ---
+translationKey: "medlemsprojekt"
 title: "Medlemsprojekt"
 lang: "sv"
-translationKey: "medlemsprojekt"
+draft: false
 ---
 
 Här berättar vi om medlemmars projekt. Om du vill berätta om ett projekt, beskriv det på våran wiki och meddela oss så lägger vi upp en sammanfattning här.

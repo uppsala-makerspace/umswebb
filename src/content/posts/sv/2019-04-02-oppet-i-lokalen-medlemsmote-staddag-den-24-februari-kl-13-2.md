@@ -1,8 +1,9 @@
 ---
+translationKey: "oppet-i-lokalen-medlemsmote-staddag-den-24-februari-kl-13-2"
 title: "Öppet i lokalen: Medlemsmöte & Städdag den 28 april kl 13"
 lang: "sv"
-translationKey: "oppet-i-lokalen-medlemsmote-staddag-den-24-februari-kl-13-2"
 date: "2019-04-02"
+draft: false
 ---
 
 ![](/uploads/wp/IMG_7710-e1453045081362-1024x768.jpg)

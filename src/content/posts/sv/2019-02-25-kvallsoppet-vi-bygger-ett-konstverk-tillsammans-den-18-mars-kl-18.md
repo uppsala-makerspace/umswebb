@@ -1,8 +1,9 @@
 ---
+translationKey: "kvallsoppet-vi-bygger-ett-konstverk-tillsammans-den-18-mars-kl-18"
 title: "Kvällsöppet: Vi bygger ett konstverk tillsammans! den 18 mars kl 18"
 lang: "sv"
-translationKey: "kvallsoppet-vi-bygger-ett-konstverk-tillsammans-den-18-mars-kl-18"
 date: "2019-02-25"
+draft: false
 ---
 
 [![](/uploads/wp/the-mystery-box-300x250.jpg)](/uploads/wp/the-mystery-box.jpg)Denna kväll träffas vi och bygger något riktigt snyggt/coolt/roligt tillsammans, av de verktyg & material vi har på spacet! Beroende på vilka förmågor deltagarna besitter så kan detta konstverk se ut på olika sätt. Det skulle t.ex kunna bli en skulptur eller en tavla, som även skulle kunna innehålla elektroniska/interaktiva/akustiska delar eller bestå av textil/läder, fantasin sätter gränserna. Det finns inga som helst förkunskapskrav, utan kom med ett glatt humör och en vilja att pröva på nya grejer och träffa kreativa människor.

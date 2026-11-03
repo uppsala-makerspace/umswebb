@@ -1,8 +1,9 @@
 ---
+translationKey: "kvallsoppet-verkstadsintroduktion-den-12-april-kl-18"
 title: "Kvällsöppet: Verkstadsintroduktion den 12 april kl. 18"
 lang: "sv"
-translationKey: "kvallsoppet-verkstadsintroduktion-den-12-april-kl-18"
 date: "2018-03-07"
+draft: false
 ---
 
 **[![](/uploads/wp/2017-05-23-20.41.54-300x225.jpg)](/uploads/wp/2017-05-23-20.41.54.jpg)OBS!** Anmälan till detta event sker via mail till [christoffer@ramis.se](mailto:christoffer@ramis.se), se nedan. Att sätta ”Going” på Facebook-eventet räcker inte.

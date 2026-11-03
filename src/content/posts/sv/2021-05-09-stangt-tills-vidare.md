@@ -1,8 +1,9 @@
 ---
+translationKey: "stangt-tills-vidare"
 title: "Stängt tills vidare"
 lang: "sv"
-translationKey: "stangt-tills-vidare"
 date: "2021-05-09"
+draft: false
 ---
 
 På grund av den höga smittspridningen i samhället har styrelsen beslutat att återigen ställa in de öppna kvällarna för en period framöver. Vi hoppas att vi ser en ljusning riktigt snart, nu när vaccinationerna pågår för fullt, och att vi snart kommer att vara i full gång med all verksamhet igen.

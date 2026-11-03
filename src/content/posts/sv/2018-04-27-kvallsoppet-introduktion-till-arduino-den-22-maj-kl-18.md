@@ -1,8 +1,9 @@
 ---
+translationKey: "kvallsoppet-introduktion-till-arduino-den-22-maj-kl-18"
 title: "Kvällsöppet: Introduktion till Arduino den 22 maj kl. 18"
 lang: "sv"
-translationKey: "kvallsoppet-introduktion-till-arduino-den-22-maj-kl-18"
 date: "2018-04-27"
+draft: false
 ---
 
 [![](/uploads/wp/15080768860_fb9a3b070d_o-300x225.jpg)](/uploads/wp/15080768860_fb9a3b070d_o.jpg)Arduino är en öppen plattform som kan användas för att programmera både enkla och avancerade elektronikprojekt. Denna kväll kommer att vara en introduktion för främst dig som aldrig använt en Arduino förut, eller vill få en bra koll på grunderna att kombinera elektronik med programmering i sina egna projekt.

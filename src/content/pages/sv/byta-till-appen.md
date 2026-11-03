@@ -1,8 +1,9 @@
 ---
+translationKey: "byta-till-appen"
 title: "Byt till appen"
 description: "För befintliga medlemmar som ska börja använda Uppsala Makerspaces nya app."
 lang: "sv"
-translationKey: "byta-till-appen"
+draft: false
 ---
 
 Du är redan medlem — det här är guiden för att börja använda vår nya app.

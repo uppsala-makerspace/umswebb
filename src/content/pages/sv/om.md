@@ -1,7 +1,8 @@
 ---
+translationKey: "om"
 title: "Om föreningen"
 lang: "sv"
-translationKey: "om"
+draft: false
 ---
 
 Uppsala Makerspace är en politiskt och religiöst obunden ideell förening med säte i Uppsala. Föreningen bildades den 15 september 2014.

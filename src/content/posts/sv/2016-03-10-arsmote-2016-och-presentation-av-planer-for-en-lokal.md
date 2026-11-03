@@ -1,8 +1,9 @@
 ---
+translationKey: "arsmote-2016-och-presentation-av-planer-for-en-lokal"
 title: "Årsmöte 2016 och presentation av planer för en lokal"
 lang: "sv"
-translationKey: "arsmote-2016-och-presentation-av-planer-for-en-lokal"
 date: "2016-03-10"
+draft: false
 ---
 
 Söndagen den 13 mars har vi årsmöte kl. 15.00. Vi kommer hålla till på Fyrisgården, Svartbäcksgatan 58.

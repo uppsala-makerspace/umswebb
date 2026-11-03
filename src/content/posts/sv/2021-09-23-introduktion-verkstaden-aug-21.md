@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-verkstaden-aug-21"
 title: "Introduktion till Verkstaden/Trärummet den 30 september kl 19-21"
 lang: "sv"
-translationKey: "introduktion-verkstaden-aug-21"
 date: "2021-09-23"
+draft: false
 ---
 
 ![](/uploads/wp/ekeby_verkstaden_wide_small.jpg)

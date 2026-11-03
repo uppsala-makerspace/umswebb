@@ -1,8 +1,9 @@
 ---
+translationKey: "kvallsoppet-3d-printing-den-15-maj-kl-18"
 title: "Kvällsöppet: 3D-printing den 15 maj kl. 18"
 lang: "sv"
-translationKey: "kvallsoppet-3d-printing-den-15-maj-kl-18"
 date: "2018-04-27"
+draft: false
 ---
 
 [![](/uploads/wp/shutterstock_212295607-300x200.jpg)](/uploads/wp/shutterstock_212295607.jpg)Under denna kväll träffas vi som är intresserade av 3D-printing. Har ni något ni vill göra eller få hjälp med, så kommer det att finnas erfarna makers på plats som kan hjälpas till att förverkliga er idé. Har ni inte det, så är ni hemskt välkomna ändå för att hjälpa till eller snacka 3D-printing.

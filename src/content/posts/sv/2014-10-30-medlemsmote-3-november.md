@@ -1,8 +1,9 @@
 ---
+translationKey: "medlemsmote-3-november"
 title: "Medlemsmöte: 3 november"
 lang: "sv"
-translationKey: "medlemsmote-3-november"
 date: "2014-10-30"
+draft: false
 ---
 
 Välkommen till medlemsmöte måndag 3 november klockan 19.00 på Café Linné, Svartbäcksgatan 24.

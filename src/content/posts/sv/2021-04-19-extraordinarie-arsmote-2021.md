@@ -1,8 +1,9 @@
 ---
+translationKey: "extraordinarie-arsmote-2021"
 title: "Extraordinarie årsmöte 2021 - online"
 lang: "sv"
-translationKey: "extraordinarie-arsmote-2021"
 date: "2021-04-19"
+draft: false
 ---
 
 Styrelsen välkomnar alla medlemmar till ett extra årsmöte söndagen den 16 maj kl. 15.

@@ -1,8 +1,9 @@
 ---
+translationKey: "makerpicnic-den-12-september"
 title: "Makerpicnic den 12 september"
 lang: "sv"
-translationKey: "makerpicnic-den-12-september"
 date: "2015-08-19"
+draft: false
 ---
 
 Som tidigare anonserat ändrar vi nu focus från fikamöten till mer temaorienterade träffar. Som första tematräff planerar vi en makerpicnic i Vasaparken kl. 11-15 den 12 september. Det vill säga, vi träffas ute och bygger saker tillsammans. För att det ska bli mer konkret har vi beslutat att ha två huvudteman:

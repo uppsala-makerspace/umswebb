@@ -1,8 +1,9 @@
 ---
+translationKey: "3d-modelleringskurs-i-blender-2016"
 title: "Kom på årets första medlemsmöte"
 lang: "sv"
-translationKey: "3d-modelleringskurs-i-blender-2016"
 date: "2016-01-17"
+draft: false
 ---
 
 Har du skapat något som du bara måste berätta om, eller visa? Eller har du en idé som du behöver få hjälp med att förverkliga? Kanske har du ett jättebra förslag till en workshop tillsammans?

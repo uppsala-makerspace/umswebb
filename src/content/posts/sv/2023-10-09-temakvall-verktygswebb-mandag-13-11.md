@@ -1,8 +1,9 @@
 ---
+translationKey: "temakvall-verktygswebb-mandag-13-11"
 title: "Temakväll: Verktygswebb måndag 13/11"
 lang: "sv"
-translationKey: "temakvall-verktygswebb-mandag-13-11"
 date: "2023-10-09"
+draft: false
 ---
 
 Sedan en längre tid tillbaka har vi en verktygswebb där man kan lägga in verktyg och maskiner. Verktygswebben finns på en touchscreen i vår lokal, mindre känt är kanske att den också finns online:  [https://data.uppsalamakerspace.se/tool](https://data.uppsalamakerspace.se/tool)

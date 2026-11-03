@@ -1,8 +1,9 @@
 ---
+translationKey: "kurs-laserskarare-31-10"
 title: "Kurs: Laserskärare 31/10"
 lang: "sv"
-translationKey: "kurs-laserskarare-31-10"
 date: "2023-10-11"
+draft: false
 cover: "20230916_lasergravyr-scaled-e1695124587678.jpg"
 ---
 

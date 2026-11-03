@@ -1,8 +1,9 @@
 ---
+translationKey: "ny-lokal-nytt-ar"
 title: "Ny lokal och nytt år"
 lang: "sv"
-translationKey: "ny-lokal-nytt-ar"
 date: "2020-12-29"
+draft: false
 ---
 
 ![](/uploads/wp/2020-12-12-16.57.22-small.jpg)

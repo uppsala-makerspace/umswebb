@@ -1,8 +1,9 @@
 ---
+translationKey: "barnhack-6-december"
 title: "Barnhack 6 december!"
 lang: "sv"
-translationKey: "barnhack-6-december"
 date: "2014-11-26"
+draft: false
 ---
 
 [![10355593\_10153359208579638\_9157040808382767261\_o](/uploads/wp/10355593_10153359208579638_9157040808382767261_o-1024x678.jpg)](/uploads/wp/10355593_10153359208579638_9157040808382767261_o.jpg)

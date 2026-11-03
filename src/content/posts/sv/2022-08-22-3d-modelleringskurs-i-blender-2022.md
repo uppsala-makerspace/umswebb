@@ -1,8 +1,9 @@
 ---
+translationKey: "3d-modelleringskurs-i-blender-2022"
 title: "3d-modelleringskurs i Blender"
 lang: "sv"
-translationKey: "3d-modelleringskurs-i-blender-2022"
 date: "2022-08-22"
+draft: false
 ---
 
 ![](/uploads/wp/2021-11-18-22_52_48-.png)

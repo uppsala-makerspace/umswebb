@@ -1,8 +1,9 @@
 ---
+translationKey: "de-oppna-kvallarna-ar-installda-tills-vidare"
 title: "De öppna kvällarna är inställda tills vidare"
 lang: "sv"
-translationKey: "de-oppna-kvallarna-ar-installda-tills-vidare"
 date: "2020-11-09"
+draft: false
 ---
 
 Styrelsen har beslutat att vi inte håller några öppna och utåtriktade aktiviteter nu medan Uppsala har särskilda råd för att begränsa spridningen av coronaviruset.

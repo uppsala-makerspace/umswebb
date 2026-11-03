@@ -1,8 +1,9 @@
 ---
+translationKey: "uppstartsmote-finrummet-textilrummet-den-15-januari-kl-18"
 title: "Uppstartsmöte Finrummet / Textilrummet den 15 januari kl 18"
 lang: "sv"
-translationKey: "uppstartsmote-finrummet-textilrummet-den-15-januari-kl-18"
 date: "2018-12-31"
+draft: false
 ---
 
 [![](/uploads/wp/finrummet-300x225.jpg)](/uploads/wp/finrummet.jpg)Gott nytt 2019 alla makers, Som ni säkert vet har vi ju numera ett fullt fungerande textilrum som vi kallar för finrummet. Utrustning vi har där för närvarande är:

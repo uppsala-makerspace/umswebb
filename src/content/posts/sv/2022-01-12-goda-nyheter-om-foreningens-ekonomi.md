@@ -1,8 +1,9 @@
 ---
+translationKey: "goda-nyheter-om-foreningens-ekonomi"
 title: "Goda nyheter om föreningens ekonomi"
 lang: "sv"
-translationKey: "goda-nyheter-om-foreningens-ekonomi"
 date: "2022-01-12"
+draft: false
 ---
 
 Vi haft vår nya fina lokal i lite mer än ett år. När vi flyttade in var vi väldigt glada över de nya möjligheterna, men också lite oroliga över vår ekonomi. Föreningen hade en buffert på kontot, men med de betydligt högre kostnaderna i Ekeby Bruk 6M såg vi att vi riskerade att tömma besparingarna och få svårt att ha råd med roliga saker som verktyg, material och reparationer.

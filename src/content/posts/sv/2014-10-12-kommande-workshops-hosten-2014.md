@@ -1,8 +1,9 @@
 ---
+translationKey: "kommande-workshops-hosten-2014"
 title: "Kommande workshops hösten 2014"
 lang: "sv"
-translationKey: "kommande-workshops-hosten-2014"
 date: "2014-10-12"
+draft: false
 ---
 
 [![DSC\_1546](/uploads/wp/DSC_1546.jpg)](/uploads/wp/DSC_1546.jpg)

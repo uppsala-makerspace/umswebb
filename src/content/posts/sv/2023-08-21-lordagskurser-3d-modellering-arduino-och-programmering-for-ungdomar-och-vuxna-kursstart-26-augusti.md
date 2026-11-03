@@ -1,8 +1,9 @@
 ---
+translationKey: "lordagskurser-3d-modellering-arduino-och-programmering-for-ungdomar-och-vuxna-kursstart-26-augusti"
 title: "Lördagskurser: 3D-modellering, Arduino och programmering för ungdomar och vuxna, kursstart 26 augusti"
 lang: "sv"
-translationKey: "lordagskurser-3d-modellering-arduino-och-programmering-for-ungdomar-och-vuxna-kursstart-26-augusti"
 date: "2023-08-21"
+draft: false
 ---
 
 [![](/uploads/wp/programmeringsdag_usb_2022-300x200.jpg)](/uploads/wp/programmeringsdag_usb_2022.jpg)

@@ -1,8 +1,9 @@
 ---
+translationKey: "kurs-introduktion-till-resinskrivare"
 title: "Kurs: Introduktion till resinskrivare 27/9"
 lang: "sv"
-translationKey: "kurs-introduktion-till-resinskrivare"
 date: "2023-09-09"
+draft: false
 ---
 
 Med resinskrivare går det att göra mindre detaljer än med de vanliga 3D-skrivarna, men den är också svårare att använda. Eftersom materialet är giftigt är det viktigt att hantera det rätt. Lär dig grunderna i denna introduktion. Tid: kl 19̣–21. Ledare: Jerk.

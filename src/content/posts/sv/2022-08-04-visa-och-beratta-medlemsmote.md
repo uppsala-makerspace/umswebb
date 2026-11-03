@@ -1,8 +1,9 @@
 ---
+translationKey: "visa-och-beratta-medlemsmote"
 title: "Visa och berätta + medlemsmöte 22 augusti"
 lang: "sv"
-translationKey: "visa-och-beratta-medlemsmote"
 date: "2022-08-04"
+draft: false
 ---
 
 Ordet är fritt! Den **22 augusti** bjuder vi in till ett möte för alla medlemmar. Vi inleder med att ge möjlighet att visa upp saker vi jobbar med i lokalen. Sedan blir det allmänt medlemsmöte och möjlighet att diskutera med styrelsen.

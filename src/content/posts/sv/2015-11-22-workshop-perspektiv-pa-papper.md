@@ -1,8 +1,9 @@
 ---
+translationKey: "workshop-perspektiv-pa-papper"
 title: "Workshop: perspektiv på papper"
 lang: "sv"
-translationKey: "workshop-perspektiv-pa-papper"
 date: "2015-11-22"
+draft: false
 ---
 
 [![origami\_edelweiss](/uploads/wp/origami_edelweiss-200x300.jpg)  

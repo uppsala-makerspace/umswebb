@@ -1,8 +1,9 @@
 ---
+translationKey: "kvallsoppet-introduktionskurs-i-3d-printing"
 title: "Kvällsöppet: Introduktionskurs i 3D-printing den 25 april kl. 18"
 lang: "sv"
-translationKey: "kvallsoppet-introduktionskurs-i-3d-printing"
 date: "2018-03-07"
+draft: false
 ---
 
 _[![](/uploads/wp/311-300x148.png)](/uploads/wp/311.png)OBS: Om du gått denna kurs tidigare så behöver du inte gå igen, då denna kurs kommer att ha i stort sett samma innehåll. Vi kommer vid ett senare tillfälle att köra någon form av fortsättningskurs för de som är intresserade av att lära sig mer._

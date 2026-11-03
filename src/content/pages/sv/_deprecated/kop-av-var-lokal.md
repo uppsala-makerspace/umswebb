@@ -1,7 +1,8 @@
 ---
+translationKey: "kop-av-var-lokal"
 title: "Köp av vår lokal"
 lang: "sv"
-translationKey: "kop-av-var-lokal"
+draft: false
 ---
 
 Under hösten 2023 fick vi besked från Uppsala kommun att lokalen vi hyr kommer att säljas. Vi har fått ett erbjudande om att köpa lokalen för en summa på 3 miljoner kronor. Summan är satt utifrån en marknadsmässig bedömning av en mäklare. Erbjudande innefattar den lokal vi befinner oss i idag (375 kvadratmeter) samt ett ventilationsrum i källaren (50 kvadratmeter).

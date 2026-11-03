@@ -1,8 +1,9 @@
 ---
+translationKey: "kvallsoppet-trasvarvning-den-22-mars-kl-18"
 title: "Kvällsöppet: Träsvarvning den 22 mars kl. 18"
 lang: "sv"
-translationKey: "kvallsoppet-trasvarvning-den-22-mars-kl-18"
 date: "2018-03-07"
+draft: false
 ---
 
 [![](/uploads/wp/2018-03-04-18.53.42-mini-300x225.jpg)](/uploads/wp/2018-03-04-18.53.42-mini.jpg)Denna öppna kväll ägnas åt träsvarven, och vi ser gärna att både erfarna svarvare och nybörjare kommer. Detta är dock ingen renodlad kurs, utan är ett tillfälle då glada amatörer har möjlighet att lära sig svarva själva, med lite tips och råd från mer erfarna svarvare. Anmäl gärna även att du kommer på [eventet på Facebook](https://www.facebook.com/events/2350640628294774/).

@@ -1,8 +1,9 @@
 ---
+translationKey: "startmote-for-keramikverkstad"
 title: "Startmöte för keramikverkstad"
 lang: "sv"
-translationKey: "startmote-for-keramikverkstad"
 date: "2023-02-07"
+draft: false
 cover: "pottery-workshop-1581345891X3v.jpg"
 ---
 

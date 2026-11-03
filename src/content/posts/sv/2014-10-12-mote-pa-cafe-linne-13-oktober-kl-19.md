@@ -1,8 +1,9 @@
 ---
+translationKey: "mote-pa-cafe-linne-13-oktober-kl-19"
 title: "MÖTE PÅ CAFÉ LINNÉ 13 OKTOBER KL 19"
 lang: "sv"
-translationKey: "mote-pa-cafe-linne-13-oktober-kl-19"
 date: "2014-10-12"
+draft: false
 ---
 
 Då var det dags igen att möta andra makers i Uppsala! Man kan berätta om sitt favoritprojekt, söka inspiration av andra eller bara umgås och fika.

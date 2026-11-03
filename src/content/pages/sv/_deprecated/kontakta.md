@@ -1,7 +1,8 @@
 ---
+translationKey: "kontakta"
 title: "Kontakt"
 lang: "sv"
-translationKey: "kontakta"
+draft: false
 ---
 
 # Kontakta oss

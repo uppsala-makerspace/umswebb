@@ -1,8 +1,9 @@
 ---
+translationKey: "kvallsoppet-laga-saker-den-13-juni"
 title: "Kvällsöppet: laga saker den 13 juni"
 lang: "sv"
-translationKey: "kvallsoppet-laga-saker-den-13-juni"
 date: "2018-06-02"
+draft: false
 ---
 
 [![](/uploads/wp/shattered-cup-e1461075181424-150x150.jpg)](/uploads/wp/shattered-cup-e1461075181424.jpg)En maker behöver inte köpa nytt så fort något går sönder. Det går att laga väldigt många saker själv, med lite händighet och kanske några tips från någon som gjort det förr. På den här träffen tar vi med våra glappande hörlurar, den rangliga pallen, eller vad det nu är som har gått sönder. Vi hjälps åt, slår våra kloka hjärnor ihop, och har förhoppningsvis användbara saker med oss hem igen.

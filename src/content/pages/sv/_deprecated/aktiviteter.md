@@ -1,7 +1,8 @@
 ---
+translationKey: "aktiviteter"
 title: "Aktiviteter"
 lang: "sv"
-translationKey: "aktiviteter"
+draft: false
 ---
 
 Vill du hålla en aktivitet? [Här finns instruktioner!](/aktiviteter/att-halla-en-aktivitet/)  

@@ -1,8 +1,9 @@
 ---
+translationKey: "genomgang-av-industrisymaskinerna-den-6-november-kl-18"
 title: "Genomgång av Industrisymaskinerna den 6 november kl 18"
 lang: "sv"
-translationKey: "genomgang-av-industrisymaskinerna-den-6-november-kl-18"
 date: "2019-10-09"
+draft: false
 ---
 
 ![](/uploads/wp/ums_symaskiner.jpg)

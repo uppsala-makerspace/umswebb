@@ -1,8 +1,9 @@
 ---
+translationKey: "uppdatering-angaende-visir-tillverkade-under-mars-april-2020"
 title: "Uppdatering angående visir tillverkade under mars-april 2020"
 lang: "sv"
-translationKey: "uppdatering-angaende-visir-tillverkade-under-mars-april-2020"
 date: "2020-07-16"
+draft: false
 ---
 
 Arbetsmiljöverket har under den senaste tiden gjort kontroller av Uppsalas äldreboenden, vilket visat att flera sorters icke-godkända visir utan CE-märkning används. En av de modellerna som påträffats är de visirbågar som Uppsala Makerspace varit med och 3D-printat, efter liknande initiativ i andra delar av Sverige.

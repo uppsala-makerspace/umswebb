@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-textiltransfer-den-21-oktober-kl-18-20"
 title: "Introduktion till Textiltransfer den 21 oktober & 9 november kl 18-20"
 lang: "sv"
-translationKey: "introduktion-till-textiltransfer-den-21-oktober-kl-18-20"
 date: "2021-10-09"
+draft: false
 ---
 
 ![](/uploads/wp/transferkurs-1024x512.png)

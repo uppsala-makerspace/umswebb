@@ -1,8 +1,9 @@
 ---
+translationKey: "dags-for-fixardag"
 title: "Dags för fixardag!"
 lang: "sv"
-translationKey: "dags-for-fixardag"
 date: "2021-11-22"
+draft: false
 ---
 
 Nu på lördag den 27:e november kör Uppsala Makerspace en gemensam fixardag igen på makerspacet för att få ordning och reda i föreningsförrådet. Vi kommer fokusera på att bygga en förrådshylla för bland annat träförvaring och det behövs att många hjälps åt. Kommer tillräckligt många så kan vi äntligen bygga färdigt den sista väggen in till Diverseverkstaden. I den bästa av världar hinner vi åka med ett lass till återvinningscentralen också.

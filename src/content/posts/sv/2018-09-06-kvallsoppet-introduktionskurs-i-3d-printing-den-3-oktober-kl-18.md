@@ -1,8 +1,9 @@
 ---
+translationKey: "kvallsoppet-introduktionskurs-i-3d-printing-den-3-oktober-kl-18"
 title: "Kvällsöppet: Introduktionskurs i 3D-printing den 3 oktober kl. 18"
 lang: "sv"
-translationKey: "kvallsoppet-introduktionskurs-i-3d-printing-den-3-oktober-kl-18"
 date: "2018-09-06"
+draft: false
 ---
 
 **[![](/uploads/wp/311-300x148.png)](/uploads/wp/311.png)OBS:** Det går jättebra att gå om introduktionen om man vill fräscha upp sina kunskaper. Vi har dessutom under detta året en ny process för hur man använder 3D-skrivarna, som ska vara lite enklare att komma igång med, så det kan vara bra att kolla upp.

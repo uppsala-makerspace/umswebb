@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-punktsvetsen-batterisvetsen-12-mars"
 title: "Introduktion till Punktsvetsen/Batterisvetsen den 12 mars kl 18"
 lang: "sv"
-translationKey: "introduktion-till-punktsvetsen-batterisvetsen-12-mars"
 date: "2020-03-02"
+draft: false
 ---
 
 ![](/uploads/wp/punktsvets_ums.jpg)

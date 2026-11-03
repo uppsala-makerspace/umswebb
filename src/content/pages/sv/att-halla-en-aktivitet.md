@@ -1,7 +1,8 @@
 ---
+translationKey: "att-halla-en-aktivitet"
 title: "Att hålla en aktivitet"
 lang: "sv"
-translationKey: "att-halla-en-aktivitet"
+draft: false
 ---
 
 Vem som helst som har tid och ork och lust kan hålla en aktivitet. Så här går det till.

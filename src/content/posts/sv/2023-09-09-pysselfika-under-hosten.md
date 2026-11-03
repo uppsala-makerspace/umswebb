@@ -1,8 +1,9 @@
 ---
+translationKey: "pysselfika-under-hosten"
 title: "Pysselfika under hösten"
 lang: "sv"
-translationKey: "pysselfika-under-hosten"
 date: "2023-09-09"
+draft: false
 cover: "2022-08-04_17-27-27.jpg"
 ---
 

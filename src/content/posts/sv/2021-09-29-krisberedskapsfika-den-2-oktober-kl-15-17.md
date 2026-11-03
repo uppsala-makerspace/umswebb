@@ -1,8 +1,9 @@
 ---
+translationKey: "krisberedskapsfika-den-2-oktober-kl-15-17"
 title: "Krisberedskapsfika den 2 oktober kl 15-17"
 lang: "sv"
-translationKey: "krisberedskapsfika-den-2-oktober-kl-15-17"
 date: "2021-09-29"
+draft: false
 ---
 
 ![](/uploads/wp/krisberedskap.jpg)

@@ -1,8 +1,9 @@
 ---
+translationKey: "kvallsoppet-verkstadsintroduktion-den-25-september-kl-18"
 title: "Kvällsöppet: Verkstadsintroduktion den 26 september kl. 18"
 lang: "sv"
-translationKey: "kvallsoppet-verkstadsintroduktion-den-25-september-kl-18"
 date: "2018-09-06"
+draft: false
 ---
 
 ![](/uploads/wp/2017-05-23-20.41.54-300x225.jpg)**ÄNDRING 2018-09-19: Verkstadsintroduktionen har flyttats från tisdagen den 25 september till onsdagen den 26 september.**

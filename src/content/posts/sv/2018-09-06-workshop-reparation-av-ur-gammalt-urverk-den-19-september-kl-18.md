@@ -1,8 +1,9 @@
 ---
+translationKey: "workshop-reparation-av-ur-gammalt-urverk-den-19-september-kl-18"
 title: "Workshop: Reparation av ur-gammalt urverk den 19 september kl. 18"
 lang: "sv"
-translationKey: "workshop-reparation-av-ur-gammalt-urverk-den-19-september-kl-18"
 date: "2018-09-06"
+draft: false
 ---
 
 [![](/uploads/wp/urverk_web-300x180.jpg)](/uploads/wp/urverk_web.jpg)På Uppsala Makerspace årsmöte under våren höll vi till i Folkuniversitetets lokaler längre upp på Bergsbrunnagatan, vid det som kallas annexet. I dessa gamla lokaler, som mycket längre tillbaka användes för textilarbeten, så sitter det ett stort och fint gammalt urverk, som tyvärr inte längre är i funktion. Då det började klia i flera av medlemmarnas maker-fingrar, så har vi frågat Folkuniversitetet om vi får ta en titt på urverket, och nu har vi fått grönt ljus att göra det!

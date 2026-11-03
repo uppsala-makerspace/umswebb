@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-laserskararen-den-26-feb-kl-18"
 title: "Introduktion till Laserskäraren den 26 feb kl 18"
 lang: "sv"
-translationKey: "introduktion-till-laserskararen-den-26-feb-kl-18"
 date: "2020-02-10"
+draft: false
 ---
 
 ![](/uploads/wp/2018-06-18-22.10.47-mini.jpg)

@@ -1,8 +1,9 @@
 ---
+translationKey: "verkstadsintroduktion-den-11-januari-kl-18"
 title: "Verkstadsintroduktion den 11 januari kl. 18"
 lang: "sv"
-translationKey: "verkstadsintroduktion-den-11-januari-kl-18"
 date: "2017-12-22"
+draft: false
 ---
 
 **[![](/uploads/wp/2017-05-23-20.41.54-300x225.jpg)](/uploads/wp/2017-05-23-20.41.54.jpg)OBS!** Anmälan till detta event sker via mail till [christoffer@ramis.se](mailto:christoffer@ramis.se), se nedan. Att sätta ”Going” på Facebook-eventet räcker inte.

@@ -1,8 +1,9 @@
 ---
+translationKey: "vi-njuter-av-nasas-asteroidkollision"
 title: "Vi njuter av NASA's asteroidkollision!"
 lang: "sv"
-translationKey: "vi-njuter-av-nasas-asteroidkollision"
 date: "2022-09-23"
+draft: false
 cover: "Crash.png"
 ---
 

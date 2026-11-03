@@ -1,8 +1,9 @@
 ---
+translationKey: "informationsmote-om-lokalen-12-januari"
 title: "Informationsmöte om lokalen 12 januari"
 lang: "sv"
-translationKey: "informationsmote-om-lokalen-12-januari"
 date: "2025-01-07"
+draft: false
 ---
 
 Alla intresserade medlemmar är välkomna till ett möte på söndag den 12 januari klockan 14. Styrelsen berättar då om statusen för ägandet av lokalen och vad det innebär för föreningen framöver. Den första delen av mötet är information, och går att följa digitalt [via den här länken](https://www.google.com/url?q=http://meet.google.com/wtu-mgjj-ztf&sa=D&source=calendar&usd=2&usg=AOvVaw3xgVaIZNbMpnt7roXvRxCg).

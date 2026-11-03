@@ -1,8 +1,9 @@
 ---
+translationKey: "medlemsmotena-fortsatter"
 title: "Medlemsmötena fortsätter"
 lang: "sv"
-translationKey: "medlemsmotena-fortsatter"
 date: "2015-01-13"
+draft: false
 ---
 
 Nästa onsdag kör vi årets första medlemsmöte. Vi träffas som vanligt på Café Linné Konstantina på Svartbäcksgatan 24 klockan 19.

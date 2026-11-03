@@ -1,8 +1,9 @@
 ---
+translationKey: "programmeringskurs-for-tonaringar-kursstart-18-september"
 title: "Programmeringskurs för ungdomar, kursstart 18 september"
 lang: "sv"
-translationKey: "programmeringskurs-for-tonaringar-kursstart-18-september"
 date: "2021-09-09"
+draft: false
 ---
 
 ![](/uploads/wp/programmeringskurs.jpg)

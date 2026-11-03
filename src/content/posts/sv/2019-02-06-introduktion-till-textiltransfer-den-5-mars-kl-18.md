@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-textiltransfer-den-5-mars-kl-18"
 title: "Introduktion till Textiltransfer den 5 mars kl 18"
 lang: "sv"
-translationKey: "introduktion-till-textiltransfer-den-5-mars-kl-18"
 date: "2019-02-06"
+draft: false
 ---
 
 **OBS:** Denna kurs kräver anmälan då det är begränsat med platser: [https://simplesignup.se/private\_event/146796/a747037f5c](https://simplesignup.se/private_event/146796/a747037f5c)

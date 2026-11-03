@@ -1,8 +1,9 @@
 ---
+translationKey: "taljcirkel-wood-carving-course"
 title: "Täljcirkel / wood carving course"
 lang: "sv"
-translationKey: "taljcirkel-wood-carving-course"
 date: "2026-01-29"
+draft: false
 ---
 
 Hej alla skaparvänner! Nu kan jag äntligen meddela att jag kommer igång med en täljkurs (täljcirkel) under våren! Era dagdrömmar om att vara Emil i snickarboa är äntligen uppfyllda ![:star:](/uploads/wp/2b50.png)

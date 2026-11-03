@@ -1,8 +1,9 @@
 ---
+translationKey: "arsmote-2019-dokument"
 title: "Årsmöte 2019 - dokument"
 lang: "sv"
-translationKey: "arsmote-2019-dokument"
 date: "2019-03-23"
+draft: false
 ---
 
 Som tidigare annonserat så är det årsmöte söndagen den 24 mars kl. 15. Vi möts strax innan kl. 15 i lokalen och går sen upp till rum D75 i Annexet på Folkuniversitetet. Det bjuds på fika!

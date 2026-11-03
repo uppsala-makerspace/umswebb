@@ -1,8 +1,9 @@
 ---
+translationKey: "kom-och-bygg-3d-skrivare"
 title: "Kom och bygg 3d-skrivare!"
 lang: "sv"
-translationKey: "kom-och-bygg-3d-skrivare"
 date: "2025-03-04"
+draft: false
 cover: "3d-printer-building-workshop.png"
 ---
 

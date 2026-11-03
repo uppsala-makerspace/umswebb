@@ -1,8 +1,9 @@
 ---
+translationKey: "grundkurs-i-lodning-och-halmontering-den-2-maj-kl-18"
 title: "Grundkurs i lödning och hålmontering den 2 maj kl. 18"
 lang: "sv"
-translationKey: "grundkurs-i-lodning-och-halmontering-den-2-maj-kl-18"
 date: "2017-04-18"
+draft: false
 ---
 
 [![lödning](/uploads/wp/lödning-300x200.jpg)](/uploads/wp/lödning.jpg)Denna kurs riktar sig främst till dig som aldrig har lött förut eller vill bättra på dina kunskaper. Lödning är en baskunskap inom elektronik och en förutsättning för att du ska kunna konstruera mer hållbara konstruktioner.

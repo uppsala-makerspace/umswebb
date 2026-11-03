@@ -1,8 +1,9 @@
 ---
+translationKey: "tillverka-armband"
 title: "Tillverka armband i olika tekniker! Kurs för alla åldrar"
 lang: "sv"
-translationKey: "tillverka-armband"
 date: "2022-04-22"
+draft: false
 cover: "armband-montage-mindre.png"
 ---
 

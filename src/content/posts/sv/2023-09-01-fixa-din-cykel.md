@@ -1,8 +1,9 @@
 ---
+translationKey: "fixa-din-cykel"
 title: "Fixa din cykel"
 lang: "sv"
-translationKey: "fixa-din-cykel"
 date: "2023-09-01"
+draft: false
 cover: "bike-kitchen-e1693552352971.jpg"
 ---
 

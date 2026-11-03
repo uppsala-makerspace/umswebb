@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-finrummet-och-vara-industrisymaskiner"
 title: "Introduktion till Finrummet och våra industrisymaskiner den 29 november kl 18"
 lang: "sv"
-translationKey: "introduktion-till-finrummet-och-vara-industrisymaskiner"
 date: "2018-11-10"
+draft: false
 ---
 
 [![](/uploads/wp/ums_symaskiner-300x225.jpg)](/uploads/wp/ums_symaskiner.jpg)**OBS!** Detta evenemang har begränsat med platser, och anmälan sker via följande bokningssida: [https://simplesignup.se/private\_event/142111/9d60327184](https://simplesignup.se/private_event/142111/9d60327184)

@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-textiltransfer-den-6-december-kl-18-20"
 title: "Introduktion till Textiltransfer den 6 december kl 18-20"
 lang: "sv"
-translationKey: "introduktion-till-textiltransfer-den-6-december-kl-18-20"
 date: "2022-12-01"
+draft: false
 ---
 
 ![](/uploads/wp/transferkurs-1024x512.png)

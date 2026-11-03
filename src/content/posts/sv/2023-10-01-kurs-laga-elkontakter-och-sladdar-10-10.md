@@ -1,8 +1,9 @@
 ---
+translationKey: "kurs-laga-elkontakter-och-sladdar-10-10"
 title: "Kurs: Laga elkontakter och sladdar 10/10"
 lang: "sv"
-translationKey: "kurs-laga-elkontakter-och-sladdar-10-10"
 date: "2023-10-01"
+draft: false
 cover: "trasig_elsladd.jpg"
 ---
 

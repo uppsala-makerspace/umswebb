@@ -1,9 +1,10 @@
 ---
+translationKey: "vanliga-fragor"
 title: "FAQ"
 description: "Answers to the questions we get most often about membership, the space, tools and materials."
 lang: "en"
-translationKey: "vanliga-fragor"
 slug: faq
+draft: false
 ---
 
 If you cannot find the answer to your question below, contact us at [kansliet@uppsalamakerspace.se](mailto:kansliet@uppsalamakerspace.se) and we will answer it, or reach out to our members through our [Facebook group](https://www.facebook.com/groups/uppsalamakerspace/) or our [Slack chat](https://join.slack.com/t/uppsalamakerspace/shared_invite/enQtNDQwNDA5NDk3MjAyLTAwNGU4MTBkYTMxYzRkYzUwNDlmNGQ4YTIxYTM5NTRiZTc4YzYxZjUxZTJhODIyNmYzMDM3NTFiZTY0NzZjN2Y).

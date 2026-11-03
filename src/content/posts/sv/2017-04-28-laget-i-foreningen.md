@@ -1,8 +1,9 @@
 ---
+translationKey: "laget-i-foreningen"
 title: "Läget i föreningen"
 lang: "sv"
-translationKey: "laget-i-foreningen"
 date: "2017-04-28"
+draft: false
 ---
 
 Vi är nu över 30 medlemmar i föreningen! Vi i styrelsen hoppas att många ska hitta en kreativ hemvist i Uppsala Makerspace. Här kommer en liten sammanfattning av vad som händer och rör på sig nu.

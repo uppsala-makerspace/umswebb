@@ -1,8 +1,9 @@
 ---
+translationKey: "forsta-medlemsmotet-2017"
 title: "Första medlemsmötet 2017"
 lang: "sv"
-translationKey: "forsta-medlemsmotet-2017"
 date: "2017-01-10"
+draft: false
 cover: "tvingar.jpg"
 ---
 

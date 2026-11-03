@@ -1,8 +1,9 @@
 ---
+translationKey: "kurs-i-3d-printing-den-8-november-kl-18"
 title: "Kurs i 3D-printing den 8 november kl. 18"
 lang: "sv"
-translationKey: "kurs-i-3d-printing-den-8-november-kl-18"
 date: "2017-10-25"
+draft: false
 ---
 
 [![](/uploads/wp/3Dskrivare-300x225.jpg)](/uploads/wp/3Dskrivare.jpg)_OBS: Om du gick denna kurs i våras så behöver du inte gå på detta tillfälle, då denna kurs kommer att ha i stort sett samma innehåll. Vi kommer vid ett senare tillfälle att köra någon form av fortsättningskurs för de som är intresserade av att lära sig mer._

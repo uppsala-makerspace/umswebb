@@ -1,8 +1,9 @@
 ---
+translationKey: "workshop-1-rita-i-cad-och-skriv-ut-i-3d"
 title: "Workshop 1: Rita i CAD och skriv ut i 3D"
 lang: "sv"
-translationKey: "workshop-1-rita-i-cad-och-skriv-ut-i-3d"
 date: "2014-10-12"
+draft: false
 ---
 
 För ett par veckor sedan, 20 september, arrangerade Uppsala makerspace sin första öppna verksamhet.

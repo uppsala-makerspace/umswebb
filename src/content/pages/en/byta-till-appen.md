@@ -1,9 +1,10 @@
 ---
+translationKey: "byta-till-appen"
 title: "Switch to the app"
 description: "For existing members who are starting to use Uppsala Makerspace's new app."
 lang: "en"
-translationKey: "byta-till-appen"
 slug: switch-to-the-app
+draft: false
 ---
 
 You are already a member — this is the guide to getting started with our new

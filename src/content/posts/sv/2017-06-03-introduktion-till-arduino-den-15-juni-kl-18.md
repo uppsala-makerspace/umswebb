@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-arduino-den-15-juni-kl-18"
 title: "Introduktion till Arduino den 15 juni kl. 18"
 lang: "sv"
-translationKey: "introduktion-till-arduino-den-15-juni-kl-18"
 date: "2017-06-03"
+draft: false
 ---
 
 [![15080768860\_fb9a3b070d\_o](/uploads/wp/15080768860_fb9a3b070d_o-300x225.jpg)](/uploads/wp/15080768860_fb9a3b070d_o.jpg)Arduino är en öppen plattform som kan användas för att programmera både enkla och avancerade elektronikprojekt. Denna kväll kommer att vara en introduktion för främst dig som aldrig använt en Arduino förut, eller vill få en bra koll på grunderna att kombinera elektronik med programmering i sina egna projekt.

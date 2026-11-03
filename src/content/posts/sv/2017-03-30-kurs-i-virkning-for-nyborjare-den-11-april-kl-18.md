@@ -1,8 +1,9 @@
 ---
+translationKey: "kurs-i-virkning-for-nyborjare-den-11-april-kl-18"
 title: "Kurs i virkning för nybörjare den 11 april kl. 18"
 lang: "sv"
-translationKey: "kurs-i-virkning-for-nyborjare-den-11-april-kl-18"
 date: "2017-03-30"
+draft: false
 ---
 
 [![IMG\_20170329\_214356](/uploads/wp/IMG_20170329_214356-225x300.jpg)](/uploads/wp/IMG_20170329_214356.jpg)Virkning är ett hantverk där en nål med krok i änden används för att tillverka saker av garn. Virkning blir inte så elastiskt som stickning, men går lätt att forma. Det går att variera på många sätt.

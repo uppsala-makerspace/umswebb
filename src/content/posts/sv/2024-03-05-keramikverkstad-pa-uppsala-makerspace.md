@@ -1,8 +1,9 @@
 ---
+translationKey: "keramikverkstad-pa-uppsala-makerspace"
 title: "Keramikverkstad på Uppsala makerspace"
 lang: "sv"
-translationKey: "keramikverkstad-pa-uppsala-makerspace"
 date: "2024-03-05"
+draft: false
 ---
 
 _Nu står Uppsala makerspace nya keramikverkstad redo att börja användas. Här kan du läsa mer om hur verkstaden fungerar och vilken utrustning som finns i verkstaden just nu. Längst ned på denna sida finns också en redovisning av hur pengarna från den insamlingskampanj som gjordes under 2023 har använts._

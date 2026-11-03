@@ -1,8 +1,9 @@
 ---
+translationKey: "macgyver-workshop-den-20-september-kl-18"
 title: "MacGyver-workshop den 20 september kl. 18"
 lang: "sv"
-translationKey: "macgyver-workshop-den-20-september-kl-18"
 date: "2017-09-04"
+draft: false
 ---
 
 [![macyver\_embed](/uploads/wp/macyver_embed-200x300.jpg)](/uploads/wp/macyver_embed.jpg)Har du det som krävs för att bli en äkta MacGyver? Detta är startskottet för vår lite mer tävlingsinriktade workshop, där vi i mindre grupper försöker lösa en utmaning med enkla medel. Kreativa lösningar uppmuntras, och alla verktyg på makerspacet får användas. Främsta målet med denna workshop är att dock att vi ska ha kul, men även lära oss av hur andra tacklar problemlösning.

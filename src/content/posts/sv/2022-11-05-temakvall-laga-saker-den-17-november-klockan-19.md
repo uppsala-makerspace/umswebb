@@ -1,8 +1,9 @@
 ---
+translationKey: "temakvall-laga-saker-den-17-november-klockan-19"
 title: "Temakväll: Laga saker den 17 november klockan 19"
 lang: "sv"
-translationKey: "temakvall-laga-saker-den-17-november-klockan-19"
 date: "2022-11-05"
+draft: false
 cover: "IMG_7710-e1453045081362.jpg"
 ---
 

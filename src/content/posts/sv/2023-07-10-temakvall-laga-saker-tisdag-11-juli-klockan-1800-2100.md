@@ -1,8 +1,9 @@
 ---
+translationKey: "temakvall-laga-saker-tisdag-11-juli-klockan-1800-2100"
 title: "Temakväll: Laga saker tisdag 11 juli klockan 18:00–21:00"
 lang: "sv"
-translationKey: "temakvall-laga-saker-tisdag-11-juli-klockan-1800-2100"
 date: "2023-07-10"
+draft: false
 ---
 
 Ta med dina trasiga saker: kläder, fritidsutrustning, småmöbler, leksaker, eller vad som helst. Vi har alla olika kompetens och kan hjälpa varandra när vi kör fast.

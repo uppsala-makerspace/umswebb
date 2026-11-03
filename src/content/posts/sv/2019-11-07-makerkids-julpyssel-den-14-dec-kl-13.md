@@ -1,8 +1,9 @@
 ---
+translationKey: "makerkids-julpyssel-den-14-dec-kl-13"
 title: "Makerkids: Julpyssel den 14 dec kl 13"
 lang: "sv"
-translationKey: "makerkids-julpyssel-den-14-dec-kl-13"
 date: "2019-11-07"
+draft: false
 ---
 
 ![](/uploads/wp/3d-print-christmas-tree.jpg)

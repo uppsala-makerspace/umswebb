@@ -1,8 +1,9 @@
 ---
+translationKey: "kurs-i-tillverkning-av-lysande-trollstavar-den-16-nov-kl-12"
 title: "Kurs i tillverkning av lysande trollstavar den 16 nov kl 12"
 lang: "sv"
-translationKey: "kurs-i-tillverkning-av-lysande-trollstavar-den-16-nov-kl-12"
 date: "2019-11-01"
+draft: false
 ---
 
 **Uppdatering 15-nov:** Vi ställer in evenemanget på grund av dåligt med anmälningar. Vi kommer dock att planera in det igen i början på nästa år. Anmälningslänken nedan är avstängd.

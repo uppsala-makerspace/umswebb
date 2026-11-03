@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-verkstaden-trarummet"
 title: "Introduktion till Verkstaden/Trärummet"
 lang: "sv"
-translationKey: "introduktion-till-verkstaden-trarummet"
 date: "2020-03-04"
+draft: false
 ---
 
 ![](/uploads/wp/verkstaden_2020.jpg)

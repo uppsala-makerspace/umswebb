@@ -1,8 +1,9 @@
 ---
+translationKey: "pysselfika"
 title: "Pysselfika"
 lang: "sv"
-translationKey: "pysselfika"
 date: "2022-08-04"
+draft: false
 cover: "2022-08-04_17-27-27.jpg"
 ---
 

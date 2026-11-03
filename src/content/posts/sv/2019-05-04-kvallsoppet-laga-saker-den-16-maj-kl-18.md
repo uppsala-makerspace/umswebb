@@ -1,8 +1,9 @@
 ---
+translationKey: "kvallsoppet-laga-saker-den-16-maj-kl-18"
 title: "Kvällsöppet: Laga saker den 16 maj kl. 18"
 lang: "sv"
-translationKey: "kvallsoppet-laga-saker-den-16-maj-kl-18"
 date: "2019-05-04"
+draft: false
 ---
 
 <figure>

@@ -1,7 +1,8 @@
 ---
+translationKey: "bli-medlem"
 title: "Bli medlem"
 lang: "sv"
-translationKey: "bli-medlem"
+draft: false
 ---
 
 <aside class="notice">

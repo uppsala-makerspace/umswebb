@@ -1,8 +1,9 @@
 ---
+translationKey: "nytt-fran-foreningen-februari-2017"
 title: "Nytt från föreningen, februari 2017"
 lang: "sv"
-translationKey: "nytt-fran-foreningen-februari-2017"
 date: "2017-02-20"
+draft: false
 ---
 
 [![makerspace](/uploads/wp/makerspace-1024x627.jpg)](/uploads/wp/makerspace.jpg)

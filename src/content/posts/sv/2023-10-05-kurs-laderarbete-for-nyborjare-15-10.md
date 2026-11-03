@@ -1,8 +1,9 @@
 ---
+translationKey: "kurs-laderarbete-for-nyborjare-15-10"
 title: "Kurs: Läderarbete för nybörjare 15/10"
 lang: "sv"
-translationKey: "kurs-laderarbete-for-nyborjare-15-10"
 date: "2023-10-05"
+draft: false
 cover: "ladersm.jpg"
 ---
 

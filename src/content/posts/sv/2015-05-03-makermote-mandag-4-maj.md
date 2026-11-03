@@ -1,8 +1,9 @@
 ---
+translationKey: "makermote-mandag-4-maj"
 title: "Makermöte - Måndag 4 maj"
 lang: "sv"
-translationKey: "makermote-mandag-4-maj"
 date: "2015-05-03"
+draft: false
 ---
 
 På måndag är det dags för medlemsmöte. Vi träffas som vanligt på Café Linné Konstantina på Svartbäcksgatan 24 klockan 19. Denna gång kommer Matthias Palmér vara på plats och hålla i trådarna i den mån det behövs. Sen vi möttes sist har bland annat följande hänt:

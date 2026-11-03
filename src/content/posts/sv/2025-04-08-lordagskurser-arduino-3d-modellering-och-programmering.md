@@ -1,8 +1,9 @@
 ---
+translationKey: "lordagskurser-arduino-3d-modellering-och-programmering"
 title: "LÖRDAGSKURSER PÅ UPPSALA MAKERSPACE"
 lang: "sv"
-translationKey: "lordagskurser-arduino-3d-modellering-och-programmering"
 date: "2025-04-08"
+draft: false
 ---
 
 ## SKAPA, UPPTÄCK OCH LÄR DIG NYA FÄRDIGHETER!

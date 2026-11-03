@@ -1,8 +1,9 @@
 ---
+translationKey: "kvallsoppet-introduktion-till-laserskararen-den-23-oktober-kl-18"
 title: "Kvällsöppet: Introduktion till Laserskäraren den 23 oktober kl. 18"
 lang: "sv"
-translationKey: "kvallsoppet-introduktion-till-laserskararen-den-23-oktober-kl-18"
 date: "2018-10-14"
+draft: false
 ---
 
 [![](/uploads/wp/2018-06-18-22.10.47-mini-300x225.jpg)](/uploads/wp/2018-06-18-22.10.47-mini.jpg)**OBS:** Till denna introduktion krävs föranmälan via [https://simplesignup.se/event/140448](https://simplesignup.se/event/140448).

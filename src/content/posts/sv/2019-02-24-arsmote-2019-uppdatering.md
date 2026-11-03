@@ -1,8 +1,9 @@
 ---
+translationKey: "arsmote-2019-uppdatering"
 title: "Årsmöte 2019 - uppdatering"
 lang: "sv"
-translationKey: "arsmote-2019-uppdatering"
 date: "2019-02-24"
+draft: false
 ---
 
 Styrelsen välkomnar alla medlemmar till årsmöte den 24 mars kl. 15 i lokal i nära anslutning till vårt Makerspace. Om någon kommer sent sätter vi upp skyltar som visar vägen.

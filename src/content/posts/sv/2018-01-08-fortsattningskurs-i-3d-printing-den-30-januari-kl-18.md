@@ -1,8 +1,9 @@
 ---
+translationKey: "fortsattningskurs-i-3d-printing-den-30-januari-kl-18"
 title: "Fortsättningskurs i 3D-printing den 30 januari kl. 18"
 lang: "sv"
-translationKey: "fortsattningskurs-i-3d-printing-den-30-januari-kl-18"
 date: "2018-01-08"
+draft: false
 ---
 
 _[![](/uploads/wp/311-300x148.png)](/uploads/wp/311.png)OBS: För att gå denna kurs behöver du redan ha grundläggande kunskap om 3D-printing, eller ha gått vår introduktionskurs som vi hållit under 2017. Vi kommer att hålla fler tillfällen av introduktionskursen under våren för de som missat den._

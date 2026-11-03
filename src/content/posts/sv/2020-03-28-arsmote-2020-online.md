@@ -1,8 +1,9 @@
 ---
+translationKey: "arsmote-2020-online"
 title: "Årsmöte 2020 - online"
 lang: "sv"
-translationKey: "arsmote-2020-online"
 date: "2020-03-28"
+draft: false
 ---
 
 Årets årsmöte kommer genomföras online genom en kombination av ett videomöte där all information föredras och en chatt där vi kommunicerar med varandra skriftligen samt genomför omröstningar. 

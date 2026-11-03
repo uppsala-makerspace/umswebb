@@ -1,8 +1,9 @@
 ---
+translationKey: "visirbagarna-hur-gick-det-sen"
 title: "Visirbågarna, hur gick det sen?"
 lang: "sv"
-translationKey: "visirbagarna-hur-gick-det-sen"
 date: "2020-06-15"
+draft: false
 ---
 
 Tjena makers. Här kommer ett litet "Vad hände sen?" angående skyddsvisirprojektet som drog igång för ett par månader sen.

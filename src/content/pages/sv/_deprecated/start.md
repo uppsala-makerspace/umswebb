@@ -1,7 +1,8 @@
 ---
+translationKey: "start"
 title: "Välkommen"
 lang: "sv"
-translationKey: "start"
+draft: false
 ---
 
 Uppsala Makerspace är en samlingsplats för alla, unga som gamla, med skaparglädje!

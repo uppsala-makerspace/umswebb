@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-textiltransfer-den-15-juni-kl-18-20"
 title: "Introduktion till Textiltransfer den 14 juni kl 18-20"
 lang: "sv"
-translationKey: "introduktion-till-textiltransfer-den-15-juni-kl-18-20"
 date: "2023-06-08"
+draft: false
 ---
 
 ![](/uploads/wp/transferkurs-1024x512.png)

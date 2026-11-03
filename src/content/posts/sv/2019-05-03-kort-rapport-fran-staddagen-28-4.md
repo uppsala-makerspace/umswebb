@@ -1,8 +1,9 @@
 ---
+translationKey: "kort-rapport-fran-staddagen-28-4"
 title: "Kort rapport från städdagen 28/4"
 lang: "sv"
-translationKey: "kort-rapport-fran-staddagen-28-4"
 date: "2019-05-03"
+draft: false
 ---
 
 <figure>

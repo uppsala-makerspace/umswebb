@@ -1,8 +1,9 @@
 ---
+translationKey: "nytt-uppforandekod"
 title: "Nytt: uppförandekod"
 lang: "sv"
-translationKey: "nytt-uppforandekod"
 date: "2024-09-17"
+draft: false
 ---
 
 Vi är många makers med olika bakgrunder och personliga förutsättningar. Därför behöver vi ta hänsyn till varandra och hjälpa varandra att vara trygga och ha trevligt i lokalen. Styrelsen har tagit fram en uppförandekod för att göra det lättare för oss att prata om hur vi ska samsas med varandra.

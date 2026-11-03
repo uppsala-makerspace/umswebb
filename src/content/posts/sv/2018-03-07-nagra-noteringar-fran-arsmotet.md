@@ -1,8 +1,9 @@
 ---
+translationKey: "nagra-noteringar-fran-arsmotet"
 title: "Några noteringar från årsmötet 2018"
 lang: "sv"
-translationKey: "nagra-noteringar-fran-arsmotet"
 date: "2018-03-07"
+draft: false
 ---
 
 I söndags träffades vi för årsmöte, och direkt efter det ett lite mer informellt medlemsmöte. Här tänker jag bara berätta lite kort om vad vi pratade om. Vill du sätta dig in i detaljerna till exempel kring föreningens ekonomi finns [årsmötesdokumenten på vår wiki](/mediawiki/index.php/%C3%85rsm%C3%B6ten).

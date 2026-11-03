@@ -1,8 +1,9 @@
 ---
+translationKey: "paminnelse-arsmote-sondagen-den-12-mars-kl-15-i-lokalen"
 title: "Påminnelse årsmöte söndagen den 12 mars kl. 15 i lokalen"
 lang: "sv"
-translationKey: "paminnelse-arsmote-sondagen-den-12-mars-kl-15-i-lokalen"
 date: "2017-03-11"
+draft: false
 ---
 
 Som vi tidigare annonserat så är det årsmöte den 12 mars kl. 15. Vi möts strax innan kl. 15 i lokalen och går sen upp till en samlingslokal en våning upp. Vi sätter upp en lapp om ni kommer sent.

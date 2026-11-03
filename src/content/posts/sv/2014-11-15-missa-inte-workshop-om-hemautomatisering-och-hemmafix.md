@@ -1,8 +1,9 @@
 ---
+translationKey: "missa-inte-workshop-om-hemautomatisering-och-hemmafix"
 title: "Missa inte workshop om hemautomatisering och hemmafix"
 lang: "sv"
-translationKey: "missa-inte-workshop-om-hemautomatisering-och-hemmafix"
 date: "2014-11-15"
+draft: false
 ---
 
 [![unnamed](/uploads/wp/unnamed.jpg)](/uploads/wp/unnamed.jpg)

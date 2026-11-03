@@ -1,8 +1,9 @@
 ---
+translationKey: "mer_verkstad_och_mindre_snack"
 title: "Mer verkstad och mindre snack"
 lang: "sv"
-translationKey: "mer_verkstad_och_mindre_snack"
 date: "2015-06-01"
+draft: false
 ---
 
 Vi uppgraderar våra regelbundna medlemsmöten till att bli temaorienterade träffar där vi lär och provar på att skapa något nytt inom makerområdet. Därför pausar vi nu under sommaren de medlemsmöten vi har haft under ett års tid.

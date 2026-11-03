@@ -1,8 +1,9 @@
 ---
+translationKey: "vi-har-en-lokal"
 title: "Vi har en lokal!"
 lang: "sv"
-translationKey: "vi-har-en-lokal"
 date: "2016-09-05"
+draft: false
 ---
 
 [![UMS lokal](/uploads/wp/UMS-lokal-300x249.jpg)](/uploads/wp/UMS-lokal.jpg)

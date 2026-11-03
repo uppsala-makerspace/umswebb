@@ -1,8 +1,9 @@
 ---
+translationKey: "oppet-hus-julpyssel-den-18-december-kl-14-17"
 title: "INSTÄLLT: Öppet hus & Julpyssel den 18 december kl 14-17"
 lang: "sv"
-translationKey: "oppet-hus-julpyssel-den-18-december-kl-14-17"
 date: "2022-11-20"
+draft: false
 cover: "3d-print-christmas-tree.jpg"
 ---
 

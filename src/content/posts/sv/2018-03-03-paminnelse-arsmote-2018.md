@@ -1,8 +1,9 @@
 ---
+translationKey: "paminnelse-arsmote-2018"
 title: "Påminnelse årsmöte 2018"
 lang: "sv"
-translationKey: "paminnelse-arsmote-2018"
 date: "2018-03-03"
+draft: false
 ---
 
 Årets styrelsemöte är på söndagen den 4 mars kl. 15 i Folkuniversitetets lokaler. Närmare bestämt i rum D76 i den del som kallas Annexet som ligger i andra änden av byggnaden. Vi kommer sätta upp lappar som gör det enklare att hitta rätt från lokalen.

@@ -1,8 +1,9 @@
 ---
+translationKey: "arsmote-2023-i-lokalen-och-digitalt"
 title: "Årsmöte 2023 – i lokalen och digitalt"
 lang: "sv"
-translationKey: "arsmote-2023-i-lokalen-och-digitalt"
 date: "2023-03-25"
+draft: false
 ---
 
 **Detta inlägg uppdaterades 2023-09-08 med protokollet från årsmötet.**

@@ -1,8 +1,9 @@
 ---
+translationKey: "kvallsoppet-reparation-av-laserskararen-den-3-maj-kl-18"
 title: "Kvällsöppet: Reparation av Laserskäraren den 3 maj kl. 18"
 lang: "sv"
-translationKey: "kvallsoppet-reparation-av-laserskararen-den-3-maj-kl-18"
 date: "2018-04-27"
+draft: false
 ---
 
 ![](/uploads/wp/lasercutter-300x169.jpg)Vi har träffats tidigare några gånger för att fixa laserskäraren som föreningen köpt in av Stockholm Makerspace, och det mesta är fixat och lasern fungerar nu till stor del. Det är dock en del problem med strömmen som vi kommer att titta på under kvällen, men förhoppningsvis kommer vi att testskära lite med den!

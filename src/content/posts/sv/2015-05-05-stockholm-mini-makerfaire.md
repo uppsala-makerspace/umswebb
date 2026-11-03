@@ -1,8 +1,9 @@
 ---
+translationKey: "stockholm-mini-makerfaire"
 title: "Stockholm mini makerfaire"
 lang: "sv"
-translationKey: "stockholm-mini-makerfaire"
 date: "2015-05-05"
+draft: false
 ---
 
 På lördagen den 9 maj kommer Uppsala Makerspace att vara representerade på [Stockholm mini makerfaire](http://www.stockholmmakerfaire.se/). Vi kommer ha en rollup där det står lite om föreningen. Dessutom kommer vi vara representerade med cirka 7 medlemmar (varav två barn). De saker vi planerar att ställa ut är:

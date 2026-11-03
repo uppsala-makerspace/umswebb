@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-att-rita-kretskort-den-8-mars-kl-19"
 title: "Introduktion till att rita kretskort den 8 mars kl. 19"
 lang: "sv"
-translationKey: "introduktion-till-att-rita-kretskort-den-8-mars-kl-19"
 date: "2018-02-22"
+draft: false
 ---
 
 [![](/uploads/wp/NV_1104_Johnson_large-300x150.jpg)](/uploads/wp/NV_1104_Johnson_large.jpg)Ett viktig färdighet för att ta sin prototyp inom elektronik till en färdig produkt med hjälp av serietillverkning är att kunna designa kretskort. Vi kommer denna kväll att gå igenom grunderna i PCB-design, och visa hur man går från idé, till schema till färdigt kretskort.

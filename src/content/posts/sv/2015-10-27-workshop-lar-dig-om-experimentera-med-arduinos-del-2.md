@@ -1,8 +1,9 @@
 ---
+translationKey: "workshop-lar-dig-om-experimentera-med-arduinos-del-2"
 title: "Workshop: Lär dig om / experimentera med Arduinos - del 2"
 lang: "sv"
-translationKey: "workshop-lar-dig-om-experimentera-med-arduinos-del-2"
 date: "2015-10-27"
+draft: false
 ---
 
 För några veckor sen hade vi vår första workshop med fokus på Arduinos som blev mycket uppskattad. Upplägget var då att deltagarna roterade mellan tre stationer där erfarna Arduino utvecklare visade på möjligheterna. Denna gång tänkte vi uppmuntra deltagarna att kavla upp ärmarna och bli mer konkreta. Den främsta skillnaden är att vi kommer jobba i mindre grupper med att lösa ett antal problem i stigande svårighetsgrad:

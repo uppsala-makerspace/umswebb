@@ -1,8 +1,9 @@
 ---
+translationKey: "fixa-med-lokalen-maker-middag-den-1-mars-kl-15"
 title: "Fixa med lokalen + Maker-middag den 1 mars kl 15"
 lang: "sv"
-translationKey: "fixa-med-lokalen-maker-middag-den-1-mars-kl-15"
 date: "2020-02-16"
+draft: false
 ---
 
 ![](/uploads/wp/finrummet2_mini.jpg)

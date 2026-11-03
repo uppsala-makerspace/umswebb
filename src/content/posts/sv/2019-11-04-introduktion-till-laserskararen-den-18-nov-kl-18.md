@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-laserskararen-den-18-nov-kl-18"
 title: "Introduktion till Laserskäraren den 18 nov kl 18"
 lang: "sv"
-translationKey: "introduktion-till-laserskararen-den-18-nov-kl-18"
 date: "2019-11-04"
+draft: false
 ---
 
 **OBS:** Föränmälan krävs, begränsat antal platser. Medlemskap i föreningen krävs, men i övrigt kostar introduktionen ingenting:  

@@ -1,8 +1,9 @@
 ---
+translationKey: "fest-10-januari-kl-18"
 title: "Fest 10 januari kl. 18"
 lang: "sv"
-translationKey: "fest-10-januari-kl-18"
 date: "2026-01-04"
+draft: false
 ---
 
 [**Anmäl dig via detta formulär senast den 9 januari om du/ni kommer till festen.**](https://docs.google.com/forms/d/e/1FAIpQLSfkStuBplZO4jIsG8P7DlDoD3MA9UqhfvTd9jnwdITeTPo2pA/viewform?usp=dialog)

@@ -1,8 +1,9 @@
 ---
+translationKey: "ny-styrelse-och-nya-aktiviteter"
 title: "Ny styrelse och nya aktiviteter"
 lang: "sv"
-translationKey: "ny-styrelse-och-nya-aktiviteter"
 date: "2017-03-16"
+draft: false
 ---
 
 [![morakniv-kaka](/uploads/wp/morakniv-kaka.jpg)](/uploads/wp/morakniv-kaka.jpg)

@@ -1,8 +1,9 @@
 ---
+translationKey: "temakvall-25-9-anvand-upp-vart-tygforrad"
 title: "Temakväll 25/9: Använd upp vårt tygförråd!"
 lang: "sv"
-translationKey: "temakvall-25-9-anvand-upp-vart-tygforrad"
 date: "2023-09-15"
+draft: false
 cover: "tygrullar.jpg"
 ---
 

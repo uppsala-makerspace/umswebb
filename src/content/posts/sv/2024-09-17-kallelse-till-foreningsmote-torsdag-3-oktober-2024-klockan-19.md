@@ -1,8 +1,9 @@
 ---
+translationKey: "kallelse-till-foreningsmote-torsdag-3-oktober-2024-klockan-19"
 title: "Kallelse till föreningsmöte torsdag 3 oktober 2024 klockan 19"
 lang: "sv"
-translationKey: "kallelse-till-foreningsmote-torsdag-3-oktober-2024-klockan-19"
 date: "2024-09-17"
+draft: false
 ---
 
 Nu börjar det bli dags att sätta planerna i verket för att köpa vår lokal. Det kommer att genomföras genom att ett mindre antal medlemmar investerar egna pengar och tillsammans med föreningen bildar företaget Uppsala Makerspace Service AB. Detta aktiebolag kan ta banklån och genomföra köpet. Bolaget är inte vinstdrivande, och har som syfte att hyra ut lokal till föreningen Uppsala Makerspace.

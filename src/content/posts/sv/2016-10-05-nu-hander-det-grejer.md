@@ -1,8 +1,9 @@
 ---
+translationKey: "nu-hander-det-grejer"
 title: "Nu händer det grejer!"
 lang: "sv"
-translationKey: "nu-hander-det-grejer"
 date: "2016-10-05"
+draft: false
 ---
 
 Här kommer en liten uppdatering från styrelsen. Igår hade vi ett styrelsemöte i vår nya lokal, som faktiskt börjar likna något användbart. Vi diskuterade då bland annat inköp av verktyg. En lista håller på att sättas ihop, och planen är att skicka ut den till er medlemmar inom några dagar så att ni kan få komma med synpunkter.

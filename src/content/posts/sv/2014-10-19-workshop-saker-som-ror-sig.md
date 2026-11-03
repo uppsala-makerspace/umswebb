@@ -1,8 +1,9 @@
 ---
+translationKey: "workshop-saker-som-ror-sig"
 title: "Workshop: [saker som rör sig]"
 lang: "sv"
-translationKey: "workshop-saker-som-ror-sig"
 date: "2014-10-19"
+draft: false
 ---
 
 [![workshop2](/uploads/wp/workshop2.jpg)](/uploads/wp/workshop2.jpg)

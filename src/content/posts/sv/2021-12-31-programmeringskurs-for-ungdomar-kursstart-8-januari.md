@@ -1,8 +1,9 @@
 ---
+translationKey: "programmeringskurs-for-ungdomar-kursstart-8-januari"
 title: "Programmeringskurs för ungdomar, kursstart 8 januari"
 lang: "sv"
-translationKey: "programmeringskurs-for-ungdomar-kursstart-8-januari"
 date: "2021-12-31"
+draft: false
 ---
 
 ![](/uploads/wp/2021109_3.jpg)

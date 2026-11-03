@@ -1,8 +1,9 @@
 ---
+translationKey: "vi-arbetar-for-att-kopa-lokalen"
 title: "Vi arbetar för att köpa lokalen"
 lang: "sv"
-translationKey: "vi-arbetar-for-att-kopa-lokalen"
 date: "2024-05-26"
+draft: false
 ---
 
 Föreningen Uppsala Makerspace hyr lokal av kommunen. Nu har vi blivit uppsagda, och kommunen tänker sälja lokalen. Föreningen har fått möjlighet att köpa den till ett fast pris. Det förslag som styrelsen efter moget övervägande ställt sig bakom är att några medlemmar går ihop och bildar ett aktiebolag som köper lokalen för att sedan hyra ut den till föreningen.

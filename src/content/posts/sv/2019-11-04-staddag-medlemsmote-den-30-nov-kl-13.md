@@ -1,8 +1,9 @@
 ---
+translationKey: "staddag-medlemsmote-den-30-nov-kl-13"
 title: "Städdag & medlemsmöte den 30 nov kl 13"
 lang: "sv"
-translationKey: "staddag-medlemsmote-den-30-nov-kl-13"
 date: "2019-11-04"
+draft: false
 ---
 
 ![](/uploads/wp/IMG_7710-e1453045081362-1024x768.jpg)

@@ -1,8 +1,9 @@
 ---
+translationKey: "kvallsoppet-grundkurs-i-lodning-och-halmontering"
 title: "Kvällsöppet: Grundkurs i lödning och hålmontering den 15 november kl 18"
 lang: "sv"
-translationKey: "kvallsoppet-grundkurs-i-lodning-och-halmontering"
 date: "2018-10-28"
+draft: false
 ---
 
 **[![](/uploads/wp/lödning-300x200.jpg)](/uploads/wp/lödning.jpg)OBS!** Detta evenemang har begränsat med platser, och anmälan sker via följande bokningssida: [https://simplesignup.se/private\_event/141293/2ee78f6ab8](https://simplesignup.se/private_event/141293/2ee78f6ab8).

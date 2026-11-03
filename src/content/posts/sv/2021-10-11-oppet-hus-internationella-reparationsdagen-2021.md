@@ -1,8 +1,9 @@
 ---
+translationKey: "oppet-hus-internationella-reparationsdagen-2021"
 title: "Öppet hus, Internationella reparationsdagen lördag 16 okt kl 13-16"
 lang: "sv"
-translationKey: "oppet-hus-internationella-reparationsdagen-2021"
 date: "2021-10-11"
+draft: false
 ---
 
 ![](/uploads/wp/ums_tavla.jpg)

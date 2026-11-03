@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-att-sy-pa-symaskin-9-2-och-9-3"
 title: "Introduktion till att sy på symaskin 9/2 och 9/3"
 lang: "sv"
-translationKey: "introduktion-till-att-sy-pa-symaskin-9-2-och-9-3"
 date: "2023-01-31"
+draft: false
 cover: "symaskin-mindre.jpg"
 ---
 

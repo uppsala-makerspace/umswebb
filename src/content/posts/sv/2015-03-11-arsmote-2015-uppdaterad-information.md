@@ -1,8 +1,9 @@
 ---
+translationKey: "arsmote-2015-uppdaterad-information"
 title: "Årsmöte 2015 - uppdaterad information"
 lang: "sv"
-translationKey: "arsmote-2015-uppdaterad-information"
 date: "2015-03-11"
+draft: false
 ---
 
 Söndagen den 15 mars har vi årsmöte kl. 15.00.

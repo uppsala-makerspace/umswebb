@@ -1,8 +1,9 @@
 ---
+translationKey: "anteckningar-fran-medlemsmotet-12-januari"
 title: "Anteckningar från medlemsmötet 12 januari"
 lang: "sv"
-translationKey: "anteckningar-fran-medlemsmotet-12-januari"
 date: "2025-01-19"
+draft: false
 ---
 
 Den 12 januari höll föreningen ett möte för intresserade medlemmar. Mötet handlade om ägandet av lokalen, som nu har köpts av vårt eget företag UMS Service AB, men även om möjligheten att eventuellt köpa också våningen ovanför. Ungefär 25 personer var med i lokalen, och tre ytterligare digitalt på länk.

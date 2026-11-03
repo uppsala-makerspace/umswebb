@@ -1,8 +1,9 @@
 ---
+translationKey: "temakvall-nytt-av-gamla-skarp-20-4"
 title: "Temakväll: Nytt av gamla skärp 20/4"
 lang: "sv"
-translationKey: "temakvall-nytt-av-gamla-skarp-20-4"
 date: "2023-03-04"
+draft: false
 cover: "UMS-eventbild-skrp.jpg"
 ---
 

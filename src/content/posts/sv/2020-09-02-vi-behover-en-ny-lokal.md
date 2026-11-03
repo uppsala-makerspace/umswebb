@@ -1,8 +1,9 @@
 ---
+translationKey: "vi-behover-en-ny-lokal"
 title: "Vi behöver en ny lokal"
 lang: "sv"
-translationKey: "vi-behover-en-ny-lokal"
 date: "2020-09-02"
+draft: false
 ---
 
 Vi har de senaste dagarna fått besked från Folkuniversitetet att vi inte kan vara kvar i de lokaler vi har nu. Det besked vi har fått visar på att det är en fråga om platsbrist:

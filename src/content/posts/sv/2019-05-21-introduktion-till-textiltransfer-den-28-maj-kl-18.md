@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-textiltransfer-den-28-maj-kl-18"
 title: "Introduktion till Textiltransfer den 28 maj kl 18"
 lang: "sv"
-translationKey: "introduktion-till-textiltransfer-den-28-maj-kl-18"
 date: "2019-05-21"
+draft: false
 ---
 
 **OBS:** Denna kurs kräver anmälan då det är begränsat med platser:  

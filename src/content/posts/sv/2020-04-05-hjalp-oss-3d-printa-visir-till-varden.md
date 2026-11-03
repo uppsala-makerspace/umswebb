@@ -1,8 +1,9 @@
 ---
+translationKey: "hjalp-oss-3d-printa-visir-till-varden"
 title: "Hjälp oss att 3D-printa visir till vården"
 lang: "sv"
-translationKey: "hjalp-oss-3d-printa-visir-till-varden"
 date: "2020-04-05"
+draft: false
 ---
 
 ![](/uploads/wp/visir-ums.jpg)

@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-textiltransfer-den-24-januari-kl-18"
 title: "Introduktion till Textiltransfer den 24 januari & 13 februari kl 18"
 lang: "sv"
-translationKey: "introduktion-till-textiltransfer-den-24-januari-kl-18"
 date: "2019-01-09"
+draft: false
 ---
 
 **OBS:** Dessa kurser har endast 10 platser var, och kräver föranmälan via följande länkar:

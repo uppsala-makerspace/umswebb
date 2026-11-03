@@ -1,8 +1,9 @@
 ---
+translationKey: "mote-23-juni-pa-cafe-linne-kl-19-00"
 title: "Möte 23 juni på Cafe Linné kl. 19.00"
 lang: "sv"
-translationKey: "mote-23-juni-pa-cafe-linne-kl-19-00"
 date: "2014-06-22"
+draft: false
 cover: "möte3.jpg"
 ---
 

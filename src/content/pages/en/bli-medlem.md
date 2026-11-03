@@ -1,9 +1,10 @@
 ---
+translationKey: "bli-medlem"
 title: "Become a member"
 description: "The whole sign-up happens in the app — pick a membership, pay and accept the liability undertaking."
 lang: "en"
-translationKey: "bli-medlem"
 slug: become-a-member
+draft: false
 ---
 
 <aside class="notice">

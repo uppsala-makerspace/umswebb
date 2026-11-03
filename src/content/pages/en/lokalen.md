@@ -1,9 +1,10 @@
 ---
+translationKey: "lokalen"
 title: "Our space"
 description: "Where our makerspace is, how to find your way in, opening hours and parking."
-lang: en
-translationKey: lokalen
-slug: our-space
+lang: "en"
+slug: "our-space"
+draft: false
 ---
 
 Our space has the tools and the room to build, construct and create, both small

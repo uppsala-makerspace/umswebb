@@ -1,8 +1,9 @@
 ---
+translationKey: "temakvall-laga-klader-16-10"
 title: "Temakväll: Laga kläder 16/10"
 lang: "sv"
-translationKey: "temakvall-laga-klader-16-10"
 date: "2023-10-05"
+draft: false
 cover: "jeanslagning-mindre.jpg"
 ---
 

@@ -1,8 +1,9 @@
 ---
+translationKey: "extra-kurstillfalle-introduktion-till-textiltransfer-den-9-november-kl-18-20"
 title: "Extra kurstillfälle Introduktion till Textiltransfer den 9 november kl 18-20"
 lang: "sv"
-translationKey: "extra-kurstillfalle-introduktion-till-textiltransfer-den-9-november-kl-18-20"
 date: "2021-10-12"
+draft: false
 ---
 
 ![](/uploads/wp/transferkurs-1024x512.png)

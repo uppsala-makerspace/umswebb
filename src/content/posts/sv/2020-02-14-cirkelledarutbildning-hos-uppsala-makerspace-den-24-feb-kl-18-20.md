@@ -1,8 +1,9 @@
 ---
+translationKey: "cirkelledarutbildning-hos-uppsala-makerspace-den-24-feb-kl-18-20"
 title: "Cirkelledarutbildning hos Uppsala Makerspace den 24 feb kl 18-20"
 lang: "sv"
-translationKey: "cirkelledarutbildning-hos-uppsala-makerspace-den-24-feb-kl-18-20"
 date: "2020-02-14"
+draft: false
 ---
 
 ![](/uploads/wp/IMG_7710-e1453045081362-1024x768.jpg)

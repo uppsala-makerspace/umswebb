@@ -1,8 +1,9 @@
 ---
+translationKey: "nytt-fran-styrelsen-mars-2022"
 title: "Nytt från styrelsen, mars 2022"
 lang: "sv"
-translationKey: "nytt-fran-styrelsen-mars-2022"
 date: "2022-03-13"
+draft: false
 ---
 
 ## Fixardagar

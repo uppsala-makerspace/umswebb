@@ -1,7 +1,8 @@
 ---
+translationKey: "lokalinsamling"
 title: "Hjälp oss köpa vårt space!"
 lang: "sv"
-translationKey: "lokalinsamling"
+draft: false
 cover: "makerspace_illustration.png"
 ---
 

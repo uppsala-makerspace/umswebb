@@ -1,8 +1,9 @@
 ---
+translationKey: "kurs-i-3d-printning-den-16-mars-kl-18"
 title: "Kurs i 3D printning den 16 mars kl. 18"
 lang: "sv"
-translationKey: "kurs-i-3d-printning-den-16-mars-kl-18"
 date: "2017-03-02"
+draft: false
 ---
 
 [![3dskrivare](/uploads/wp/3Dskrivare-300x225.jpg)](/uploads/wp/3Dskrivare.jpg)Lär dig principerna i hur en 3D-skrivare fungerar och används, och hur man tar sin idé från ritning till ett färdigt föremål. Vad är t.ex för och nackdelarna med olika typer av filament, vad gör en slicer, och vilka är de vanliga misstagen man gör som nybörjare?

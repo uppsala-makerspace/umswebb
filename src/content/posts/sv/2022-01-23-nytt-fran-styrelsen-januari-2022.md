@@ -1,8 +1,9 @@
 ---
+translationKey: "nytt-fran-styrelsen-januari-2022"
 title: "Nytt från styrelsen, januari 2022"
 lang: "sv"
-translationKey: "nytt-fran-styrelsen-januari-2022"
 date: "2022-01-23"
+draft: false
 ---
 
 ## LOKALEN  

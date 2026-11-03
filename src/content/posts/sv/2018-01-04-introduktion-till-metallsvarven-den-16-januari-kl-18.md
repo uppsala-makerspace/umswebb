@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-metallsvarven-den-16-januari-kl-18"
 title: "Introduktion till metallsvarven den 16 januari kl. 18"
 lang: "sv"
-translationKey: "introduktion-till-metallsvarven-den-16-januari-kl-18"
 date: "2018-01-04"
+draft: false
 ---
 
 [![](/uploads/wp/metallsvarv-300x143.jpg)](/uploads/wp/metallsvarv.jpg)**OBS:** För att få använda metallsvarven utan uppsikt behövs för närvarande ett aktivt labbmedlemskap, så denna introduktion är således begränsad till labbmedlemmar i föreningen.

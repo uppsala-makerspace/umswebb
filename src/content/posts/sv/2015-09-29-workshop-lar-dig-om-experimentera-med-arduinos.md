@@ -1,8 +1,9 @@
 ---
+translationKey: "workshop-lar-dig-om-experimentera-med-arduinos"
 title: "Workshop: Lär dig om / experimentera med Arduinos"
 lang: "sv"
-translationKey: "workshop-lar-dig-om-experimentera-med-arduinos"
 date: "2015-09-29"
+draft: false
 ---
 
 Tisdagen den 6 oktober kl. 18:30-21:30 är det dags för höstens andra workshop! Vi kommer hålla till på [hamncentralen](http://hamncentralen.se/), om dagarna ett café med en atmosfär som passar oss.![Arduino](/uploads/wp/Arduino_Uno_-_R3.jpg)

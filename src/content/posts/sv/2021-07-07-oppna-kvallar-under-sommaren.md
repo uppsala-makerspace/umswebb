@@ -1,8 +1,9 @@
 ---
+translationKey: "oppna-kvallar-under-sommaren"
 title: "Öppna kvällar under sommaren"
 lang: "sv"
-translationKey: "oppna-kvallar-under-sommaren"
 date: "2021-07-07"
+draft: false
 ---
 
 Som många säkert redan märkt har vi börjat med öppna kvällar igen. Se kalendariet här på sidan!

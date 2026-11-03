@@ -1,8 +1,9 @@
 ---
+translationKey: "pysselfika-i-sommar"
 title: "Pysselfika i sommar"
 lang: "sv"
-translationKey: "pysselfika-i-sommar"
 date: "2023-06-20"
+draft: false
 ---
 
 Konceptet är enkelt: Vi fixar fika, du tar med ditt eget projekt att sitta och greja med. Sedan sitter vi runt ett bord och umgås medan var och en donar med sitt. Allt sorters hantverk och pyssel som går att kombinera med fika är välkomna. Vi kör pysselfika lite då och då under sommaren, när någon frivillig har lust att hålla i det.

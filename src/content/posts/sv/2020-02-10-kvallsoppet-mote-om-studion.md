@@ -1,8 +1,9 @@
 ---
+translationKey: "kvallsoppet-mote-om-studion"
 title: "Kvällsöppet: Möte om Studion den 20 feb kl 18"
 lang: "sv"
-translationKey: "kvallsoppet-mote-om-studion"
 date: "2020-02-10"
+draft: false
 ---
 
 ![](/uploads/wp/IMG_20190117_215707-1024x768.jpg)

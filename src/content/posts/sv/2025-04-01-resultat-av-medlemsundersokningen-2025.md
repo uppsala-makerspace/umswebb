@@ -1,8 +1,9 @@
 ---
+translationKey: "resultat-av-medlemsundersokningen-2025"
 title: "Resultat av medlemsundersökningen 2025"
 lang: "sv"
-translationKey: "resultat-av-medlemsundersokningen-2025"
 date: "2025-04-01"
+draft: false
 ---
 
 <figure>

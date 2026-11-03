@@ -1,8 +1,9 @@
 ---
+translationKey: "kurs-i-3d-skrivare-den-21-september"
 title: "Kurs i 3D-skrivare den 21 september kl 18-20"
 lang: "sv"
-translationKey: "kurs-i-3d-skrivare-den-21-september"
 date: "2021-09-10"
+draft: false
 ---
 
 ![](/uploads/wp/3d-skrivare.jpg)

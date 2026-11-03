@@ -1,8 +1,9 @@
 ---
+translationKey: "medlemsmote-om-lokalfragan-2024-05-23"
 title: "Medlemsmöte om lokalfrågan 2024-05-23"
 lang: "sv"
-translationKey: "medlemsmote-om-lokalfragan-2024-05-23"
 date: "2024-05-22"
+draft: false
 ---
 
 Alla medlemmar är inbjudna att delta i ett medlemsmöte torsdag 23 maj. Vi håller mötet digitalt (och i lokalen) klockan 20, och hoppas att det gör att många kan delta.

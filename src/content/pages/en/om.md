@@ -1,9 +1,10 @@
 ---
+translationKey: "om"
 title: "About the association"
 description: "What Uppsala Makerspace is, who runs it, and how to reach us."
 lang: "en"
-translationKey: "om"
 slug: about
+draft: false
 ---
 
 Uppsala Makerspace is a politically and religiously independent non-profit

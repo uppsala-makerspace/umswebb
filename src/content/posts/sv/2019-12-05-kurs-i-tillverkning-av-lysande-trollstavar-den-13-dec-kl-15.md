@@ -1,8 +1,9 @@
 ---
+translationKey: "kurs-i-tillverkning-av-lysande-trollstavar-den-13-dec-kl-15"
 title: "Kurs i tillverkning av lysande trollstavar den 13 dec kl 10"
 lang: "sv"
-translationKey: "kurs-i-tillverkning-av-lysande-trollstavar-den-13-dec-kl-15"
 date: "2019-12-05"
+draft: false
 ---
 
 **OBS:** Anmälan krävs på följande länk! Begränsat antal platser. Den första träffen i kursen är den 13 dec, men vi kommer även att träffas minst ett till tillfälle, preliminärt den 15 dec kl 12-18:  

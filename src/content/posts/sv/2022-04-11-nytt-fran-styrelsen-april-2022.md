@@ -1,8 +1,9 @@
 ---
+translationKey: "nytt-fran-styrelsen-april-2022"
 title: "Nytt från styrelsen, april 2022"
 lang: "sv"
-translationKey: "nytt-fran-styrelsen-april-2022"
 date: "2022-04-11"
+draft: false
 ---
 
 ## Ny styrelse

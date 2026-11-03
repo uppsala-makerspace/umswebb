@@ -1,8 +1,9 @@
 ---
+translationKey: "lassakerhet-och-dyrkning-den-14-oktober-kl-18"
 title: "Låssäkerhet och dyrkning den 14 oktober kl 18"
 lang: "sv"
-translationKey: "lassakerhet-och-dyrkning-den-14-oktober-kl-18"
 date: "2019-10-06"
+draft: false
 ---
 
 **OBS:** Anmäl er via följande formulär, så vet vi hur många vi blir:  

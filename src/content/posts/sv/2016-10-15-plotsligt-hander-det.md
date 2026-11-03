@@ -1,8 +1,9 @@
 ---
+translationKey: "plotsligt-hander-det"
 title: "Plötsligt händer det!"
 lang: "sv"
-translationKey: "plotsligt-hander-det"
 date: "2016-10-15"
+draft: false
 ---
 
 Nej, vi har inte vunnit på lotteri och ärligt talat ligger det en hel del jobb bakom detta, men hursomhelst: vi har beviljats ett bidrag från Uppsala kommun!

@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-elmotorer-den-12-oktober-kl-18"
 title: "Introduktion till elmotorer den 12 oktober kl. 18"
 lang: "sv"
-translationKey: "introduktion-till-elmotorer-den-12-oktober-kl-18"
 date: "2017-09-27"
+draft: false
 ---
 
 [![servo-samples](/uploads/wp/servo-samples-300x200.jpg)](/uploads/wp/servo-samples.jpg)En grundläggande kunskap som behövs för att bygga saker som rör sig, t.ex robotar och radiostyrda farkoster, är att kunna jobba med elmotorer. Under den här kvällen kommer vi träffas och gå igenom olika sorters elmotorer och hur de fungerar. De som vill kommer även att få en inblick hur man kan använda dem tillsammans med exempelvis Arduino för bygga sina projekt. Denna introduktion kommer att vara på nybörjarnivå, så inga förkunskaper krävs för att komma till denna kväll.

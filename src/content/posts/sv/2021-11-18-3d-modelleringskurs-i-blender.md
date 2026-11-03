@@ -1,8 +1,9 @@
 ---
+translationKey: "3d-modelleringskurs-i-blender"
 title: "3d-modelleringskurs i Blender"
 lang: "sv"
-translationKey: "3d-modelleringskurs-i-blender"
 date: "2021-11-18"
+draft: false
 ---
 
 ![](/uploads/wp/2021-11-18-22_52_48-.png)

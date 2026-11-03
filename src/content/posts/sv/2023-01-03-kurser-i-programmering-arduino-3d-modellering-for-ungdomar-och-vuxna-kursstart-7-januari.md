@@ -1,8 +1,9 @@
 ---
+translationKey: "kurser-i-programmering-arduino-3d-modellering-for-ungdomar-och-vuxna-kursstart-7-januari"
 title: "Lördagskurser: 3D-modellering, Arduino och programmering för ungdomar och vuxna, kursstart 7 januari"
 lang: "sv"
-translationKey: "kurser-i-programmering-arduino-3d-modellering-for-ungdomar-och-vuxna-kursstart-7-januari"
 date: "2023-01-03"
+draft: false
 ---
 
 [![](/uploads/wp/programmeringsdag_usb_2022-300x200.jpg)](/uploads/wp/programmeringsdag_usb_2022.jpg)

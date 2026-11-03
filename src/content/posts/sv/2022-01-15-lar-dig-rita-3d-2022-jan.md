@@ -1,8 +1,9 @@
 ---
+translationKey: "lar-dig-rita-3d-2022-jan"
 title: "Lär dig rita i 3D! Barn & ungdomar, kursstart 6 februari (FRAMFLYTTAD!)"
 lang: "sv"
-translationKey: "lar-dig-rita-3d-2022-jan"
 date: "2022-01-15"
+draft: false
 ---
 
 ![](/uploads/wp/3D-modellering-för-barn-2.png)

@@ -1,8 +1,9 @@
 ---
+translationKey: "oppet-hus-julpyssel-pa-makerspacet"
 title: "Öppet hus & Julpyssel den 10 december kl 13-17"
 lang: "sv"
-translationKey: "oppet-hus-julpyssel-pa-makerspacet"
 date: "2017-11-17"
+draft: false
 ---
 
 [![](/uploads/wp/3d-print-christmas-tree-300x200.jpg)](/uploads/wp/3d-print-christmas-tree.jpg)Välkommen den andra advent till öppet hus & gemensamt julpyssel på vårt fina Makerspace! Är du ute i sista minuten med julklapparna, eller behöver bättra på juldekorationerna? Varför inte då passa på att 3D-printa en liten tomte att hänga i julgranen, bygga en liten lysande stjärna av några LED-lampor och batteri, eller slöjda en skärbräda att ge till svärmor. Vi kommer att ha flera maker-entusiaster och representanter från föreningen på plats denna dag för att hjälpa till och svara på frågor och introducera er till vår förening. Vi hjälper gladeligen till så gott vi kan att med förverkliga era egna idéer under dagen, och hjälpa er att komma igång med många av våra verktyg och maskiner. Om ni har brist på idéer så ställer vi gärna upp med lite förslag!

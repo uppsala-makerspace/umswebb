@@ -1,7 +1,8 @@
 ---
+translationKey: "vanliga-fragor"
 title: "Vanliga frågor"
 lang: "sv"
-translationKey: "vanliga-fragor"
+draft: false
 ---
 
 Om du inte hittar svar på din fråga nedan, kontakta oss på [kansliet@uppsalamakerspace.se](mailto:kansliet@uppsalamakerspace.se) så svarar vi på din fråga, alternativt kan du nå ut till våra medlemmar via vår [Facebook-grupp](https://www.facebook.com/groups/uppsalamakerspace/) eller vår [Slack-chatt](https://join.slack.com/t/uppsalamakerspace/shared_invite/enQtNDQwNDA5NDk3MjAyLTAwNGU4MTBkYTMxYzRkYzUwNDlmNGQ4YTIxYTM5NTRiZTc4YzYxZjUxZTJhODIyNmYzMDM3NTFiZTY0NzZjN2Y).

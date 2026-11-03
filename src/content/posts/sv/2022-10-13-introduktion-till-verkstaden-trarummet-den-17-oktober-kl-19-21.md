@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktion-till-verkstaden-trarummet-den-17-oktober-kl-19-21"
 title: "Introduktion till Verkstaden/Trärummet den 17 oktober kl 19-21"
 lang: "sv"
-translationKey: "introduktion-till-verkstaden-trarummet-den-17-oktober-kl-19-21"
 date: "2022-10-13"
+draft: false
 ---
 
 ![](/uploads/wp/ekeby_verkstaden_wide_small.jpg)

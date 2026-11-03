@@ -1,8 +1,9 @@
 ---
+translationKey: "arduino-sommarkurs"
 title: "Arduino sommarkurs"
 lang: "sv"
-translationKey: "arduino-sommarkurs"
 date: "2022-06-07"
+draft: false
 ---
 
 ![](/uploads/wp/15080768860_fb9a3b070d_o-1024x768.jpg)

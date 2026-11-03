@@ -1,8 +1,9 @@
 ---
+translationKey: "introduktionskurs-i-3d-printing-den-23-oktober-kl-18"
 title: "Introduktionskurs i 3D-printing den 23 oktober kl 18"
 lang: "sv"
-translationKey: "introduktionskurs-i-3d-printing-den-23-oktober-kl-18"
 date: "2019-10-06"
+draft: false
 ---
 
 **OBS:** Anmäl er via följande formulär, då vi har begränsat antal platser.  

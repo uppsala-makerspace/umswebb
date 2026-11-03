@@ -1,8 +1,9 @@
 ---
+translationKey: "insamlingskampanj-hjalp-oss-kopa-vart-space"
 title: "Insamlingskampanj: Hjälp oss köpa vårt space!"
 lang: "sv"
-translationKey: "insamlingskampanj-hjalp-oss-kopa-vart-space"
 date: "2024-06-24"
+draft: false
 ---
 
 _[![](/uploads/wp/makerspace_illustration.png)](/uploads/wp/makerspace_illustration.png)Jippi! Vi har bestämt oss för att köpa vår lokal! Det innebär att vi kommer kunna stanna kvar i Ekeby där vi trivs och känner oss hemma - skönt!_

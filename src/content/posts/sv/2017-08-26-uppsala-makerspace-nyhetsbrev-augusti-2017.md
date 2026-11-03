@@ -1,8 +1,9 @@
 ---
+translationKey: "uppsala-makerspace-nyhetsbrev-augusti-2017"
 title: "Uppsala Makerspace; nyhetsbrev augusti 2017"
 lang: "sv"
-translationKey: "uppsala-makerspace-nyhetsbrev-augusti-2017"
 date: "2017-08-26"
+draft: false
 ---
 
 Hej makers!

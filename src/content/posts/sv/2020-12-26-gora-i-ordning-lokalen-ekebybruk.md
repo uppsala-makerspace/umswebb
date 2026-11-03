@@ -1,8 +1,9 @@
 ---
+translationKey: "gora-i-ordning-lokalen-ekebybruk"
 title: "Göra i ordning / inreda Uppsala Makerspace nya lokal"
 lang: "sv"
-translationKey: "gora-i-ordning-lokalen-ekebybruk"
 date: "2020-12-26"
+draft: false
 ---
 
 ![](/uploads/wp/2020-12-12-16.57.22-small.jpg)

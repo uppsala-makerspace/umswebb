@@ -1,8 +1,9 @@
 ---
+translationKey: "arsmote-2021-online"
 title: "Årsmöte 2021 - online"
 lang: "sv"
-translationKey: "arsmote-2021-online"
 date: "2021-03-27"
+draft: false
 ---
 
 På samma sätt som förra året kommer årets årsmöte genomföras online genom en kombination av ett videomöte där all information föredras och en chatt där vi kommunicerar med varandra skriftligen samt genomför omröstningar. 

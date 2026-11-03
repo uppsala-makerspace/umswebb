@@ -1,7 +1,8 @@
 ---
+translationKey: "lokalen"
 title: "Vår lokal"
 lang: "sv"
-translationKey: "lokalen"
+draft: false
 ---
 
 I vår lokal finns verktyg och utrymme för att bygga, konstruera och skapa både smått och stort. Här kan du ofta träffa andra kreativa och kunniga människor.

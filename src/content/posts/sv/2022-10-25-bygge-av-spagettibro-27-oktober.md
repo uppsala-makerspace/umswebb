@@ -1,8 +1,9 @@
 ---
+translationKey: "bygge-av-spagettibro-27-oktober"
 title: "Bygge av spagettibro - 27 oktober kl. 19-21"
 lang: "sv"
-translationKey: "bygge-av-spagettibro-27-oktober"
 date: "2022-10-25"
+draft: false
 ---
 
 Förra året hade vi en tävling som gick ut på att under två timmar bygga en spagettibro och den som tålde störst belastning vann. Nedan är den ena bron under konstruktion. [![](/uploads/wp/spagettibro-1024x484.jpg)](/uploads/wp/spagettibro-scaled.jpg)

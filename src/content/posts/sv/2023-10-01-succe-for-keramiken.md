@@ -1,8 +1,9 @@
 ---
+translationKey: "succe-for-keramiken"
 title: "Succé för keramiken!"
 lang: "sv"
-translationKey: "succe-for-keramiken"
 date: "2023-10-01"
+draft: false
 ---
 
 [![Drejskiva](/uploads/wp/20230628_110722-1024x588.jpg)](/uploads/wp/20230628_110722-scaled.jpg)Wow, vi trodde inte vi skulle få sådant gensvar på idén om att starta en keramikverkstad på Uppsala makerspace!

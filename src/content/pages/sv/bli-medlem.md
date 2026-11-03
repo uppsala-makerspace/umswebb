@@ -1,8 +1,9 @@
 ---
+translationKey: "bli-medlem"
 title: "Bli medlem"
 description: "Hela registreringen sker i appen — välj medlemskap, betala och godkänn ansvarsförbindelsen."
 lang: "sv"
-translationKey: "bli-medlem"
+draft: false
 ---
 
 <aside class="notice">

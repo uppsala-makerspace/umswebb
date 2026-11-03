@@ -1,8 +1,9 @@
 ---
+translationKey: "kosystem-for-labbladeplats-infors"
 title: "Kösystem för labblådeplats införs"
 lang: "sv"
-translationKey: "kosystem-for-labbladeplats-infors"
 date: "2024-09-25"
+draft: false
 ---
 
 _Notera att detta är ett **gammalt nyhetsinlägg**. Efter detta införde vi ett sätt att aktivera sin köplats (för att vi inte ska behöva gå igenom och fråga alla som inte vill ha en labblåda)._ [**LÄS HÄR** (länk)](/nyheter/ny-rutin-for-ko-till-hyllplatser/).

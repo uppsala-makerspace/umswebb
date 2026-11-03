@@ -1,8 +1,9 @@
 ---
+translationKey: "nyhetsbrevet-julpyssel-laserskarare-och-mycket-mer"
 title: "Nyhetsbrevet - julpyssel, laserskärare och mycket mer"
 lang: "sv"
-translationKey: "nyhetsbrevet-julpyssel-laserskarare-och-mycket-mer"
 date: "2017-12-06"
+draft: false
 cover: "3d-print-christmas-tree.jpg"
 ---
 

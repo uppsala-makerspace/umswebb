@@ -1,7 +1,8 @@
 ---
+translationKey: "verktyg"
 title: "Verktyg"
 lang: "sv"
-translationKey: "verktyg"
+draft: false
 ---
 
 <script src="https://data.uppsalamakerspace.se/assets/ums.js"></script>

@@ -1,8 +1,9 @@
 ---
+translationKey: "kvallsoppet-byte-av-laserror-i-laserskararen-torsdagen-den-14-mars-kl-18"
 title: "Kvällsöppet: Byte av laserrör i laserskäraren torsdagen den 14 mars kl 18"
 lang: "sv"
-translationKey: "kvallsoppet-byte-av-laserror-i-laserskararen-torsdagen-den-14-mars-kl-18"
 date: "2019-03-11"
+draft: false
 cover: "2018-06-18-22.10.47-mini.jpg"
 ---
 

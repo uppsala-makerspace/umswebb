@@ -1,8 +1,9 @@
 ---
+translationKey: "arsmote-4-mars"
 title: "Årsmöte 4 Mars"
 lang: "sv"
-translationKey: "arsmote-4-mars"
 date: "2018-02-04"
+draft: false
 ---
 
 På söndagen den 4 mars kl. 15 kommer vi att ha årsmöte i Uppsala Makerspace.

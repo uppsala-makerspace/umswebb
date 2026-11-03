@@ -1,8 +1,9 @@
 ---
+translationKey: "ny-rutin-for-ko-till-hyllplatser"
 title: "Ny rutin för kö till hyllplatser"
 lang: "sv"
-translationKey: "ny-rutin-for-ko-till-hyllplatser"
 date: "2025-01-19"
+draft: false
 ---
 
 Alla som blir labbmedlemmar är med i en kö för att få en plats för en egen förvaringslåda i hyllorna innanför metallverkstaden. Sedan medlemsförvaringen blev full införde vi ett kösystem.  Nu uppdaterar vi rutinen.

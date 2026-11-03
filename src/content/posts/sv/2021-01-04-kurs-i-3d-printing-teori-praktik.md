@@ -1,8 +1,9 @@
 ---
+translationKey: "kurs-i-3d-printing-teori-praktik"
 title: "Kurs i 3D-printing: Teori & Praktik den 12-14 januari"
 lang: "sv"
-translationKey: "kurs-i-3d-printing-teori-praktik"
 date: "2021-01-04"
+draft: false
 ---
 
 **UPPDATERING:** Vi har lagt till ett till datum för Praktiken den 14 januari på grund av det stora intresset. Ni behöver endast boka ett tillfälle ett av datumen (13 & 14 jan). Har man redan anmält sig till den 13'e och vill byta till den 14'e så maila [christoffer@ramis.se](mailto:christoffer@ramis.se).

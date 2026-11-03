@@ -1,8 +1,9 @@
 ---
+translationKey: "uppstart-makertjej-torsdag-7-september-kl-18"
 title: "Uppstart Makertjej Torsdag 7 september kl. 18"
 lang: "sv"
-translationKey: "uppstart-makertjej-torsdag-7-september-kl-18"
 date: "2017-08-25"
+draft: false
 ---
 
 [![makertjejUMS](/uploads/wp/makertjejUMS-255x300.png)](/uploads/wp/makertjejUMS.png)

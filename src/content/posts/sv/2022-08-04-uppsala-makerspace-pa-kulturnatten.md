@@ -1,8 +1,9 @@
 ---
+translationKey: "uppsala-makerspace-pa-kulturnatten"
 title: "Uppsala Makerspace på Kulturnatten"
 lang: "sv"
-translationKey: "uppsala-makerspace-pa-kulturnatten"
 date: "2022-08-04"
+draft: false
 ---
 
 Vi har öppet i lokalen under Kulturnatten den 10 september klockan 14–20. Frivilliga medlemmar hjälps åt att hålla öppet. Besökare får testa olika aktiviteter:

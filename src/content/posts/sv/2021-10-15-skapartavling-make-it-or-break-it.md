@@ -1,8 +1,9 @@
 ---
+translationKey: "skapartavling-make-it-or-break-it"
 title: "<center>Skapartävling <br>\\\"Make it or break it\\\"</center>"
 lang: "sv"
-translationKey: "skapartavling-make-it-or-break-it"
 date: "2021-10-15"
+draft: false
 cover: "Da_vinci-tank-1.png"
 ---
 

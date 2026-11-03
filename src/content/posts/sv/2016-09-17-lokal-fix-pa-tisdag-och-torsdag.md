@@ -1,8 +1,9 @@
 ---
+translationKey: "lokal-fix-pa-tisdag-och-torsdag"
 title: "Lokal-fix på tisdag och torsdag"
 lang: "sv"
-translationKey: "lokal-fix-pa-tisdag-och-torsdag"
 date: "2016-09-17"
+draft: false
 ---
 
 Som vi bestämde i tisdags så ska vi ha två träffar nästa vecka. En på tisdag och en på torsdag, det vill säga den 20e och 22a. Tiden blir 18:00 som förra gången. Det som vi ska göra är: \* Måla \* Fixa glödlamporna som är trasiga \* Gå igenom träet i träverkstaden, kasta det som är skräp \* Limma upp gips-skivan som rasat ned.

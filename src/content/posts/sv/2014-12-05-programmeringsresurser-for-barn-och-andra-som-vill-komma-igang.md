@@ -1,8 +1,9 @@
 ---
+translationKey: "programmeringsresurser-for-barn-och-andra-som-vill-komma-igang"
 title: "Programmeringsresurser för barn (och andra som vill komma igång)"
 lang: "sv"
-translationKey: "programmeringsresurser-for-barn-och-andra-som-vill-komma-igang"
 date: "2014-12-05"
+draft: false
 ---
 
 Om du vill programmera tillsammans med ditt barn tycker vi att ni ska kolla in följande resurser:

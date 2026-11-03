@@ -1,8 +1,9 @@
 ---
+translationKey: "diy-bio-workshops-at-ums-dna-extraction-workshop"
 title: "DIY Bio Workshops at UMS - DNA Extraction Workshop"
 lang: "sv"
-translationKey: "diy-bio-workshops-at-ums-dna-extraction-workshop"
 date: "2025-02-13"
+draft: false
 ---
 
 [![](/uploads/wp/Screenshot-2025-02-09-at-19.19.07-150x150.png)](/uploads/wp/Screenshot-2025-02-09-at-19.19.07.png) [![](/uploads/wp/Screenshot-2025-02-09-at-19.19.29-150x150.png)](/uploads/wp/Screenshot-2025-02-09-at-19.19.29.png)

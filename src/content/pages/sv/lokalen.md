@@ -1,12 +1,13 @@
 ---
+translationKey: "lokalen"
 title: "Vår lokal"
 lang: "sv"
-translationKey: "lokalen"
+draft: false
 ---
 
 I vår lokal finns verktyg och utrymme för att bygga, konstruera och skapa både smått och stort. Här kan du ofta träffa andra kreativa och kunniga människor.
 
-## Karta över lokalen
+## Karta över vår lokal
 
 Lokalen har två våningar. Klicka på våningen som ligger bakom för att växla, och på ett rum för att se vad som finns där.
 

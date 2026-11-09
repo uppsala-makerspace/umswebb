@@ -1,0 +1,170 @@
+---
+/* One activity's own page: its photo, then the title and everything said
+ * about it, then its occasions to come and those that are over — of which
+ * umsme publishes only the 10 latest, so that list is recent, not complete.
+ * Shared by /aktiviteter/<id>/ and /en/activities/<id>/; everything
+ * language-dependent is in `LABELS` or `lib/activityText.ts`. */
+import OccasionList from './OccasionList.astro';
+import RegistrationIcon from './RegistrationIcon.astro';
+import { toParagraphs } from '../lib/richtext';
+import { activityMeta, activitySignUp } from '../lib/activityText';
+import type { Activity, Locale } from '../lib/entries';
+
+interface Props {
+  activity: Activity;
+  lang: Locale;
+}
+
+const { activity, lang } = Astro.props;
+
+const LABELS = {
+  sv: {
+    back: 'Alla aktiviteter',
+    backHref: '/aktiviteter/',
+    upcoming: 'Kommande tillfällen',
+    past: 'Tidigare tillfällen',
+    pastCapped: (n: number) => `Visar de ${n} senaste.`,
+    none: 'Inga tillfällen är inplanerade just nu.',
+    where: 'Anmälan görs i appen för medlemmar.',
+  },
+  en: {
+    back: 'All activities',
+    backHref: '/en/activities/',
+    upcoming: 'Coming up',
+    past: 'Earlier',
+    pastCapped: (n: number) => `Showing the ${n} latest.`,
+    none: 'Nothing is planned right now.',
+    where: 'Sign up in the member app.',
+  },
+};
+const t = LABELS[lang];
+
+// umsme publishes at most this many past occasions. A full list may be cut
+// short, so the page says so; a shorter one is all there is.
+const PAST_CAP = 10;
+
+const meta = activityMeta(activity, lang);
+const signup = activitySignUp(activity, lang);
+const paragraphs = activity.text ? toParagraphs(activity.text[lang]) : [];
+---
+<article class="ap">
+  <p class="ap-back">
+    <a href={t.backHref}>
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+        <path d="m15 18-6-6 6-6" />
+      </svg>
+      {t.back}
+    </a>
+  </p>
+
+  {activity.photo && <img class="ap-photo" src={activity.photo} alt={activity.imageAlt[lang]} />}
+
+  <h1>{activity.name[lang]}</h1>
+  {meta.length > 0 && <p class="ap-meta">{meta.join(' · ')}</p>}
+
+  {signup.length > 0 && (
+    <div class="ap-signup">
+      <RegistrationIcon required={activity.registration === 'required'} />
+      <div>
+        <span class="ap-signup-what">{signup.join(' · ')}</span>
+        <span class="ap-signup-where">{t.where}</span>
+      </div>
+    </div>
+  )}
+
+  {paragraphs.length > 0 && (
+    <div class="ap-text">
+      {paragraphs.map(html => <p set:html={html} />)}
+    </div>
+  )}
+
+  <section class="ap-section">
+    <h2>{t.upcoming}</h2>
+    <OccasionList occasions={activity.upcoming} lang={lang} details={false} nested linkActivity={false} empty={t.none} />
+  </section>
+
+  {activity.past.length > 0 && (
+    <section class="ap-section">
+      <h2>{t.past}</h2>
+      {activity.past.length >= PAST_CAP && <p class="ap-note">{t.pastCapped(PAST_CAP)}</p>}
+      <OccasionList occasions={activity.past} lang={lang} details={false} nested linkActivity={false} past />
+    </section>
+  )}
+</article>
+
+<style>
+  .ap-back {
+    margin: 0 0 16px;
+    font-size: 0.95rem;
+  }
+  .ap-back a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .ap-back svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .ap-photo {
+    display: block;
+    width: 100%;
+    max-height: 420px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    margin-bottom: 24px;
+    border-radius: var(--radius-lg);
+  }
+  .ap h1 {
+    margin-bottom: 0.25rem;
+    hyphens: auto;
+    overflow-wrap: anywhere;
+  }
+  .ap-meta {
+    margin: 0;
+    color: var(--text-muted);
+  }
+  .ap-signup {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+  }
+  .ap-signup :global(.reg-icon) {
+    margin-top: 3px;
+  }
+  .ap-signup-what,
+  .ap-signup-where {
+    display: block;
+  }
+  .ap-signup-what {
+    font-weight: 600;
+  }
+  .ap-signup-where {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  .ap-text {
+    margin-top: 16px;
+  }
+  .ap-text p {
+    overflow-wrap: anywhere;
+  }
+  .ap-section {
+    margin-top: 40px;
+  }
+  .ap-section h2 {
+    margin: 0;
+  }
+  .ap-note {
+    margin: 4px 0 0;
+    color: var(--text-muted);
+  }
+</style>

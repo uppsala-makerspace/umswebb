@@ -78,6 +78,14 @@ const eventTimes = {
 };
 const eventTimesSchema = z.object(eventTimes);
 
+// An event of an activity. It names a `name` or a `space` only where it differs
+// from the activity's.
+const activityEventSchema = z.object({
+  ...eventTimes,
+  name: localized.optional(),
+  space: placeSchema.optional(),
+});
+
 const entrySchema = z.object({
   id: z.string(),
   kind: z.string(),
@@ -107,11 +115,11 @@ const entrySchema = z.object({
   durationMinutes: z.number().optional(),
   // What its events have unless an event says otherwise.
   seats: z.number().optional(),
-  /* Its events from now on, soonest first. An event names a `name` or a
-   * `space` only where it differs from the activity's. */
-  events: z
-    .array(z.object({ ...eventTimes, name: localized.optional(), space: placeSchema.optional() }))
-    .optional(),
+  // Its events from now on, soonest first.
+  events: z.array(activityEventSchema).optional(),
+  /* Its events that are over, latest first — at most the 10 latest: umsme
+   * caps the list, so this is never an activity's whole history. */
+  pastEvents: z.array(activityEventSchema).optional(),
 });
 
 // An event that belongs to no activity, such as a cleaning day.
@@ -240,9 +248,15 @@ export type Activity = {
   seats?: number;
   /** Local path to the cached thumbnail. Not every activity has one. */
   image?: string;
+  /** The same photo larger, for the top of the activity's page. */
+  photo?: string;
   /** Generated: the API carries no alt text. */
   imageAlt: Record<Locale, string>;
-  /** The first occasion to come that is not cancelled; `id` is its calendar anchor. */
+  /** Its occasions to come, soonest first, cancelled ones included. */
+  upcoming: Occasion[];
+  /** Its occasions that are over, latest first: at most the 10 latest, as umsme caps them. */
+  past: Occasion[];
+  /** The first occasion that is not cancelled; `id` is its calendar anchor. */
   next?: { id: string; start: string };
   /** How many occasions to come are planned, cancelled ones excluded. */
   planned: number;
@@ -317,9 +331,10 @@ async function fetchAndCache(): Promise<PublicData> {
         entryImages.set(activity.id, await cacheAsset(activity.image, 'image', THUMB_WIDTH));
       }
     }),
-    // The calendar's larger size, only for what the calendar shows.
+    // The larger size: under an occasion's description in the calendar, and
+    // at the top of the activity's own page — which every activity has.
     ...entries
-      .filter(entry => isActivity(entry) && entry.image && entry.events?.length)
+      .filter(entry => isActivity(entry) && entry.image)
       .map(async activity => {
         occasionImages.set(
           occasionImageKey('activity', activity.id),
@@ -484,23 +499,11 @@ const isActivity = (entry: z.infer<typeof entrySchema>) => entry.kind === 'activ
 export async function getOccasions(): Promise<Occasion[]> {
   const data = await loadPublicData();
   const describe = describer(data);
+  const occasionOf = activityOccasion(data, describe);
 
   const ofActivities = data.entries
     .filter(isActivity)
-    .flatMap(activity =>
-      (activity.events ?? []).map(event => ({
-        id: occasionId(activity.id, event.start),
-        start: event.start,
-        end: event.end,
-        cancelled: event.status === 'cancelled',
-        name: event.name ?? activity.name,
-        activity: { id: activity.id, name: activity.name },
-        image: data.assets.occasionImages.get(occasionImageKey('activity', activity.id)),
-        imageAlt: altFor(event.name ?? activity.name),
-        ...describe(activity, event.space ?? activity.space),
-        ...signUp(event, activity),
-      }))
-    );
+    .flatMap(activity => (activity.events ?? []).map(event => occasionOf(activity, event)));
 
   const freeStanding = data.events.map(event => ({
     id: event.id,
@@ -517,10 +520,32 @@ export async function getOccasions(): Promise<Occasion[]> {
   return [...ofActivities, ...freeStanding].sort((a, b) => a.start.localeCompare(b.start));
 }
 
+// One event of an activity as an occasion: what the event doesn't say itself
+// it takes from the activity. Shared by the calendar and the activity's page,
+// so both say the same and link to the same anchor.
+function activityOccasion(data: PublicData, describe: ReturnType<typeof describer>) {
+  return (
+    activity: z.infer<typeof entrySchema>,
+    event: z.infer<typeof activityEventSchema>
+  ): Occasion => ({
+    id: occasionId(activity.id, event.start),
+    start: event.start,
+    end: event.end,
+    cancelled: event.status === 'cancelled',
+    name: event.name ?? activity.name,
+    activity: { id: activity.id, name: activity.name },
+    image: data.assets.occasionImages.get(occasionImageKey('activity', activity.id)),
+    imageAlt: altFor(event.name ?? activity.name),
+    ...describe(activity, event.space ?? activity.space),
+    ...signUp(event, activity),
+  });
+}
+
 /** Every published activity, in the order the API returned them. */
 export async function getActivities(): Promise<Activity[]> {
   const data = await loadPublicData();
   const describe = describer(data);
+  const occasionOf = activityOccasion(data, describe);
 
   return data.entries.filter(isActivity).map(activity => {
     const planned = (activity.events ?? []).filter(event => event.status !== 'cancelled');
@@ -529,7 +554,10 @@ export async function getActivities(): Promise<Activity[]> {
       id: activity.id,
       name: activity.name,
       image: data.assets.entryImages.get(activity.id),
+      photo: data.assets.occasionImages.get(occasionImageKey('activity', activity.id)),
       imageAlt: altFor(activity.name),
+      upcoming: (activity.events ?? []).map(event => occasionOf(activity, event)),
+      past: (activity.pastEvents ?? []).map(event => occasionOf(activity, event)),
       ...describe(activity, activity.space),
       durationMinutes: activity.durationMinutes,
       seats: activity.seats,

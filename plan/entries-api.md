@@ -195,6 +195,12 @@ and place with, right-aligned, the hosts' first names when umsme publishes them
   sentence ("Anmälan krävs · 3 av 8 platser kvar") is its tooltip and its
   screen-reader text. A cancelled occasion shows none. The seats are as of the
   hourly build, not live. The icon is `RegistrationIcon.astro`.
+- **An occasion of an activity links to the activity's page** twice: a
+  stack icon (two squares, `ActivityIcon.astro`) after the title — not an
+  arrow, since the title is the occasion and the link is to what it is one of —
+  and, in the unfolded text so that it always folds out, the same icon before
+  "Läs mer om aktiviteten", laid out like the sign-up explanation. Both are off on the
+  activity's own page (`linkActivity={false}`).
 - **A phone has no hover**, so an occasion with sign-up always folds out, and
   its unfolded text ends with the icon and that sentence in words, followed
   by "Anmälan görs i appen för medlemmar." (the app as the menu names it; no
@@ -215,18 +221,33 @@ the calendar looks empty.
 
 The intro on the calendar links to **`/aktiviteter/`** and **`/en/activities/`**
 (`ActivityList.astro`, `getActivities()`): every published activity sorted by
-name, with category, room, duration, members only and cost, its description,
-and a link to its next non-cancelled occasion in the calendar. An activity's
-`image` is shown as a square thumbnail, cached at 480 px rather than the
-1200 px of the carousel photos (`cacheAsset(…, THUMB_WIDTH)`; the file gets a
-`-w480` suffix). The anchor
-comes from `occasionId()`, shared with `getOccasions()`, so the two can't
-drift. The page is not in the menu yet.
+name, in one of two views switched by the toggle beside the heading — a grid
+of photos with titles (the default, and the view without JS), or a list of
+cards with category, room, duration, members only, cost and sign-up, the
+description cut to one line, and the next occasion. One markup, `data-view`
+picks the layout; the choice is kept in `localStorage` when that works. The
+grid uses the 480 px thumbnail (`-w480`); an activity without a photo gets a
+placeholder. The page is not in the menu yet.
+
+Every card links to the activity's page, **`/aktiviteter/<id>/`** and
+**`/en/activities/<id>/`** (`ActivityPage.astro`): the 960 px photo on top, the
+title, the same details, sign-up spelled out with the member app, the whole
+description, then "Kommande tillfällen" — `OccasionList` with `details={false}`
+and `nested`, so no repeated description or photo and months as h3. The id
+follows the Swedish name, so renaming an activity moves its page.
+
+"Tidigare tillfällen" lists `pastEvents` (latest first, the same shape as
+`events`) with `past`: no sign-up and nothing for the script to drop. **umsme
+publishes only the 10 latest**, so the list is recent history, not all of it;
+when it is full the page says so under the heading ("Visar de 10 senaste."),
+and the section stays away when an activity has none. `activityOccasion()` turns an event
+into an occasion for both the calendar and these pages, so anchors and details
+can't drift. The wording shared by list and page is in `lib/activityText.ts`.
 
 Under the description an occasion unfolds its photo — a free-standing event's
 own, else its activity's — and an occasion with a photo always folds out, like
-one with sign-up. The calendar uses a 960 px copy (`-w960`, made only for
-activities with occasions to come); the activities page keeps its 480 px
+one with sign-up. The calendar uses a 960 px copy (`-w960`, made for every
+activity with a photo, since its own page shows it too); the grid keeps its 480 px
 thumbnail. Hidden while folded, the lazy photo is mostly not fetched until
 unfolded — except for occasions near the top, which can start loading before
 the script folds them.

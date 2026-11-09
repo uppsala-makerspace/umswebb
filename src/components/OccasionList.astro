@@ -2,18 +2,44 @@
 /* The calendar: every occasion to come from umsme, grouped by month. Shared by
  * /kalender/ and /en/calendar/; everything language-dependent is in `LABELS`.
  *
+ * Also lists one activity's occasions on its page. There `details={false}`
+ * leaves out the description and photo, which head the page already, and
+ * `past` lists what is over: no sign-up, and nothing for the script to drop.
+ *
  * Dates are rendered at build time in Stockholm time. The site is rebuilt
  * hourly, so the script below only has to drop what ended since the build. */
+import ActivityIcon from './ActivityIcon.astro';
 import RegistrationIcon from './RegistrationIcon.astro';
 import { toParagraphs } from '../lib/richtext';
 import type { Locale, Occasion } from '../lib/entries';
+import { activityHref } from '../lib/activityText';
 
 interface Props {
   occasions: Occasion[];
   lang: Locale;
+  /** Each occasion's description and photo. */
+  details?: boolean;
+  /** The occasions are over. */
+  past?: boolean;
+  /** Overrides the text shown when there is nothing to list. */
+  empty?: string;
+  /** Under a heading of its own: months become h3, occasions h4. */
+  nested?: boolean;
+  /** Link each occasion to its activity's page. Off on that page itself. */
+  linkActivity?: boolean;
 }
 
-const { occasions, lang } = Astro.props;
+const {
+  occasions,
+  lang,
+  details = true,
+  past = false,
+  empty,
+  nested = false,
+  linkActivity = true,
+} = Astro.props;
+const MonthHeading = nested ? 'h3' : 'h2';
+const NameHeading = nested ? 'h4' : 'h3';
 
 const LABELS = {
   sv: {
@@ -24,6 +50,8 @@ const LABELS = {
     free: 'Gratis',
     cost: (kr: number) => `${kr} kr`,
     expand: 'Visa hela beskrivningen',
+    activityMore: 'Läs mer om aktiviteten',
+    activityIcon: (name: string) => `Läs mer om aktiviteten ${name}`,
     registration: { required: 'Anmälan krävs', optional: 'Anmälan möjlig' },
     seatsLeft: (left: number, all: number) => `${left} av ${all} platser kvar`,
     full: 'Fullbokat',
@@ -40,6 +68,8 @@ const LABELS = {
     free: 'Free',
     cost: (kr: number) => `SEK ${kr}`,
     expand: 'Show the full description',
+    activityMore: 'Read more about the activity',
+    activityIcon: (name: string) => `Read more about the activity ${name}`,
     registration: { required: 'Registration required', optional: 'Registration optional' },
     seatsLeft: (left: number, all: number) => `${left} of ${all} seats left`,
     full: 'Fully booked',
@@ -109,7 +139,7 @@ for (const occasion of occasions) {
 <div class="oc" data-occasions>
   {months.map(month => (
     <section class="oc-month" data-oc-month>
-      <h2>{month.label}</h2>
+      <MonthHeading class="oc-month-title">{month.label}</MonthHeading>
       <ol class="oc-list">
         {month.occasions.map(occasion => {
           const start = new Date(occasion.start);
@@ -120,8 +150,12 @@ for (const occasion of occasions) {
             occasion.membersOnly ? t.membersOnly : undefined,
             occasion.cost !== undefined ? t.cost(occasion.cost) : undefined,
           ].filter(Boolean);
-          const paragraphs = occasion.text ? toParagraphs(occasion.text[lang]) : [];
-          const signup = signUp(occasion);
+          const paragraphs = details && occasion.text ? toParagraphs(occasion.text[lang]) : [];
+          const image = details ? occasion.image : undefined;
+          // The activity's page, for an occasion that is one of an activity's.
+          const activity = linkActivity ? occasion.activity : undefined;
+          const activityPage = activity && activityHref(activity.id, lang);
+          const signup = past ? [] : signUp(occasion);
           const seats = seatsShort(occasion);
           const regDetail = signup.length > 0 && (
             <div class="oc-reg-detail">
@@ -136,7 +170,7 @@ for (const occasion of occasions) {
             <li
               id={occasion.id}
               class="oc-item"
-              data-end={occasion.end}
+              data-end={past ? undefined : occasion.end}
               data-cancelled={occasion.cancelled ? '' : undefined}
             >
               <time class="oc-date" datetime={occasion.start}>
@@ -145,10 +179,23 @@ for (const occasion of occasions) {
               </time>
               <div class="oc-body">
                 <div class="oc-head">
-                  <h3 class="oc-name">
+                  <NameHeading class="oc-name">
                     {occasion.cancelled && <span class="oc-badge">{t.cancelled}</span>}
                     <span class="oc-title">{occasion.name[lang]}</span>
-                  </h3>
+                    {activity && (
+                      /* Not an arrow: the title is this occasion, the link is to
+                       * what it is one of. Spelled out in the unfolded text for
+                       * those who can't hover. */
+                      <a
+                        class="oc-act-icon"
+                        href={activityPage}
+                        title={t.activityIcon(activity.name[lang])}
+                        aria-label={t.activityIcon(activity.name[lang])}
+                      >
+                        <ActivityIcon />
+                      </a>
+                    )}
+                  </NameHeading>
                   {signup.length > 0 && (
                     <p
                       class="oc-reg"
@@ -169,25 +216,31 @@ for (const occasion of occasions) {
                     </p>
                   )}
                 </div>
-                {paragraphs.length > 0 || occasion.image ? (
-                  /* With sign-up or a photo the occasion always folds out,
-                   * whether or not the text fits on its line: that is where the
-                   * photo shows and the icon is put into words. */
+                {paragraphs.length > 0 || image || activity ? (
+                  /* With sign-up, a photo or an activity the occasion always
+                   * folds out, whether or not the text fits on its line: that
+                   * is where the photo shows and the icons are put into words. */
                   <div
                     class="oc-desc"
                     data-oc-desc
-                    data-always={signup.length > 0 || occasion.image ? '' : undefined}
+                    data-always={signup.length > 0 || image || activity ? '' : undefined}
                   >
                     <div class="oc-desc-text" id={`${occasion.id}-desc`}>
                       {paragraphs.map(html => <p set:html={html} />)}
-                      {occasion.image && (
+                      {image && (
                         <img
                           class="oc-desc-img"
-                          src={occasion.image}
+                          src={image}
                           alt={occasion.imageAlt[lang]}
                           loading="lazy"
                           decoding="async"
                         />
+                      )}
+                      {activity && (
+                        <p class="oc-act-link">
+                          <ActivityIcon />
+                          <a href={activityPage}>{t.activityMore}</a>
+                        </p>
                       )}
                       {regDetail}
                     </div>
@@ -216,7 +269,7 @@ for (const occasion of occasions) {
       </ol>
     </section>
   ))}
-  <p class="oc-empty" data-oc-empty hidden={occasions.length > 0}>{t.empty}</p>
+  <p class="oc-empty" data-oc-empty hidden={occasions.length > 0}>{empty ?? t.empty}</p>
 </div>
 
 <script>
@@ -272,7 +325,7 @@ for (const occasion of occasions) {
   .oc {
     margin: 24px 0;
   }
-  .oc-month h2 {
+  .oc-month-title {
     margin: 32px 0 12px;
     font-size: 1.25rem;
   }
@@ -407,8 +460,32 @@ for (const occasion of occasions) {
   /* Photo and explanation belong to the unfolded text, never the folded line.
    * Hidden, the lazy photo isn't fetched until someone unfolds it. */
   .oc-desc[data-clamped] .oc-desc-text .oc-reg-detail,
-  .oc-desc[data-clamped] .oc-desc-text .oc-desc-img {
+  .oc-desc[data-clamped] .oc-desc-text .oc-desc-img,
+  .oc-desc[data-clamped] .oc-desc-text .oc-act-link {
     display: none;
+  }
+  /* Laid out like the sign-up explanation: the icon, then the words. */
+  .oc-desc-text .oc-act-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    font-size: 0.95rem;
+  }
+  .oc-act-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    margin-left: 4px;
+    vertical-align: -4px;
+    border-radius: 9999px;
+    color: var(--text-muted);
+  }
+  .oc-act-icon:hover,
+  .oc-act-icon:focus-visible {
+    color: var(--brand-green-dark);
+    background: var(--bg);
   }
   .oc-desc-img {
     display: block;

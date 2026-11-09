@@ -1,45 +1,42 @@
 ---
-/* Every published activity, with when it next happens. Shared by /aktiviteter/
- * and /en/activities/; everything language-dependent is in `LABELS`.
+/* Every published activity, each linking to its own page, shown either as a
+ * grid of photos with titles or as a list of cards with the details and one
+ * line of the description. One markup serves both; `data-view` on the list
+ * picks the layout, and the toggle by the heading switches it.
  *
- * "Next" is as of the build. The site is rebuilt hourly, which is close enough
- * for a pointer into the calendar, where the times are authoritative. */
-import { toParagraphs } from '../lib/richtext';
+ * Shared by /aktiviteter/ and /en/activities/; everything language-dependent
+ * is in `LABELS` here or in `lib/activityText.ts`. */
 import type { Activity, Locale } from '../lib/entries';
+import { activityHref, activityMeta, activitySignUp, plainText } from '../lib/activityText';
 
 interface Props {
   activities: Activity[];
   lang: Locale;
+  title: string;
 }
 
-const { activities, lang } = Astro.props;
+const { activities, lang, title } = Astro.props;
 
 const LABELS = {
   sv: {
     locale: 'sv-SE',
-    calendar: '/kalender/',
     empty: 'Inga aktiviteter är publicerade just nu.',
-    membersOnly: 'Endast medlemmar',
-    cost: (kr: number) => `${kr} kr`,
-    registration: { required: 'Anmälan krävs', optional: 'Anmälan möjlig' },
-    seats: (n: number) => (n === 1 ? '1 plats' : `${n} platser`),
-    hours: 'tim',
     next: 'Nästa tillfälle:',
     planned: (n: number) => (n === 1 ? '1 inplanerat' : `${n} inplanerade`),
     none: 'Inga tillfällen är inplanerade just nu.',
+    view: 'Visa som',
+    grid: 'Rutnät',
+    list: 'Lista',
   },
   en: {
     locale: 'en-GB',
-    calendar: '/en/calendar/',
     empty: 'No activities are published right now.',
-    membersOnly: 'Members only',
-    cost: (kr: number) => `SEK ${kr}`,
-    registration: { required: 'Registration required', optional: 'Registration optional' },
-    seats: (n: number) => (n === 1 ? '1 seat' : `${n} seats`),
-    hours: 'h',
     next: 'Next time:',
     planned: (n: number) => `${n} planned`,
     none: 'Nothing is planned right now.',
+    view: 'Show as',
+    grid: 'Grid',
+    list: 'List',
   },
 };
 const t = LABELS[lang];
@@ -53,135 +50,243 @@ const whenFmt = new Intl.DateTimeFormat(t.locale, {
   minute: '2-digit',
 });
 
-/* 180 → "3 tim", 90 → "1 tim 30 min". */
-function duration(minutes: number): string {
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
-  return [h ? `${h} ${t.hours}` : '', m ? `${m} min` : ''].filter(Boolean).join(' ');
-}
-
 const sorted = [...activities].sort((a, b) => a.name[lang].localeCompare(b.name[lang], t.locale));
 ---
+<div class="al-head">
+  <h1>{title}</h1>
+  {/* Only with JS, which is what switches the view. */}
+  <div class="al-views" role="group" aria-label={t.view} data-al-views hidden>
+    <button type="button" class="al-view" data-al-view="grid" aria-pressed="true" aria-label={t.grid} title={t.grid}>
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <rect x="3" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="3" width="7" height="7" rx="1" />
+        <rect x="3" y="14" width="7" height="7" rx="1" />
+        <rect x="14" y="14" width="7" height="7" rx="1" />
+      </svg>
+    </button>
+    <button type="button" class="al-view" data-al-view="list" aria-pressed="false" aria-label={t.list} title={t.list}>
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<slot />
+
 {sorted.length === 0 ? (
   <p class="al-empty">{t.empty}</p>
 ) : (
-  <ul class="al">
+  <ul class="al" data-view="grid" data-al-list>
     {sorted.map(activity => {
-      const meta = [
-        activity.category?.[lang],
-        activity.place?.[lang] ?? activity.workshop?.name[lang],
-        activity.durationMinutes ? duration(activity.durationMinutes) : undefined,
-        activity.membersOnly ? t.membersOnly : undefined,
-        activity.cost !== undefined ? t.cost(activity.cost) : undefined,
-        activity.registration !== 'none' ? t.registration[activity.registration] : undefined,
-        activity.seats !== undefined ? t.seats(activity.seats) : undefined,
-      ].filter(Boolean);
+      const meta = [...activityMeta(activity, lang), ...activitySignUp(activity, lang)];
       return (
-        <li id={activity.id} class="al-item">
-          {activity.image && (
-            <img
-              class="al-thumb"
-              src={activity.image}
-              alt={activity.imageAlt[lang]}
-              width="120"
-              height="120"
-              loading="lazy"
-              decoding="async"
-            />
-          )}
-          <div class="al-body">
-            <h2 class="al-name">{activity.name[lang]}</h2>
-            {meta.length > 0 && <p class="al-meta">{meta.join(' · ')}</p>}
-            {activity.text && toParagraphs(activity.text[lang]).map(html => <p set:html={html} />)}
-            <p class="al-next">
-              {activity.next ? (
-                <>
-                  {t.next}{' '}
-                  <a href={`${t.calendar}#${activity.next.id}`}>
-                    <time datetime={activity.next.start}>{whenFmt.format(new Date(activity.next.start))}</time>
-                  </a>
-                  {activity.planned > 1 && <span class="al-count"> ({t.planned(activity.planned)})</span>}
-                </>
+        <li id={activity.id}>
+          <a class="al-card" href={activityHref(activity.id, lang)}>
+            <div class="al-media">
+              {activity.image ? (
+                <img src={activity.image} alt={activity.imageAlt[lang]} loading="lazy" decoding="async" />
               ) : (
-                t.none
+                /* No photo: a quiet placeholder keeps the grid even. */
+                <svg class="al-placeholder" viewBox="0 0 24 24" width="40" height="40" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <circle cx="9" cy="9" r="2" />
+                  <path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21" />
+                </svg>
               )}
-            </p>
-          </div>
+            </div>
+            <div class="al-content">
+              <h2 class="al-name">{activity.name[lang]}</h2>
+              {meta.length > 0 && <span class="al-meta">{meta.join(' · ')}</span>}
+              {activity.text && <span class="al-desc">{plainText(activity.text[lang])}</span>}
+              <span class="al-next">
+                {activity.next ? (
+                  <>
+                    {t.next}{' '}
+                    <time datetime={activity.next.start}>{whenFmt.format(new Date(activity.next.start))}</time>
+                    {activity.planned > 1 && <span class="al-count"> ({t.planned(activity.planned)})</span>}
+                  </>
+                ) : (
+                  t.none
+                )}
+              </span>
+            </div>
+          </a>
         </li>
       );
     })}
   </ul>
 )}
 
+<script>
+  /* The chosen view is a per-visitor convenience: remembered when storage
+   * works, and the page is fine without it. */
+  const KEY = 'ums-activities-view';
+  const list = document.querySelector<HTMLElement>('[data-al-list]');
+  const group = document.querySelector<HTMLElement>('[data-al-views]');
+  if (list && group) {
+    const buttons = [...group.querySelectorAll<HTMLButtonElement>('[data-al-view]')];
+    const show = (view: string) => {
+      list.dataset.view = view;
+      for (const button of buttons) {
+        button.setAttribute('aria-pressed', String(button.dataset.alView === view));
+      }
+    };
+    try {
+      const saved = localStorage.getItem(KEY);
+      if (saved === 'grid' || saved === 'list') show(saved);
+    } catch {
+      // No storage: stay with the default.
+    }
+    group.hidden = false;
+    for (const button of buttons) {
+      button.addEventListener('click', () => {
+        const view = button.dataset.alView!;
+        show(view);
+        try {
+          localStorage.setItem(KEY, view);
+        } catch {
+          // Not remembered; the switch still works.
+        }
+      });
+    }
+  }
+</script>
+
 <style>
+  .al-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 1rem;
+  }
+  .al-head h1 {
+    flex: 1;
+    margin: 0;
+  }
+  .al-views {
+    flex: 0 0 auto;
+    display: flex;
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    background: var(--card);
+    overflow: hidden;
+  }
+  .al-views[hidden] {
+    display: none;
+  }
+  .al-view {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .al-view + .al-view {
+    border-left: 1px solid var(--border);
+  }
+  .al-view[aria-pressed='true'] {
+    color: var(--brand-green-dark);
+    background: var(--bg);
+  }
+  .al-view svg,
+  .al-placeholder {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
   .al {
     list-style: none;
     margin: 24px 0;
     padding: 0;
     display: grid;
-    /* Without the minmax a grid item is at least as wide as its longest word,
-     * and "Träverkstadsintroduktion" next to a thumbnail overflows a phone. */
-    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
+    /* minmax(0, …): without it a grid item is at least as wide as its longest
+     * word, and long Swedish compounds overflow a phone. */
+    grid-template-columns: minmax(0, 1fr);
   }
-  .al-item {
-    padding: 16px 20px;
+  .al[data-view='grid'] {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+  }
+  .al li {
+    min-width: 0;
+    scroll-margin-top: calc(var(--header-h) + 16px);
+  }
+  .al-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: var(--card);
-    scroll-margin-top: calc(var(--header-h) + 16px);
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
+    color: var(--text);
+    text-decoration: none;
+    overflow: hidden;
   }
-  /* Square crop, whatever shape the photo has. */
-  .al-thumb {
-    flex: 0 0 auto;
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: var(--radius);
-    background: var(--border);
-  }
-  .al-body {
-    flex: 1;
-    min-width: 0;
-  }
-  @media (max-width: 520px) {
-    .al-item {
-      gap: 14px;
-    }
-    .al-thumb {
-      width: 72px;
-      height: 72px;
-    }
-  }
-  .al-item:target {
+  .al-card:hover,
+  .al-card:focus-visible {
     border-color: var(--brand-green);
+  }
+  .al-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    padding: 14px 16px;
   }
   .al-name {
     margin: 0;
+    font-size: 1.1rem;
     hyphens: auto;
     overflow-wrap: anywhere;
-    font-size: 1.2rem;
   }
-  .al-meta {
-    margin: 4px 0 0;
+  .al-meta,
+  .al-next,
+  .al-count {
     color: var(--text-muted);
     font-size: 0.95rem;
   }
-  .al-item p {
-    margin: 10px 0 0;
-    /* Links in descriptions can be long; let them wrap rather than widen the page. */
-    overflow-wrap: anywhere;
+
+  /* Grid: the photo and the title, nothing else. */
+  .al-media {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    background: var(--border);
+    color: var(--text-muted);
   }
-  .al-item .al-meta {
-    margin-top: 4px;
+  .al-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
-  .al-next {
-    font-size: 0.95rem;
+  .al[data-view='grid'] :is(.al-meta, .al-desc, .al-next) {
+    display: none;
   }
-  .al-count,
+
+  /* List: the card without its photo, the description cut to one line. */
+  .al[data-view='list'] .al-media {
+    display: none;
+  }
+  .al[data-view='list'] .al-content {
+    padding: 16px 20px;
+  }
+  .al[data-view='list'] .al-name {
+    font-size: 1.2rem;
+  }
+  .al-desc {
+    margin-top: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .al-empty {
     color: var(--text-muted);
   }

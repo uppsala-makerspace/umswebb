@@ -1,0 +1,21 @@
+---
+/* One activity's page, for every activity published in umsme. The id follows
+ * the activity's Swedish name, so renaming it moves the page. */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ActivityPage from '../../components/ActivityPage.astro';
+import { getActivities, type Activity } from '../../lib/entries';
+import { plainText } from '../../lib/activityText';
+
+export async function getStaticPaths() {
+  return (await getActivities()).map(activity => ({ params: { id: activity.id }, props: { activity } }));
+}
+
+const { activity } = Astro.props as { activity: Activity };
+---
+<BaseLayout
+  title={`${activity.name.sv} — Uppsala Makerspace`}
+  description={activity.text ? plainText(activity.text.sv).slice(0, 160) : activity.name.sv}
+  lang="sv"
+>
+  <ActivityPage activity={activity} lang="sv" />
+</BaseLayout>

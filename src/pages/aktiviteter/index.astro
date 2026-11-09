@@ -1,0 +1,21 @@
+---
+/* All activities published in umsme, each linking to its own page. Not in
+ * the menu yet; reached from the calendar. See `getActivities()`. */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ActivityList from '../../components/ActivityList.astro';
+import { getActivities } from '../../lib/entries';
+
+const activities = await getActivities();
+---
+<BaseLayout
+  title="Aktiviteter — Uppsala Makerspace"
+  description="Det Uppsala Makerspace gör återkommande: introduktioner, öppna kvällar, cirklar och mer."
+  lang="sv"
+>
+  <ActivityList activities={activities} lang="sv" title="Aktiviteter">
+    <p>
+      Det här är sådant vi gör återkommande. När nästa tillfälle är hittar du
+      i <a href="/kalender/">kalendern</a>.
+    </p>
+  </ActivityList>
+</BaseLayout>

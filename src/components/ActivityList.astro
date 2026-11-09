@@ -21,6 +21,8 @@ const LABELS = {
     empty: 'Inga aktiviteter är publicerade just nu.',
     membersOnly: 'Endast medlemmar',
     cost: (kr: number) => `${kr} kr`,
+    registration: { required: 'Anmälan krävs', optional: 'Anmälan möjlig' },
+    seats: (n: number) => (n === 1 ? '1 plats' : `${n} platser`),
     hours: 'tim',
     next: 'Nästa tillfälle:',
     planned: (n: number) => (n === 1 ? '1 inplanerat' : `${n} inplanerade`),
@@ -32,6 +34,8 @@ const LABELS = {
     empty: 'No activities are published right now.',
     membersOnly: 'Members only',
     cost: (kr: number) => `SEK ${kr}`,
+    registration: { required: 'Registration required', optional: 'Registration optional' },
+    seats: (n: number) => (n === 1 ? '1 seat' : `${n} seats`),
     hours: 'h',
     next: 'Next time:',
     planned: (n: number) => `${n} planned`,
@@ -69,6 +73,8 @@ const sorted = [...activities].sort((a, b) => a.name[lang].localeCompare(b.name[
         activity.durationMinutes ? duration(activity.durationMinutes) : undefined,
         activity.membersOnly ? t.membersOnly : undefined,
         activity.cost !== undefined ? t.cost(activity.cost) : undefined,
+        activity.registration !== 'none' ? t.registration[activity.registration] : undefined,
+        activity.seats !== undefined ? t.seats(activity.seats) : undefined,
       ].filter(Boolean);
       return (
         <li id={activity.id} class="al-item">
@@ -166,6 +172,8 @@ const sorted = [...activities].sort((a, b) => a.name[lang].localeCompare(b.name[
   }
   .al-item p {
     margin: 10px 0 0;
+    /* Links in descriptions can be long; let them wrap rather than widen the page. */
+    overflow-wrap: anywhere;
   }
   .al-item .al-meta {
     margin-top: 4px;

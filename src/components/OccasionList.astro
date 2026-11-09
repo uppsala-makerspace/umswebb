@@ -4,6 +4,7 @@
  *
  * Dates are rendered at build time in Stockholm time. The site is rebuilt
  * hourly, so the script below only has to drop what ended since the build. */
+import RegistrationIcon from './RegistrationIcon.astro';
 import { toParagraphs } from '../lib/richtext';
 import type { Locale, Occasion } from '../lib/entries';
 
@@ -22,7 +23,14 @@ const LABELS = {
     membersOnly: 'Endast medlemmar',
     free: 'Gratis',
     cost: (kr: number) => `${kr} kr`,
-    more: 'Läs mer',
+    expand: 'Visa hela beskrivningen',
+    registration: { required: 'Anmälan krävs', optional: 'Anmälan möjlig' },
+    seatsLeft: (left: number, all: number) => `${left} av ${all} platser kvar`,
+    full: 'Fullbokat',
+    fullShort: 'Fullt',
+    // Named as in the menu. No link: sign-up is found in the app itself.
+    where: 'Anmälan görs i appen för medlemmar.',
+    hosts: (n: number) => (n === 1 ? 'Ansvarig' : 'Ansvariga'),
   },
   en: {
     locale: 'en-GB',
@@ -31,7 +39,13 @@ const LABELS = {
     membersOnly: 'Members only',
     free: 'Free',
     cost: (kr: number) => `SEK ${kr}`,
-    more: 'Read more',
+    expand: 'Show the full description',
+    registration: { required: 'Registration required', optional: 'Registration optional' },
+    seatsLeft: (left: number, all: number) => `${left} of ${all} seats left`,
+    full: 'Fully booked',
+    fullShort: 'Full',
+    where: 'Sign up in the member app.',
+    hosts: (n: number) => (n === 1 ? 'Host' : 'Hosts'),
   },
 };
 const t = LABELS[lang];
@@ -45,6 +59,31 @@ const dayFmt = fmt({ day: 'numeric' });
 const dateFmt = fmt({ day: 'numeric', month: 'short' });
 const timeFmt = fmt({ hour: '2-digit', minute: '2-digit' });
 const dayKey = fmt({ year: 'numeric', month: '2-digit', day: '2-digit' });
+
+const listFmt = new Intl.ListFormat(t.locale, { type: 'conjunction' });
+
+/* "Anmälan krävs · 3 av 8 platser kvar": the tooltip of the sign-up icon by
+ * the title, and the words beside it at the end of the description — a phone
+ * has no hover. Nothing for a cancelled occasion: there is nothing left to
+ * sign up for. Seats are as of the hourly build. */
+function signUp(occasion: Occasion): string[] {
+  if (occasion.cancelled) return [];
+  return [
+    occasion.registration !== 'none' ? t.registration[occasion.registration] : undefined,
+    occasion.seats !== undefined
+      ? occasion.seatsLeft === 0
+        ? t.full
+        : t.seatsLeft(occasion.seatsLeft ?? occasion.seats, occasion.seats)
+      : undefined,
+  ].filter((part): part is string => Boolean(part));
+}
+
+/* What stands next to the icon: "3/8", "Fullt", or nothing without a limit. */
+function seatsShort(occasion: Occasion): string | undefined {
+  if (occasion.seats === undefined) return undefined;
+  if (occasion.seatsLeft === 0) return t.fullShort;
+  return `${occasion.seatsLeft ?? occasion.seats}/${occasion.seats}`;
+}
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -82,6 +121,17 @@ for (const occasion of occasions) {
             occasion.cost !== undefined ? t.cost(occasion.cost) : undefined,
           ].filter(Boolean);
           const paragraphs = occasion.text ? toParagraphs(occasion.text[lang]) : [];
+          const signup = signUp(occasion);
+          const seats = seatsShort(occasion);
+          const regDetail = signup.length > 0 && (
+            <div class="oc-reg-detail">
+              <RegistrationIcon required={occasion.registration === 'required'} />
+              <div>
+                <span class="oc-reg-what">{signup.join(' · ')}</span>
+                <span class="oc-reg-where">{t.where}</span>
+              </div>
+            </div>
+          );
           return (
             <li
               id={occasion.id}
@@ -94,16 +144,70 @@ for (const occasion of occasions) {
                 <span class="oc-day">{dayFmt.format(start)}</span>
               </time>
               <div class="oc-body">
-                <h3 class="oc-name">
-                  {occasion.cancelled && <span class="oc-badge">{t.cancelled}</span>}
-                  <span class="oc-title">{occasion.name[lang]}</span>
-                </h3>
-                <p class="oc-meta">{meta.join(' · ')}</p>
-                {paragraphs.length > 0 && (
-                  <details class="oc-more">
-                    <summary>{t.more}</summary>
-                    {paragraphs.map(html => <p set:html={html} />)}
-                  </details>
+                <div class="oc-head">
+                  <h3 class="oc-name">
+                    {occasion.cancelled && <span class="oc-badge">{t.cancelled}</span>}
+                    <span class="oc-title">{occasion.name[lang]}</span>
+                  </h3>
+                  {signup.length > 0 && (
+                    <p
+                      class="oc-reg"
+                      title={`${signup.join(' · ')}. ${t.where}`}
+                      data-full={occasion.seatsLeft === 0 ? '' : undefined}
+                    >
+                      <RegistrationIcon required={occasion.registration === 'required'} />
+                      {seats && <span aria-hidden="true">{seats}</span>}
+                      <span class="visually-hidden">{`${signup.join(' · ')}. ${t.where}`}</span>
+                    </p>
+                  )}
+                </div>
+                <div class="oc-meta-row">
+                  <p class="oc-meta">{meta.join(' · ')}</p>
+                  {occasion.hosts && (
+                    <p class="oc-hosts">
+                      {t.hosts(occasion.hosts.length)}: {listFmt.format(occasion.hosts)}
+                    </p>
+                  )}
+                </div>
+                {paragraphs.length > 0 || occasion.image ? (
+                  /* With sign-up or a photo the occasion always folds out,
+                   * whether or not the text fits on its line: that is where the
+                   * photo shows and the icon is put into words. */
+                  <div
+                    class="oc-desc"
+                    data-oc-desc
+                    data-always={signup.length > 0 || occasion.image ? '' : undefined}
+                  >
+                    <div class="oc-desc-text" id={`${occasion.id}-desc`}>
+                      {paragraphs.map(html => <p set:html={html} />)}
+                      {occasion.image && (
+                        <img
+                          class="oc-desc-img"
+                          src={occasion.image}
+                          alt={occasion.imageAlt[lang]}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      )}
+                      {regDetail}
+                    </div>
+                    <button
+                      type="button"
+                      class="oc-toggle"
+                      aria-expanded="false"
+                      aria-controls={`${occasion.id}-desc`}
+                      aria-label={t.expand}
+                      hidden
+                    >
+                      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                        <path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </button>
+                  </div>
+                ) : (
+                  /* No description and no photo: the explanation would be all
+                   * there is to fold out, so it shows straight away. */
+                  regDetail
                 )}
               </div>
             </li>
@@ -130,6 +234,38 @@ for (const occasion of occasions) {
       root.querySelector<HTMLElement>('[data-oc-empty]')?.removeAttribute('hidden');
     }
   }
+
+  /* Descriptions: one line with an ellipsis, and a chevron to fold out the rest.
+   * Without JS the whole text simply shows. The chevron only appears where the
+   * text doesn't fit on that line, which changes with the width. */
+  const descs = [...document.querySelectorAll<HTMLElement>('[data-oc-desc]')];
+
+  const setOpen = (desc: HTMLElement, open: boolean) => {
+    desc.toggleAttribute('data-clamped', !open);
+    desc.querySelector('.oc-toggle')?.setAttribute('aria-expanded', String(open));
+  };
+
+  const fitChevrons = () => {
+    for (const desc of descs) {
+      if (!desc.hasAttribute('data-clamped')) continue;
+      const text = desc.querySelector<HTMLElement>('.oc-desc-text')!;
+      const toggle = desc.querySelector<HTMLElement>('.oc-toggle')!;
+      toggle.hidden =
+        !desc.hasAttribute('data-always') && text.scrollHeight <= text.clientHeight + 1;
+    }
+  };
+
+  for (const desc of descs) {
+    setOpen(desc, false);
+    desc.addEventListener('click', event => {
+      const toggle = desc.querySelector<HTMLElement>('.oc-toggle')!;
+      // Links in the text keep working; anywhere else on it folds in or out.
+      if (toggle.hidden || (event.target as Element).closest('a')) return;
+      setOpen(desc, desc.hasAttribute('data-clamped'));
+    });
+  }
+  fitChevrons();
+  new ResizeObserver(fitChevrons).observe(document.documentElement);
 </script>
 
 <style>
@@ -180,27 +316,157 @@ for (const occasion of occasions) {
     color: var(--brand-green-dark);
   }
   .oc-body {
+    flex: 1;
     min-width: 0;
   }
   .oc-name {
     margin: 0;
     font-size: 1.05rem;
   }
-  .oc-meta {
-    margin: 4px 0 0;
+  /* Time and place on the left, the hosts on the right; on a narrow screen the
+   * hosts wrap to a line of their own. */
+  .oc-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    column-gap: 16px;
+    margin-top: 4px;
     color: var(--text-muted);
     font-size: 0.95rem;
   }
-  .oc-more {
+  .oc-meta,
+  .oc-hosts {
+    margin: 0;
+  }
+  .oc-hosts {
+    margin-left: auto;
+    text-align: right;
+  }
+  /* Title on the left, the sign-up icon top right. */
+  .oc-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .oc-head .oc-name {
+    flex: 1;
+    min-width: 0;
+  }
+  .oc-reg {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    padding-top: 2px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--text);
+    cursor: help;
+  }
+  .oc-reg[data-full] {
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+  .oc-desc {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
     margin-top: 6px;
   }
-  .oc-more summary {
-    cursor: pointer;
-    color: var(--brand-green-dark);
+  .oc-desc-text {
+    flex: 1;
+    min-width: 0;
+  }
+  .oc-desc-text p {
+    margin: 8px 0 0;
+    /* Sign-up links are long; let them wrap rather than widen the page. */
+    overflow-wrap: anywhere;
+  }
+  .oc-desc-text p:first-child {
+    margin-top: 0;
+  }
+  /* Folded: the first line only. The clamp counts lines across the paragraphs,
+   * so their margins go, or the gap would show as an empty line. */
+  .oc-desc[data-clamped] .oc-desc-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    overflow: hidden;
+    color: var(--text-muted);
+  }
+  .oc-desc[data-clamped] .oc-desc-text p {
+    display: inline;
+    margin: 0;
+  }
+  .oc-desc[data-clamped] .oc-desc-text p + p::before {
+    content: ' ';
+  }
+  /* Photo and explanation belong to the unfolded text, never the folded line.
+   * Hidden, the lazy photo isn't fetched until someone unfolds it. */
+  .oc-desc[data-clamped] .oc-desc-text .oc-reg-detail,
+  .oc-desc[data-clamped] .oc-desc-text .oc-desc-img {
+    display: none;
+  }
+  .oc-desc-img {
+    display: block;
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    margin-top: 12px;
+    border-radius: var(--radius);
+  }
+  .oc-body .oc-reg-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 10px;
     font-size: 0.95rem;
   }
-  .oc-more p {
-    margin: 8px 0 0;
+  .oc-reg-detail :global(.reg-icon) {
+    margin-top: 2px;
+  }
+  .oc-reg-what,
+  .oc-reg-where {
+    display: block;
+  }
+  .oc-reg-what {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .oc-reg-where {
+    color: var(--text-muted);
+  }
+  .oc-desc[data-clamped]:has(.oc-toggle:not([hidden])) {
+    cursor: pointer;
+  }
+  .oc-toggle {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--brand-green-dark);
+    cursor: pointer;
+  }
+  .oc-toggle[hidden] {
+    display: none;
+  }
+  .oc-toggle svg {
+    transition: transform 0.15s ease;
+  }
+  .oc-toggle[aria-expanded='true'] svg {
+    transform: rotate(180deg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .oc-toggle svg {
+      transition: none;
+    }
   }
   /* A cancelled occasion stays listed so nobody turns up for it. */
   .oc-item[data-cancelled] .oc-title,

@@ -2,6 +2,7 @@
 /* The calendar, built from the occasions published in umsme: events of
  * activities and free-standing ones alike. See `getOccasions()`. */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CalendarSubscribe from '../components/CalendarSubscribe.astro';
 import OccasionList from '../components/OccasionList.astro';
 import { getOccasions } from '../lib/entries';
 
@@ -12,7 +13,7 @@ const occasions = await getOccasions();
   description="Kommande aktiviteter, workshops och öppna kvällar på Uppsala Makerspace."
   lang="sv"
 >
-  <h1>Kalendern</h1>
+  <CalendarSubscribe lang="sv" title="Kalendern" />
   <p>
     Nedan är de planerade tillfällena. För en mer komplett bild, se våra
     <a href="/aktiviteter/">aktiviteter</a>.

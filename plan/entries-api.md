@@ -113,9 +113,11 @@ Field notes worth remembering:
   `astro.config.mjs` copies `public/ums-data/` into the output on
   `astro:build:done`.
 
-**`src/lib/richtext.ts`** — `toParagraphs()` splits on blank lines and converts
-`**bold**` after HTML-escaping. Anything else in the Markdown shows literally
-rather than being silently dropped.
+**`src/lib/richtext.ts`** — `toParagraphs()` splits on blank lines, converts
+`**bold**` after HTML-escaping, and turns bare `http(s)` URLs into links (event
+descriptions carry their sign-up links that way). URLs are split out *before*
+escaping, and trailing sentence punctuation stays outside the link. Anything
+else in the Markdown shows literally rather than being silently dropped.
 
 **`src/components/EntryCard.astro`** — white icon plate flush with the card's
 top-left corner (rounded 10 px only on the inner corner, sized from
@@ -184,6 +186,28 @@ anchor (`#oppet-i-lokalen-202611111700`) for linking to a single occasion. A
 small script removes what has ended since the build and shows the empty-state
 text when nothing is left.
 
+Each occasion is three lines: the title with its sign-up top right; the time
+and place with, right-aligned, the hosts' first names when umsme publishes them
+("Ansvariga: Anna och Bo"); and the description.
+
+- **Sign-up** is a clipboard icon — filled when `required`, outlined when
+  `optional` — with the seats as "3/8", or "Fullt" at `seatsLeft: 0`. The full
+  sentence ("Anmälan krävs · 3 av 8 platser kvar") is its tooltip and its
+  screen-reader text. A cancelled occasion shows none. The seats are as of the
+  hourly build, not live. The icon is `RegistrationIcon.astro`.
+- **A phone has no hover**, so an occasion with sign-up always folds out, and
+  its unfolded text ends with the icon and that sentence in words, followed
+  by "Anmälan görs i appen för medlemmar." (the app as the menu names it; no
+  link by choice). The tooltip and screen-reader text say the same. With no
+  description there is nothing else to fold out, so that line shows directly.
+- **The description** folds to one line with an ellipsis, and a chevron folds
+  it out (as does a click on the text, links excepted). The script only adds
+  the chevron where the text overflows that line, re-checked on resize, so a
+  short description gets none. Without JS the whole text shows.
+The activities page shows the activity's own `registration` and `seats`. There
+is no sign-up link in the API yet; sign-up links in descriptions are made
+clickable by `toParagraphs()`.
+
 Only what umsme marks *shown on the website* reaches the API: an activity's
 events inherit the flag from the activity, and free-standing events need it
 themselves. Unpublished data simply doesn't appear — check the flags first when
@@ -199,8 +223,27 @@ and a link to its next non-cancelled occasion in the calendar. An activity's
 comes from `occasionId()`, shared with `getOccasions()`, so the two can't
 drift. The page is not in the menu yet.
 
-Not yet used: free-standing events' `image`, `group`, and the `categories` list for
-filtering. Whether each activity gets a page of its own is undecided.
+Under the description an occasion unfolds its photo — a free-standing event's
+own, else its activity's — and an occasion with a photo always folds out, like
+one with sign-up. The calendar uses a 960 px copy (`-w960`, made only for
+activities with occasions to come); the activities page keeps its 480 px
+thumbnail. Hidden while folded, the lazy photo is mostly not fetched until
+unfolded — except for occasions near the top, which can start loading before
+the script folds them.
+
+**`CalendarSubscribe.astro`** renders the page heading with a calendar icon
+on the right; it folds out a panel (open without JS) offering the association's
+Google calendar ("UMS Evenemangskalender") to add to one's own: Google Calendar
+(`render?cid=`), Apple Calendar and other apps (`webcal://`), Outlook.com
+(`addfromweb`), and copying the iCal address. umsme mirrors exactly the
+published occasions there (`calendarEntry()` skips unpublished ones), so it is
+the same content, kept current by the visitor's app. The calendar id is in the
+component; it is umsme admin's `private.googleCalendar.calendarId`. A local
+umsme without a `serviceAccount` only imports from it, never writes.
+
+Not yet used: `group` and `category` (no data has them yet), and the
+`categories` list for filtering. Whether each activity gets a page of its own
+is undecided.
 
 ## Fragile bits
 

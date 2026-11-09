@@ -36,6 +36,8 @@ const CACHE_URL = '/ums-data';
 const MAX_IMAGE_WIDTH = 1200;
 // Activity photos are only shown as thumbnails; twice their CSS size is plenty.
 const THUMB_WIDTH = 480;
+// Occasion photos unfold under the description in the calendar's text column.
+const OCCASION_IMAGE_WIDTH = 960;
 
 // The API may leave out either language; the site always shows something, so a
 // missing one falls back to the other.
@@ -56,15 +58,25 @@ const activityFields = {
   space: placeSchema.optional(),
   cost: z.number().optional(),
   membersOnly: z.boolean().optional(),
+  registration: z.enum(['required', 'optional', 'none']).optional(),
 };
 
 // When an event happens. `status` is "confirmed" or "cancelled": a cancelled
 // one stays in the response so that whoever planned to come sees it is off.
+//
+// Every event also says whether one signs up, and, when there is a limit, the
+// seats in all and free now (as of the hourly build). `hosts` are first names,
+// published only when the activity or event is set to show them.
 const eventTimes = {
   start: z.string(),
   end: z.string(),
   status: z.string(),
+  registration: z.enum(['required', 'optional', 'none']).optional(),
+  seats: z.number().optional(),
+  seatsLeft: z.number().optional(),
+  hosts: z.array(z.string()).optional(),
 };
+const eventTimesSchema = z.object(eventTimes);
 
 const entrySchema = z.object({
   id: z.string(),
@@ -93,6 +105,8 @@ const entrySchema = z.object({
   // Activities only (`kind: "activity"`).
   ...activityFields,
   durationMinutes: z.number().optional(),
+  // What its events have unless an event says otherwise.
+  seats: z.number().optional(),
   /* Its events from now on, soonest first. An event names a `name` or a
    * `space` only where it differs from the activity's. */
   events: z
@@ -195,7 +209,20 @@ export type Occasion = {
   /** In kronor; absent when free. */
   cost?: number;
   membersOnly: boolean;
+  registration: Registration;
+  /** Seats in all; absent when there is no sign-up or no limit. */
+  seats?: number;
+  /** Free seats as of the build; present together with `seats`. */
+  seatsLeft?: number;
+  /** First names, only when umsme is set to show them. */
+  hosts?: string[];
+  /** Local path to the cached photo: the event's own, else its activity's. */
+  image?: string;
+  /** Generated: the API carries no alt text. */
+  imageAlt: Record<Locale, string>;
 };
+
+export type Registration = 'required' | 'optional' | 'none';
 
 /** Something the makerspace does again and again, with its occasions to come. */
 export type Activity = {
@@ -208,6 +235,9 @@ export type Activity = {
   cost?: number;
   membersOnly: boolean;
   durationMinutes?: number;
+  registration: Registration;
+  /** Seats per occasion, unless an occasion says otherwise. */
+  seats?: number;
   /** Local path to the cached thumbnail. Not every activity has one. */
   image?: string;
   /** Generated: the API carries no alt text. */
@@ -226,7 +256,12 @@ type PublicData = {
   categories: z.infer<typeof categorySchema>[];
   spaces: z.infer<typeof spaceSchema>[];
   palette: Record<string, string>;
-  assets: { entryIcons: Map<string, string>; entryImages: Map<string, string> };
+  assets: {
+    entryIcons: Map<string, string>;
+    entryImages: Map<string, string>;
+    /** Keyed by `occasionImageKey()`: an activity's photo, or a free-standing event's own. */
+    occasionImages: Map<string, string>;
+  };
   rooms: Map<string, Room[]>;
   floorSvgs: Map<string, string>;
 };
@@ -266,6 +301,7 @@ async function fetchAndCache(): Promise<PublicData> {
 
   const entryIcons = new Map<string, string>();
   const entryImages = new Map<string, string>();
+  const occasionImages = new Map<string, string>();
   const spaceIcons = new Map<string, string>();
 
   // Only the entries the carousel shows need their card assets. The floor map
@@ -281,6 +317,23 @@ async function fetchAndCache(): Promise<PublicData> {
         entryImages.set(activity.id, await cacheAsset(activity.image, 'image', THUMB_WIDTH));
       }
     }),
+    // The calendar's larger size, only for what the calendar shows.
+    ...entries
+      .filter(entry => isActivity(entry) && entry.image && entry.events?.length)
+      .map(async activity => {
+        occasionImages.set(
+          occasionImageKey('activity', activity.id),
+          await cacheAsset(activity.image!, 'image', OCCASION_IMAGE_WIDTH)
+        );
+      }),
+    ...events
+      .filter(event => event.image)
+      .map(async event => {
+        occasionImages.set(
+          occasionImageKey('event', event.id),
+          await cacheAsset(event.image!, 'image', OCCASION_IMAGE_WIDTH)
+        );
+      }),
     ...spaces.map(async space => {
       if (space.icon) {
         spaceIcons.set(spaceKey(space.spaceId, space.floor), await cacheAsset(space.icon, 'icon'));
@@ -325,6 +378,7 @@ async function fetchAndCache(): Promise<PublicData> {
   await pruneCache([
     ...entryIcons.values(),
     ...entryImages.values(),
+    ...occasionImages.values(),
     ...spaceIcons.values(),
     ...floorSvgs.values(),
   ]);
@@ -335,11 +389,15 @@ async function fetchAndCache(): Promise<PublicData> {
     categories,
     spaces,
     palette,
-    assets: { entryIcons, entryImages },
+    assets: { entryIcons, entryImages, occasionImages },
     rooms,
     floorSvgs,
   };
 }
+
+// Activity and free-standing event ids come from different lists, so one key
+// space needs the source in it.
+const occasionImageKey = (source: 'activity' | 'event', id: string) => `${source}/${id}`;
 
 const spaceKey = (spaceId: string, floor: string) => `${floor}/${spaceId}`;
 
@@ -385,6 +443,15 @@ export async function getFloorMap(): Promise<FloorMap> {
   };
 }
 
+// An event's own sign-up details. umsme resolves them against the activity
+// already; the activity is only a fallback should an event leave one out.
+const signUp = (event: z.infer<typeof eventTimesSchema>, activity?: z.infer<typeof entrySchema>) => ({
+  registration: event.registration ?? activity?.registration ?? ('none' as const),
+  seats: event.seats,
+  seatsLeft: event.seats !== undefined ? (event.seatsLeft ?? event.seats) : undefined,
+  hosts: event.hosts?.length ? event.hosts : undefined,
+});
+
 // An activity has at most one event starting at a given minute, so this is
 // unique, and stable for as long as the activity keeps its name.
 const occasionId = (activityId: string, start: string) =>
@@ -405,6 +472,7 @@ function describer(data: PublicData) {
       workshop: workshop ? { id: workshop.id, name: workshop.name } : undefined,
       cost: source.cost,
       membersOnly: source.membersOnly ?? false,
+      registration: source.registration ?? ('none' as const),
     };
   };
   return describe;
@@ -427,7 +495,10 @@ export async function getOccasions(): Promise<Occasion[]> {
         cancelled: event.status === 'cancelled',
         name: event.name ?? activity.name,
         activity: { id: activity.id, name: activity.name },
+        image: data.assets.occasionImages.get(occasionImageKey('activity', activity.id)),
+        imageAlt: altFor(event.name ?? activity.name),
         ...describe(activity, event.space ?? activity.space),
+        ...signUp(event, activity),
       }))
     );
 
@@ -437,7 +508,10 @@ export async function getOccasions(): Promise<Occasion[]> {
     end: event.end,
     cancelled: event.status === 'cancelled',
     name: event.name,
+    image: data.assets.occasionImages.get(occasionImageKey('event', event.id)),
+    imageAlt: altFor(event.name),
     ...describe(event, event.space),
+    ...signUp(event),
   }));
 
   return [...ofActivities, ...freeStanding].sort((a, b) => a.start.localeCompare(b.start));
@@ -458,6 +532,7 @@ export async function getActivities(): Promise<Activity[]> {
       imageAlt: altFor(activity.name),
       ...describe(activity, activity.space),
       durationMinutes: activity.durationMinutes,
+      seats: activity.seats,
       next: next ? { id: occasionId(activity.id, next.start), start: next.start } : undefined,
       planned: planned.length,
     };

@@ -1,0 +1,33 @@
+---
+/* Clipboard with a pen, the sign-up mark in the calendar: filled when sign-up
+ * is required, outlined when it is optional. Decorative — whoever uses it
+ * carries the words. */
+interface Props {
+  required: boolean;
+}
+
+const { required } = Astro.props;
+---
+<svg class="reg-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+  <path
+    class:list={['reg-icon-board', { 'reg-icon-filled': required }]}
+    d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"
+  />
+  <rect x="8" y="2" width="8" height="4" rx="1" />
+  <path d="m14.5 10.5-5 5-.5 2 2-.5 5-5a1.06 1.06 0 0 0-1.5-1.5Z" />
+</svg>
+
+<style>
+  .reg-icon {
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .reg-icon-filled {
+    fill: currentColor;
+    fill-opacity: 0.25;
+  }
+</style>

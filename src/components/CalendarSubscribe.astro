@@ -1,0 +1,210 @@
+---
+/* The calendar page's heading, with a calendar icon on the right that folds out
+ * how to add the calendar to one's own: umsme mirrors the published occasions
+ * to the association's Google calendar (common/server/activities/
+ * calendarSync.js in umsme), so subscribing to it gives the same occasions as
+ * this page, kept up to date by the visitor's own calendar app.
+ *
+ * Without JS the panel simply shows. Shared by /kalender/ and /en/calendar/;
+ * everything language-dependent is in `LABELS`. */
+import type { Locale } from '../lib/entries';
+
+interface Props {
+  lang: Locale;
+  title: string;
+}
+
+const { lang, title } = Astro.props;
+
+// The calendar umsme writes to: admin's `private.googleCalendar.calendarId`.
+const CALENDAR_ID = 'bt89ob2d1fhelenvd80up783lc@group.calendar.google.com';
+
+const id = encodeURIComponent(CALENDAR_ID);
+const ics = `https://calendar.google.com/calendar/ical/${id}/public/basic.ics`;
+
+const LABELS = {
+  sv: {
+    toggle: 'Lägg till i din kalender',
+    hint:
+      'Lägg till kalendern i din egen, så hamnar nya och ändrade tillfällen där av sig själva.',
+    google: 'Google Kalender',
+    apple: 'Apple Kalender',
+    outlook: 'Outlook.com',
+    copy: 'Kopiera iCal-adress',
+    copied: 'Adressen är kopierad',
+    other: 'Apple Kalender öppnar också Outlook på datorn och de flesta andra kalenderprogram.',
+  },
+  en: {
+    toggle: 'Add to your calendar',
+    hint: 'Add the calendar to your own, and new and changed occasions show up there by themselves.',
+    google: 'Google Calendar',
+    apple: 'Apple Calendar',
+    outlook: 'Outlook.com',
+    copy: 'Copy iCal address',
+    copied: 'Address copied',
+    other: 'Apple Calendar also opens Outlook on the desktop and most other calendar apps.',
+  },
+};
+const t = LABELS[lang];
+
+const links = [
+  // Adds the calendar to the visitor's Google account.
+  { label: t.google, href: `https://calendar.google.com/calendar/render?cid=${id}` },
+  // webcal:// opens the system calendar app: Apple Calendar, Outlook on the
+  // desktop, and most others.
+  { label: t.apple, href: ics.replace(/^https:/, 'webcal:') },
+  // Outlook on the web doesn't follow webcal links; it has its own.
+  {
+    label: t.outlook,
+    href: `https://outlook.live.com/calendar/0/addfromweb?url=${encodeURIComponent(ics)}&name=${encodeURIComponent('Uppsala Makerspace')}`,
+  },
+];
+---
+<div class="cs-head">
+  <h1>{title}</h1>
+  <button
+    type="button"
+    class="cs-toggle"
+    aria-expanded="true"
+    aria-controls="cs-panel"
+    aria-label={t.toggle}
+    title={t.toggle}
+    data-cs-toggle
+    hidden
+  >
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M16 3v4M8 3v4M3 10h18M12 13v6M9 16h6" />
+    </svg>
+  </button>
+</div>
+
+<section class="cs-panel" id="cs-panel" aria-label={t.toggle}>
+  <p class="cs-hint">{t.hint}</p>
+  <p class="cs-links">
+    {links.map(link => (
+      <a class="cs-link" href={link.href} rel="noopener">{link.label}</a>
+    ))}
+    {/* Without JS a plain link to the feed; with JS it copies the address
+        instead, which is what any other calendar app asks for. */}
+    <a class="cs-link" href={ics} data-cs-copy data-copied={t.copied}>{t.copy}</a>
+    <span class="cs-status" role="status" aria-live="polite"></span>
+  </p>
+  <p class="cs-other">{t.other}</p>
+</section>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-cs-toggle]');
+  const panel = document.getElementById('cs-panel');
+  if (toggle && panel) {
+    const setOpen = (open: boolean) => {
+      panel.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+    };
+    // Folded by default once there is a button to unfold it with.
+    toggle.hidden = false;
+    setOpen(false);
+    toggle.addEventListener('click', () => setOpen(panel.hidden));
+  }
+
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-cs-copy]')) {
+    link.addEventListener('click', async event => {
+      if (!navigator.clipboard) return;
+      event.preventDefault();
+      const status = link.parentElement?.querySelector('.cs-status');
+      try {
+        await navigator.clipboard.writeText(link.href);
+        if (status) {
+          status.textContent = link.dataset.copied ?? '';
+          setTimeout(() => (status.textContent = ''), 3000);
+        }
+      } catch {
+        // Clipboard refused (permissions, insecure origin): follow the link.
+        window.location.href = link.href;
+      }
+    });
+  }
+</script>
+
+<style>
+  .cs-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 1rem;
+  }
+  .cs-head h1 {
+    flex: 1;
+    margin: 0;
+  }
+  /* Like the theme toggle in the header. */
+  .cs-toggle {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    background: var(--card);
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .cs-toggle[hidden] {
+    display: none;
+  }
+  .cs-toggle:hover,
+  .cs-toggle[aria-expanded='true'] {
+    border-color: var(--brand-green);
+    color: var(--brand-green-dark);
+  }
+  .cs-toggle svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .cs-panel {
+    margin: 0 0 1rem;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    font-size: 0.95rem;
+  }
+  .cs-panel[hidden] {
+    display: none;
+  }
+  .cs-panel p {
+    margin: 0;
+  }
+  .cs-panel .cs-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .cs-link {
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .cs-link:hover,
+  .cs-link:focus-visible {
+    border-color: var(--brand-green);
+  }
+  .cs-status {
+    color: var(--brand-green-dark);
+  }
+  .cs-panel .cs-other {
+    margin-top: 10px;
+    color: var(--text-muted);
+  }
+</style>

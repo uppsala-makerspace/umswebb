@@ -34,6 +34,8 @@ const KINDS = ['workshop', 'areaOfInterest'] as const;
 const CACHE_DIR = join(process.cwd(), 'public/ums-data');
 const CACHE_URL = '/ums-data';
 const MAX_IMAGE_WIDTH = 1200;
+// Activity photos are only shown as thumbnails; twice their CSS size is plenty.
+const THUMB_WIDTH = 480;
 
 // The API may leave out either language; the site always shows something, so a
 // missing one falls back to the other.
@@ -41,6 +43,28 @@ const localized = z
   .object({ sv: z.string().optional(), en: z.string().optional() })
   .refine(value => value.sv !== undefined || value.en !== undefined, 'no language')
   .transform(value => ({ sv: (value.sv ?? value.en)!, en: (value.en ?? value.sv)! }));
+
+// A room, as the pair the floor plans are keyed on.
+const placeSchema = z.object({ spaceId: z.string(), floor: z.string() });
+
+// The fields an activity and a free-standing event describe themselves with.
+// Workshop and group are entry ids, and only ever point at published entries.
+const activityFields = {
+  category: z.string().optional(),
+  workshop: z.string().optional(),
+  group: z.string().optional(),
+  space: placeSchema.optional(),
+  cost: z.number().optional(),
+  membersOnly: z.boolean().optional(),
+};
+
+// When an event happens. `status` is "confirmed" or "cancelled": a cancelled
+// one stays in the response so that whoever planned to come sees it is off.
+const eventTimes = {
+  start: z.string(),
+  end: z.string(),
+  status: z.string(),
+};
 
 const entrySchema = z.object({
   id: z.string(),
@@ -66,7 +90,27 @@ const entrySchema = z.object({
       })
     )
     .optional(),
+  // Activities only (`kind: "activity"`).
+  ...activityFields,
+  durationMinutes: z.number().optional(),
+  /* Its events from now on, soonest first. An event names a `name` or a
+   * `space` only where it differs from the activity's. */
+  events: z
+    .array(z.object({ ...eventTimes, name: localized.optional(), space: placeSchema.optional() }))
+    .optional(),
 });
+
+// An event that belongs to no activity, such as a cleaning day.
+const freeEventSchema = z.object({
+  id: z.string(),
+  name: localized,
+  text: localized.optional(),
+  image: z.string().min(1).optional(),
+  ...activityFields,
+  ...eventTimes,
+});
+
+const categorySchema = z.object({ id: z.string(), name: localized });
 
 const spaceSchema = z.object({
   spaceId: z.string(),
@@ -86,6 +130,8 @@ const responseSchema = z.object({
   entries: z.array(entrySchema),
   spaces: z.array(spaceSchema).default([]),
   palette: z.record(z.string()).default({}),
+  events: z.array(freeEventSchema).default([]),
+  categories: z.array(categorySchema).default([]),
 });
 
 export type EntryKind = (typeof KINDS)[number];
@@ -130,10 +176,54 @@ export type FloorMap = {
   palette: Record<string, string>;
 };
 
+/** One time something happens: an event of an activity, or a free-standing one. */
+export type Occasion = {
+  /** Unique on the page, usable as a DOM id. */
+  id: string;
+  /** ISO 8601, UTC. */
+  start: string;
+  end: string;
+  cancelled: boolean;
+  name: Record<Locale, string>;
+  text?: Record<Locale, string>;
+  /** The activity it is an event of; absent for a free-standing one. */
+  activity?: { id: string; name: Record<Locale, string> };
+  category?: Record<Locale, string>;
+  /** The room's name from the floor plans. */
+  place?: Record<Locale, string>;
+  workshop?: { id: string; name: Record<Locale, string> };
+  /** In kronor; absent when free. */
+  cost?: number;
+  membersOnly: boolean;
+};
+
+/** Something the makerspace does again and again, with its occasions to come. */
+export type Activity = {
+  id: string;
+  name: Record<Locale, string>;
+  text?: Record<Locale, string>;
+  category?: Record<Locale, string>;
+  place?: Record<Locale, string>;
+  workshop?: { id: string; name: Record<Locale, string> };
+  cost?: number;
+  membersOnly: boolean;
+  durationMinutes?: number;
+  /** Local path to the cached thumbnail. Not every activity has one. */
+  image?: string;
+  /** Generated: the API carries no alt text. */
+  imageAlt: Record<Locale, string>;
+  /** The first occasion to come that is not cancelled; `id` is its calendar anchor. */
+  next?: { id: string; start: string };
+  /** How many occasions to come are planned, cancelled ones excluded. */
+  planned: number;
+};
+
 export type { Locale };
 
 type PublicData = {
   entries: z.infer<typeof entrySchema>[];
+  events: z.infer<typeof freeEventSchema>[];
+  categories: z.infer<typeof categorySchema>[];
   spaces: z.infer<typeof spaceSchema>[];
   palette: Record<string, string>;
   assets: { entryIcons: Map<string, string>; entryImages: Map<string, string> };
@@ -172,7 +262,7 @@ async function fetchAndCache(): Promise<PublicData> {
     );
   }
 
-  const { entries, spaces, palette } = responseSchema.parse(JSON.parse(body));
+  const { entries, spaces, palette, events, categories } = responseSchema.parse(JSON.parse(body));
 
   const entryIcons = new Map<string, string>();
   const entryImages = new Map<string, string>();
@@ -185,6 +275,11 @@ async function fetchAndCache(): Promise<PublicData> {
     ...entries.filter(isPresented).map(async entry => {
       if (entry.icon) entryIcons.set(entry.id, await cacheAsset(entry.icon, 'icon'));
       if (entry.image) entryImages.set(entry.id, await cacheAsset(entry.image, 'image'));
+    }),
+    ...entries.filter(isActivity).map(async activity => {
+      if (activity.image) {
+        entryImages.set(activity.id, await cacheAsset(activity.image, 'image', THUMB_WIDTH));
+      }
     }),
     ...spaces.map(async space => {
       if (space.icon) {
@@ -236,6 +331,8 @@ async function fetchAndCache(): Promise<PublicData> {
 
   return {
     entries,
+    events,
+    categories,
     spaces,
     palette,
     assets: { entryIcons, entryImages },
@@ -249,6 +346,11 @@ const spaceKey = (spaceId: string, floor: string) => `${floor}/${spaceId}`;
 // What the carousel shows.
 const isPresented = (entry: z.infer<typeof entrySchema>): entry is typeof entry & { kind: EntryKind } =>
   (KINDS as readonly string[]).includes(entry.kind);
+
+const altFor = (name: Record<Locale, string>) => ({
+  sv: `Illustrativ bild för ${name.sv}`,
+  en: `Illustrative image for ${name.en}`,
+});
 
 /** Workshops first, then areas of interest, each in the order the API returned them. */
 export async function getEntries(): Promise<Entry[]> {
@@ -265,10 +367,7 @@ export async function getEntries(): Promise<Entry[]> {
       tag: entry.tag,
       icon: data.assets.entryIcons.get(entry.id),
       image: data.assets.entryImages.get(entry.id),
-      imageAlt: {
-        sv: `Illustrativ bild för ${entry.name.sv}`,
-        en: `Illustrative image for ${entry.name.en}`,
-      },
+      imageAlt: altFor(entry.name),
       text: entry.text ?? { sv: '', en: '' },
     }));
 }
@@ -286,15 +385,100 @@ export async function getFloorMap(): Promise<FloorMap> {
   };
 }
 
+// An activity has at most one event starting at a given minute, so this is
+// unique, and stable for as long as the activity keeps its name.
+const occasionId = (activityId: string, start: string) =>
+  `${activityId}-${start.slice(0, 16).replace(/\D/g, '')}`;
+
+function describer(data: PublicData) {
+  const entryById = new Map(data.entries.map(entry => [entry.id, entry]));
+  const categoryById = new Map(data.categories.map(category => [category.id, category.name]));
+  const spaceByKey = new Map(data.spaces.map(space => [spaceKey(space.spaceId, space.floor), space.name]));
+
+  type Described = z.infer<typeof freeEventSchema> | z.infer<typeof entrySchema>;
+  const describe = (source: Described, space: z.infer<typeof placeSchema> | undefined) => {
+    const workshop = source.workshop ? entryById.get(source.workshop) : undefined;
+    return {
+      text: source.text,
+      category: source.category ? categoryById.get(source.category) : undefined,
+      place: space ? spaceByKey.get(spaceKey(space.spaceId, space.floor)) : undefined,
+      workshop: workshop ? { id: workshop.id, name: workshop.name } : undefined,
+      cost: source.cost,
+      membersOnly: source.membersOnly ?? false,
+    };
+  };
+  return describe;
+}
+
+const isActivity = (entry: z.infer<typeof entrySchema>) => entry.kind === 'activity';
+
+/** Every occasion to come, of activities and free-standing, soonest first. */
+export async function getOccasions(): Promise<Occasion[]> {
+  const data = await loadPublicData();
+  const describe = describer(data);
+
+  const ofActivities = data.entries
+    .filter(isActivity)
+    .flatMap(activity =>
+      (activity.events ?? []).map(event => ({
+        id: occasionId(activity.id, event.start),
+        start: event.start,
+        end: event.end,
+        cancelled: event.status === 'cancelled',
+        name: event.name ?? activity.name,
+        activity: { id: activity.id, name: activity.name },
+        ...describe(activity, event.space ?? activity.space),
+      }))
+    );
+
+  const freeStanding = data.events.map(event => ({
+    id: event.id,
+    start: event.start,
+    end: event.end,
+    cancelled: event.status === 'cancelled',
+    name: event.name,
+    ...describe(event, event.space),
+  }));
+
+  return [...ofActivities, ...freeStanding].sort((a, b) => a.start.localeCompare(b.start));
+}
+
+/** Every published activity, in the order the API returned them. */
+export async function getActivities(): Promise<Activity[]> {
+  const data = await loadPublicData();
+  const describe = describer(data);
+
+  return data.entries.filter(isActivity).map(activity => {
+    const planned = (activity.events ?? []).filter(event => event.status !== 'cancelled');
+    const next = planned[0];
+    return {
+      id: activity.id,
+      name: activity.name,
+      image: data.assets.entryImages.get(activity.id),
+      imageAlt: altFor(activity.name),
+      ...describe(activity, activity.space),
+      durationMinutes: activity.durationMinutes,
+      next: next ? { id: occasionId(activity.id, next.start), start: next.start } : undefined,
+      planned: planned.length,
+    };
+  });
+}
+
 /* The API hands out asset references relative to itself on a deployed instance
  * (`/api/spaces/…`) and absolute on a dev one (`http://localhost:3000/api/…`).
  * Resolving against the endpoint covers both, and keeps the `?v=` stamp that the
  * cache is keyed on. */
 const assetUrl = (raw: string) => new URL(raw, API_URL);
 
-async function cacheAsset(raw: string, kind: 'icon' | 'image'): Promise<string> {
+async function cacheAsset(
+  raw: string,
+  kind: 'icon' | 'image',
+  width = MAX_IMAGE_WIDTH
+): Promise<string> {
   const url = assetUrl(raw);
-  const name = cacheFileName(url, kind === 'icon' ? '.svg' : '.jpg');
+  const base = cacheFileName(url, kind === 'icon' ? '.svg' : '.jpg');
+  // A smaller size is a different file, even of the same version.
+  const name = width === MAX_IMAGE_WIDTH ? base : base.replace(/(\.\w+)$/, `-w${width}$1`);
   const target = join(CACHE_DIR, name);
   if (await exists(target)) return `${CACHE_URL}/${name}`;
 
@@ -309,7 +493,7 @@ async function cacheAsset(raw: string, kind: 'icon' | 'image'): Promise<string> 
     kind === 'image'
       ? await sharp(bytes)
           .rotate()
-          .resize({ width: MAX_IMAGE_WIDTH, withoutEnlargement: true })
+          .resize({ width, withoutEnlargement: true })
           .jpeg({ quality: 82 })
           .toBuffer()
       : bytes
@@ -340,9 +524,16 @@ async function download(url: string, what: string): Promise<Uint8Array> {
 // The version stamp is the natural cache key: `?v=2026/workshop-<id>-<ms>.jpg`.
 // Anything unexpected falls back to a name derived from the path, so remote data
 // can never write outside the cache directory.
+//
+// The static server picks the content type from the file's extension, and
+// activity images come with a stamp that has none, so one is added. A stamp
+// that has one keeps it — even `.png` on what is now a JPEG, which browsers
+// sniff fine — because renaming would turn every cached file into a miss.
 function cacheFileName(url: URL, extension: string): string {
   const stamp = url.searchParams.get('v')?.split('/').pop();
-  if (stamp && /^[\w.-]+$/.test(stamp)) return stamp;
+  if (stamp && /^[\w.-]+$/.test(stamp)) {
+    return /\.\w+$/.test(stamp) ? stamp : `${stamp}${extension}`;
+  }
   return `${url.pathname.replace(/[^\w]+/g, '-').replace(/^-+|-+$/g, '')}${extension}`;
 }
 

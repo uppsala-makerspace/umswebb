@@ -1,0 +1,180 @@
+---
+/* Every published activity, with when it next happens. Shared by /aktiviteter/
+ * and /en/activities/; everything language-dependent is in `LABELS`.
+ *
+ * "Next" is as of the build. The site is rebuilt hourly, which is close enough
+ * for a pointer into the calendar, where the times are authoritative. */
+import { toParagraphs } from '../lib/richtext';
+import type { Activity, Locale } from '../lib/entries';
+
+interface Props {
+  activities: Activity[];
+  lang: Locale;
+}
+
+const { activities, lang } = Astro.props;
+
+const LABELS = {
+  sv: {
+    locale: 'sv-SE',
+    calendar: '/kalender/',
+    empty: 'Inga aktiviteter är publicerade just nu.',
+    membersOnly: 'Endast medlemmar',
+    cost: (kr: number) => `${kr} kr`,
+    hours: 'tim',
+    next: 'Nästa tillfälle:',
+    planned: (n: number) => (n === 1 ? '1 inplanerat' : `${n} inplanerade`),
+    none: 'Inga tillfällen är inplanerade just nu.',
+  },
+  en: {
+    locale: 'en-GB',
+    calendar: '/en/calendar/',
+    empty: 'No activities are published right now.',
+    membersOnly: 'Members only',
+    cost: (kr: number) => `SEK ${kr}`,
+    hours: 'h',
+    next: 'Next time:',
+    planned: (n: number) => `${n} planned`,
+    none: 'Nothing is planned right now.',
+  },
+};
+const t = LABELS[lang];
+
+const whenFmt = new Intl.DateTimeFormat(t.locale, {
+  timeZone: 'Europe/Stockholm',
+  weekday: 'short',
+  day: 'numeric',
+  month: 'short',
+  hour: '2-digit',
+  minute: '2-digit',
+});
+
+/* 180 → "3 tim", 90 → "1 tim 30 min". */
+function duration(minutes: number): string {
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return [h ? `${h} ${t.hours}` : '', m ? `${m} min` : ''].filter(Boolean).join(' ');
+}
+
+const sorted = [...activities].sort((a, b) => a.name[lang].localeCompare(b.name[lang], t.locale));
+---
+{sorted.length === 0 ? (
+  <p class="al-empty">{t.empty}</p>
+) : (
+  <ul class="al">
+    {sorted.map(activity => {
+      const meta = [
+        activity.category?.[lang],
+        activity.place?.[lang] ?? activity.workshop?.name[lang],
+        activity.durationMinutes ? duration(activity.durationMinutes) : undefined,
+        activity.membersOnly ? t.membersOnly : undefined,
+        activity.cost !== undefined ? t.cost(activity.cost) : undefined,
+      ].filter(Boolean);
+      return (
+        <li id={activity.id} class="al-item">
+          {activity.image && (
+            <img
+              class="al-thumb"
+              src={activity.image}
+              alt={activity.imageAlt[lang]}
+              width="120"
+              height="120"
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+          <div class="al-body">
+            <h2 class="al-name">{activity.name[lang]}</h2>
+            {meta.length > 0 && <p class="al-meta">{meta.join(' · ')}</p>}
+            {activity.text && toParagraphs(activity.text[lang]).map(html => <p set:html={html} />)}
+            <p class="al-next">
+              {activity.next ? (
+                <>
+                  {t.next}{' '}
+                  <a href={`${t.calendar}#${activity.next.id}`}>
+                    <time datetime={activity.next.start}>{whenFmt.format(new Date(activity.next.start))}</time>
+                  </a>
+                  {activity.planned > 1 && <span class="al-count"> ({t.planned(activity.planned)})</span>}
+                </>
+              ) : (
+                t.none
+              )}
+            </p>
+          </div>
+        </li>
+      );
+    })}
+  </ul>
+)}
+
+<style>
+  .al {
+    list-style: none;
+    margin: 24px 0;
+    padding: 0;
+    display: grid;
+    /* Without the minmax a grid item is at least as wide as its longest word,
+     * and "Träverkstadsintroduktion" next to a thumbnail overflows a phone. */
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .al-item {
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    scroll-margin-top: calc(var(--header-h) + 16px);
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  /* Square crop, whatever shape the photo has. */
+  .al-thumb {
+    flex: 0 0 auto;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    background: var(--border);
+  }
+  .al-body {
+    flex: 1;
+    min-width: 0;
+  }
+  @media (max-width: 520px) {
+    .al-item {
+      gap: 14px;
+    }
+    .al-thumb {
+      width: 72px;
+      height: 72px;
+    }
+  }
+  .al-item:target {
+    border-color: var(--brand-green);
+  }
+  .al-name {
+    margin: 0;
+    hyphens: auto;
+    overflow-wrap: anywhere;
+    font-size: 1.2rem;
+  }
+  .al-meta {
+    margin: 4px 0 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  .al-item p {
+    margin: 10px 0 0;
+  }
+  .al-item .al-meta {
+    margin-top: 4px;
+  }
+  .al-next {
+    font-size: 0.95rem;
+  }
+  .al-count,
+  .al-empty {
+    color: var(--text-muted);
+  }
+</style>

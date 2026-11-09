@@ -169,6 +169,39 @@ Three techniques are lifted from the app, and each exists for a reason:
 A room list under the map mirrors the active floor as buttons: the SVGs live in
 their own documents via `<object>`, so rooms are unreachable by keyboard otherwise.
 
+## The calendar
+
+`/kalender/` and `/en/calendar/` list the occasions from the same response —
+the Google Calendar embed is gone. `getOccasions()` merges the `events` of every
+`kind: "activity"` entry with the free-standing top-level `events`, resolving
+category, room name and workshop, soonest first. An activity's event takes its
+name and room from the activity unless it carries its own.
+
+**`src/components/OccasionList.astro`** groups them by month, with dates and
+times rendered at build time in `Europe/Stockholm`. A cancelled occasion stays
+listed, struck through with an "Inställt" badge. Each item's `id` is a DOM
+anchor (`#oppet-i-lokalen-202611111700`) for linking to a single occasion. A
+small script removes what has ended since the build and shows the empty-state
+text when nothing is left.
+
+Only what umsme marks *shown on the website* reaches the API: an activity's
+events inherit the flag from the activity, and free-standing events need it
+themselves. Unpublished data simply doesn't appear — check the flags first when
+the calendar looks empty.
+
+The intro on the calendar links to **`/aktiviteter/`** and **`/en/activities/`**
+(`ActivityList.astro`, `getActivities()`): every published activity sorted by
+name, with category, room, duration, members only and cost, its description,
+and a link to its next non-cancelled occasion in the calendar. An activity's
+`image` is shown as a square thumbnail, cached at 480 px rather than the
+1200 px of the carousel photos (`cacheAsset(…, THUMB_WIDTH)`; the file gets a
+`-w480` suffix). The anchor
+comes from `occasionId()`, shared with `getOccasions()`, so the two can't
+drift. The page is not in the menu yet.
+
+Not yet used: free-standing events' `image`, `group`, and the `categories` list for
+filtering. Whether each activity gets a page of its own is undecided.
+
 ## Fragile bits
 
 - `--ec-card-head: 118px` in the carousel duplicates the card's header height so

@@ -1,0 +1,225 @@
+---
+/* The calendar: every occasion to come from umsme, grouped by month. Shared by
+ * /kalender/ and /en/calendar/; everything language-dependent is in `LABELS`.
+ *
+ * Dates are rendered at build time in Stockholm time. The site is rebuilt
+ * hourly, so the script below only has to drop what ended since the build. */
+import { toParagraphs } from '../lib/richtext';
+import type { Locale, Occasion } from '../lib/entries';
+
+interface Props {
+  occasions: Occasion[];
+  lang: Locale;
+}
+
+const { occasions, lang } = Astro.props;
+
+const LABELS = {
+  sv: {
+    locale: 'sv-SE',
+    empty: 'Inga tillfällen är inplanerade just nu. Titta in igen snart!',
+    cancelled: 'Inställt',
+    membersOnly: 'Endast medlemmar',
+    free: 'Gratis',
+    cost: (kr: number) => `${kr} kr`,
+    more: 'Läs mer',
+  },
+  en: {
+    locale: 'en-GB',
+    empty: 'Nothing is planned right now. Check back soon!',
+    cancelled: 'Cancelled',
+    membersOnly: 'Members only',
+    free: 'Free',
+    cost: (kr: number) => `SEK ${kr}`,
+    more: 'Read more',
+  },
+};
+const t = LABELS[lang];
+
+const TZ = 'Europe/Stockholm';
+const fmt = (options: Intl.DateTimeFormatOptions) =>
+  new Intl.DateTimeFormat(t.locale, { timeZone: TZ, ...options });
+const monthFmt = fmt({ month: 'long', year: 'numeric' });
+const weekdayFmt = fmt({ weekday: 'short' });
+const dayFmt = fmt({ day: 'numeric' });
+const dateFmt = fmt({ day: 'numeric', month: 'short' });
+const timeFmt = fmt({ hour: '2-digit', minute: '2-digit' });
+const dayKey = fmt({ year: 'numeric', month: '2-digit', day: '2-digit' });
+
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+/* "18:00–21:00", or with dates on both ends when it runs past midnight. */
+function timeRange(startIso: string, endIso: string): string {
+  const start = new Date(startIso);
+  const end = new Date(endIso);
+  if (dayKey.format(start) === dayKey.format(end)) {
+    return `${timeFmt.format(start)}–${timeFmt.format(end)}`;
+  }
+  return `${dateFmt.format(start)} ${timeFmt.format(start)} – ${dateFmt.format(end)} ${timeFmt.format(end)}`;
+}
+
+// Grouped by the month they start in, keeping the order they came in.
+const months: { label: string; occasions: Occasion[] }[] = [];
+for (const occasion of occasions) {
+  const label = capitalize(monthFmt.format(new Date(occasion.start)));
+  const last = months.at(-1);
+  if (last?.label === label) last.occasions.push(occasion);
+  else months.push({ label, occasions: [occasion] });
+}
+---
+<div class="oc" data-occasions>
+  {months.map(month => (
+    <section class="oc-month" data-oc-month>
+      <h2>{month.label}</h2>
+      <ol class="oc-list">
+        {month.occasions.map(occasion => {
+          const start = new Date(occasion.start);
+          const meta = [
+            timeRange(occasion.start, occasion.end),
+            occasion.place?.[lang] ?? occasion.workshop?.name[lang],
+            occasion.category?.[lang],
+            occasion.membersOnly ? t.membersOnly : undefined,
+            occasion.cost !== undefined ? t.cost(occasion.cost) : undefined,
+          ].filter(Boolean);
+          const paragraphs = occasion.text ? toParagraphs(occasion.text[lang]) : [];
+          return (
+            <li
+              id={occasion.id}
+              class="oc-item"
+              data-end={occasion.end}
+              data-cancelled={occasion.cancelled ? '' : undefined}
+            >
+              <time class="oc-date" datetime={occasion.start}>
+                <span class="oc-weekday">{weekdayFmt.format(start)}</span>
+                <span class="oc-day">{dayFmt.format(start)}</span>
+              </time>
+              <div class="oc-body">
+                <h3 class="oc-name">
+                  {occasion.cancelled && <span class="oc-badge">{t.cancelled}</span>}
+                  <span class="oc-title">{occasion.name[lang]}</span>
+                </h3>
+                <p class="oc-meta">{meta.join(' · ')}</p>
+                {paragraphs.length > 0 && (
+                  <details class="oc-more">
+                    <summary>{t.more}</summary>
+                    {paragraphs.map(html => <p set:html={html} />)}
+                  </details>
+                )}
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+  ))}
+  <p class="oc-empty" data-oc-empty hidden={occasions.length > 0}>{t.empty}</p>
+</div>
+
+<script>
+  /* The build is at most an hour old, but a page can sit in a cache or an open
+   * tab for longer: drop what has ended, then months left empty. */
+  for (const root of document.querySelectorAll<HTMLElement>('[data-occasions]')) {
+    const now = Date.now();
+    for (const item of root.querySelectorAll<HTMLElement>('.oc-item')) {
+      if (Date.parse(item.dataset.end ?? '') < now) item.remove();
+    }
+    for (const month of root.querySelectorAll<HTMLElement>('[data-oc-month]')) {
+      if (!month.querySelector('.oc-item')) month.remove();
+    }
+    if (!root.querySelector('.oc-item')) {
+      root.querySelector<HTMLElement>('[data-oc-empty]')?.removeAttribute('hidden');
+    }
+  }
+</script>
+
+<style>
+  .oc {
+    margin: 24px 0;
+  }
+  .oc-month h2 {
+    margin: 32px 0 12px;
+    font-size: 1.25rem;
+  }
+  .oc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    overflow: hidden;
+  }
+  .oc-item {
+    display: flex;
+    gap: 16px;
+    padding: 14px 16px;
+    scroll-margin-top: calc(var(--header-h) + 16px);
+  }
+  .oc-item + .oc-item {
+    border-top: 1px solid var(--border);
+  }
+  .oc-item:target {
+    background: var(--brand-amber-soft);
+  }
+  .oc-date {
+    flex: 0 0 3.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.1;
+  }
+  .oc-weekday {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+  }
+  .oc-day {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--brand-green-dark);
+  }
+  .oc-body {
+    min-width: 0;
+  }
+  .oc-name {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+  .oc-meta {
+    margin: 4px 0 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  .oc-more {
+    margin-top: 6px;
+  }
+  .oc-more summary {
+    cursor: pointer;
+    color: var(--brand-green-dark);
+    font-size: 0.95rem;
+  }
+  .oc-more p {
+    margin: 8px 0 0;
+  }
+  /* A cancelled occasion stays listed so nobody turns up for it. */
+  .oc-item[data-cancelled] .oc-title,
+  .oc-item[data-cancelled] .oc-day {
+    text-decoration: line-through;
+    color: var(--text-muted);
+  }
+  .oc-badge {
+    display: inline-block;
+    margin-right: 8px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--brand-amber-soft);
+    color: var(--text);
+    font-size: 0.8rem;
+    font-weight: 600;
+    vertical-align: 2px;
+  }
+  .oc-empty {
+    color: var(--text-muted);
+  }
+</style>

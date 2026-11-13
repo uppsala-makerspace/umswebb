@@ -23,6 +23,10 @@ skills needed for the tools we want to use. That said, we very much want those
 with particular skills to share them — do get in touch if you would like to run
 a course!
 
+Want to know how the association works in practice — groups, workshops,
+certificates, activities and expenses? Read
+[How the association works](/en/how-the-association-works/).
+
 ## The board and elected posts
 
 <div data-board></div>

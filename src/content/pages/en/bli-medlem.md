@@ -21,6 +21,10 @@ plus storage, consumables and our tool pool.
 The whole sign-up — account, payment and liability undertaking — now
 happens in our app.
 
+Want to know what you are joining — how the association is run by its
+members through groups, workshops and activities? Read
+[How the association works](/en/how-the-association-works/).
+
 ## Our memberships
 
 <div class="table-center">

@@ -20,6 +20,10 @@ förbrukningsmaterial och vår verktygspool.
 Hela registreringen — konto, betalning och ansvarsförbindelse — sker
 numera i vår app.
 
+Vill du veta vad du går med i — hur föreningen drivs av sina medlemmar
+genom grupper, verkstäder och aktiviteter? Läs
+[Så fungerar föreningen](/sa-fungerar-foreningen/).
+
 ## Våra medlemskap
 
 <div class="table-center">

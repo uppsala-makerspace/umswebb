@@ -11,6 +11,8 @@ Vi vill ge de Uppsalabor – unga som gamla – som är intresserade av skapande
 
 **Notera** att föreningen bara tillhandahåller lokal och maskiner och att all assistans sker på övriga medlemmars goda vilja. Vi inte kan garantera att alla får undervisning i våra verktyg. Det är viktigt att alla själva ser till att skaffa sig den kompetens som behövs för att använda de verktyg som de vill använda. Däremot vill vi gärna att de som har särskild kompetens delar med sig av den. Hör gärna av dig om du vill hålla en kurs!
 
+Vill du veta hur föreningen fungerar i praktiken — grupper, verkstäder, certifikat, aktiviteter och utlägg? Läs [Så fungerar föreningen](/sa-fungerar-foreningen/).
+
 ## Styrelse och förtroendeposter
 
 <div data-board></div>

@@ -94,7 +94,8 @@ const entrySchema = z.object({
   status: z.string().optional(),
   type: z.string().optional(),
   name: localized,
-  tag: localized.optional(),
+  // Workshops, areas of interest and groups: the ids of their categories.
+  categories: z.array(z.string()).optional(),
   /* Absolute on a dev instance, relative on the deployed one — see
    * `assetUrl()`, which resolves both. */
   icon: z.string().min(1).optional(),
@@ -163,7 +164,8 @@ export type Entry = {
   kind: EntryKind;
   status?: string;
   name: Record<Locale, string>;
-  tag?: Record<Locale, string>;
+  /** Ids into the API's `categories`. */
+  categories?: string[];
   /** Local path to the cached icon (an SVG, drawn in black). Not always present. */
   icon?: string;
   /** Local path to the cached photo. Not every entry has one. */
@@ -437,7 +439,7 @@ export async function getEntries(): Promise<Entry[]> {
       kind: entry.kind,
       status: entry.status,
       name: entry.name,
-      tag: entry.tag,
+      categories: entry.categories,
       icon: data.assets.entryIcons.get(entry.id),
       image: data.assets.entryImages.get(entry.id),
       imageAlt: altFor(entry.name),
